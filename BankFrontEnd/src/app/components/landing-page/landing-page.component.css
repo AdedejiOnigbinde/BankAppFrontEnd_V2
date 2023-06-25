@@ -1,0 +1,43 @@
+img {
+    filter: brightness(50%);
+    max-height: 865px;
+}
+
+main {
+    overflow-x: hidden;
+}
+
+.carousel-caption{
+    top: 30%;
+    bottom: 70%;
+}
+
+.carousel-text{
+    font-size: 7vw;
+}
+
+
+.location-section{
+    background-color: rgba(0, 128, 0, 0.568);
+}
+
+.feature-card-height{
+    height: 20rem;
+}
+
+.nav-link:hover{
+    color:green
+}
+
+.nav-link{
+    font-weight: 650;
+}
+
+.icon-sizing{
+    font-size: 3.9rem;
+    color: green;
+}
+
+.navbar-icon-size{
+font-size:medium ;
+}

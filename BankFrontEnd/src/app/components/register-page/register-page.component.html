@@ -1,0 +1,158 @@
+<main>
+    <div class="container-fluid d-flex flex-column align-items-center justify-content-center">
+        <i class="bi bi-bank icon-style mb-5">&nbsp;<span>Handle Money</span></i>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Join Us</h5>
+                <div class="alert alert-danger text-center" role="alert" *ngIf="this.errorMessage">
+                    {{this.errorMessage}}
+                </div>
+                <div class="alert alert-success text-center" role="alert" *ngIf="this.successMessage">
+                    {{this.successMessage}}
+                </div>
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="firstNameInput" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="fisrtNameInput" formControlName="firstName"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['firstName'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['firstName'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['firstName'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Letters Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="lastNameInput" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastNameInput" formControlName="lastName"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['lastName'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['lastName'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['lastName'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Letters Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="userNameInput" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="userNameInput" formControlName="userName"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['userName'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['userName'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Letters Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="addressInput" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="addressInput" formControlName="address"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['address'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['address'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['address'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Letters And Numbers Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="pinNumberInput" class="form-label">Pin Number</label>
+                                <input type="number" class="form-control" id="pinNumberInput"
+                                    formControlName="pinNumber"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['pinNumber'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['pinNumber'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['pinNumber'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Numbers Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="ssnInput" class="form-label">Social Security Number</label>
+                                <input type="number" class="form-control" id="ssnInput" formControlName="ssn"
+                                    [ngClass]="{'is-invalid':submitted && registerForm.controls['ssn'].errors}">
+                                <div *ngIf=" submitted && registerForm.controls['ssn'].hasError('required')"
+                                    class="text-danger">
+                                    This Field Is Required
+                                </div>
+                                <div *ngIf=" submitted && registerForm.controls['ssn'].hasError('pattern')"
+                                    class="text-danger">
+                                    Only Numbers Are Allowed
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="passwordInput" formControlName="password"
+                            [ngClass]="{'is-invalid':submitted && registerForm.controls['password'].errors}">
+                        <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
+                            class="text-danger">
+                            This Field Is Required
+                        </div>
+                    </div>
+
+                    <form [formGroup]="extraInfoForm">
+                        <div class="mb-3">
+                            <label for="cPasswordInput" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="cPasswordInput" formControlName="cPassword"
+                                [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['cPassword'].errors}">
+                            <div *ngIf=" submitted && extraInfoForm.controls['cPassword'].hasError('required')"
+                                class="text-danger">
+                                This Field Is Required
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="userTypeInput" class="form-label">User Type</label>
+                            <select class="form-select" id="userTypeInput" formControlName="clientType"
+                                [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['clientType'].errors}">
+                                <option value="Client">User</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                            <div *ngIf=" submitted && extraInfoForm.controls['clientType'].hasError('required')"
+                                class="text-danger">
+                                This Field Is Required
+                            </div>
+                        </div>
+                    </form>
+
+                    <button type="submit" class="btn btn-primary mb-3 w-100">Register</button>
+                </form>
+                <div class="text-center">
+
+                    <p class="card-text">Already Have An Account? <a routerLink="/login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,13 @@
+.icon-style {
+    color: green;
+    font-size: 1.5rem;
+}
+
+.icon-style
+span {
+    color: white;
+}
+
+.icon-style.secondary span {
+    color:black
+}

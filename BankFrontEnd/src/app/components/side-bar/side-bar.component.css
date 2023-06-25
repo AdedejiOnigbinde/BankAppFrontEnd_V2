@@ -1,0 +1,21 @@
+.accordion-button {
+    background-color: rgba(0, 128, 0, 0.568);
+    color: white;
+    border: none;
+}
+
+.sidenav-icon-size {
+    font-size: large;
+}
+
+.list-group-item:hover {
+    background-color: rgba(0, 128, 0, 0.368);
+}
+
+.list-group-item:hover .icon-style {
+    color: white;
+}
+
+.list-group-item:hover .icon-style span {
+    color: white;
+}

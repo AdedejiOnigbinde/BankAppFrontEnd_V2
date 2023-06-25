@@ -1,0 +1,12 @@
+.bg-green {
+  background: #72df70cc;
+}
+
+.icon-style {
+  font-size: 2.2rem;
+}
+
+.btn.btn-success:hover {
+  background-color: rgba(0, 128, 0, 0.324);
+  border-color: rgba(0, 128, 0, 0.324);
+}
