@@ -5,6 +5,7 @@ import { ClientModuleRoutingModule } from './client-module-routing.module';
 import { ClientModuleComponent } from './client-module.component';
 import { SharedModule } from '../shared/shared.module';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
+import { NewAccountComponent } from './new-account/new-account.component';
 
 
 
@@ -14,6 +15,7 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
   declarations: [
     ClientModuleComponent,
     ClientDashboardComponent,
+    NewAccountComponent,
   ],
   imports: [
     CommonModule,

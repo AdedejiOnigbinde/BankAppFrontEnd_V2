@@ -18,13 +18,14 @@
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li class="list-group-item" routerLink="/client">
                             <button type="button" class="btn btn-link text-decoration-none">
                                 <i class="bi bi-currency-dollar icon-style secondary sidenav-icon-size">&nbsp;<span>Summary</span>
                                 </i>
                             </button>
+                            
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item" routerLink="/client/newaccount">
                             <button type="button" class="btn btn-link text-decoration-none">
                                 <i class="bi bi-safe icon-style secondary sidenav-icon-size">&nbsp;<span>Open</span>
                                 </i>
@@ -114,7 +115,7 @@
                                 </i>
                             </button>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item" (click)="logout()">
                             <button type="button" class="btn btn-link text-decoration-none">
                                 <i class="bi bi-door-open icon-style secondary sidenav-icon-size">&nbsp;<span>LogOut</span>
                                 </i>
