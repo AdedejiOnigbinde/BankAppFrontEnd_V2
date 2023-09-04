@@ -15,7 +15,7 @@ import { RegisterPageComponent } from './components/register-page/register-page.
     AppComponent,
     LandingPageComponent,
     LoginPageComponent,
-    RegisterPageComponent,  
+    RegisterPageComponent,
     
   ],
   imports: [
@@ -23,7 +23,8 @@ import { RegisterPageComponent } from './components/register-page/register-page.
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+   
   ],
   exports:[],
   providers: [],

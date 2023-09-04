@@ -1,12 +1,26 @@
- <div class="container-fluid px-0">
-    <div class="row g-0"> 
-        <div class="col-lg-2 d-none d-lg-block">
-            <app-side-bar></app-side-bar>
-        </div>
-        <div class="col min-vh-100 main-content-bg">
-            <div class="container pt-3">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
+<div class="container-fluid px-0">
+  <div class="row g-0">
+    <div class="col-lg-2 d-none d-lg-block">
+      <app-side-bar></app-side-bar>
     </div>
- </div>
+    <div class="col min-vh-100  main-background">
+      <nav class="navbar shadow-sm grey-light-bg">
+        <div class="container-fluid">
+          <h1 class="pt-3 ps-3">
+            Welcome Adedeji!
+            <h4 class="pt-2">
+              <span class="text-muted fs-5 pe-4">Checkings - 0427541108</span>
+              <span class="text-muted fs-5">Savings - 0427541108</span>
+            </h4>
+          </h1>
+          <div>
+            <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid pt-5">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

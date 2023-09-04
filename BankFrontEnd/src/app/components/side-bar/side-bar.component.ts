@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { removeCookie } from 'typescript-cookie'
+
+
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',

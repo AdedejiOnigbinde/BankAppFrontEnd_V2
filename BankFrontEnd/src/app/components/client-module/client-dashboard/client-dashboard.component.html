@@ -1,108 +1,171 @@
-<div class="row pb-5">
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header border-0 display-5">
-        Welcome {{firstName}}
-      </h5>
-      <div class="card-body">
-        <h5 class="card-title">Your Total Balance</h5>
-        <p class="card-text fs-3">${{sumOfAccountBalances}}</p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row pb-5">
-  <div class="col-sm-12 col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <i class="bi bi-piggy-bank-fill icon-style"></i>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h5 class="card-title">Accounts</h5>
-                <p class="card-text fs-3">{{listOfAccounts.length}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="col d-flex align-items-center">
-            <button type="button" class="btn btn-success w-100">View</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <i class="bi bi-currency-exchange icon-style"></i>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h5 class="card-title">Loans</h5>
-                <p class="card-text fs-3">1</p>
-              </div>
-            </div>
-          </div>
-          <div class="col d-flex align-items-center">
-            <button type="button" class="btn btn-success w-100">View</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <i class="bi bi-wallet icon-style"></i>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h5 class="card-title">Bills</h5>
-                <p class="card-text fs-3">1</p>
-              </div>
-            </div>
-          </div>
-          <div class="col d-flex align-items-center">
-            <button type="button" class="btn btn-success w-100">View</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="row">
   <div class="col">
-    <div class="card">
-      <h5 class="card-header border-0 display-5">
-        Recent Transactions
-      </h5>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Amount</th>
-              <th scope="col">Type</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let transaction of recentTransactions">
-              <td>{{transaction.transAmount}}</td>
-              <td>{{transaction.transType}}</td>
-              <td>{{transaction.transactionDate}}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="card-group">
+      <div class="card">
+        <div class="card-body primary-dark-bg rounded-start">
+          <div class="py-4 ps-3">
+            <h6 class="card-title grey-light">Checking</h6>
+            <p class="card-text grey-light fs-3 d-inline">$5,000.64</p><small class="grey-light ps-1">USD</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body primary-dark-bg">
+          <div class="py-4 ps-3">
+            <h6 class="card-title grey-light">Loan</h6>
+            <p class="card-text grey-light fs-3 d-inline">$2,000.04</p><small class="grey-light ps-1">USD</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body primary-dark-bg rounded-end">
+          <div class="py-4 ps-3">
+            <h6 class="card-title grey-light">Savings</h6>
+            <p class="card-text grey-light fs-3 d-inline">$1,500.64</p><small class="grey-light ps-1">USD</small>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="row pt-5">
+  <div class="col-lg-9">
+    <div class="card white-background border-0 h-100">
+      <div class="card-header white-background d-flex justify-content-between">
+        <h4 class="pt-5 fw-bold">Balance History</h4>
+
+        <ul class="nav nav-underline card-header-tabs pt-5" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="income-tab" data-bs-toggle="tab" data-bs-target="#income-tab-pane"
+              type="button" role="tab" aria-controls="income-tab-pane" aria-selected="true">Income</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="expenses-tab" data-bs-toggle="tab" data-bs-target="expenses-tab-pane"
+              type="button" role="tab" aria-controls="expenses-tab-pane" aria-selected="true">Expenses</button>
+          </li>
+        </ul>
+
+        <div class="dropdown pt-5">
+          <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            2023
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-body tab-content" id="myTabContent">
+
+        <div class="tab-pane show fade active" id="income-tab-pane" role="tabpanel" aria-labelledby="income-tab-pane"
+          tabindex="0">
+          <canvas baseChart [data]="IncomeBarChart" [options]="IncomeBarChartOptions" [legend]="IncomeBarChartLegend"
+            [type]="'bar'"></canvas>
+
+        </div>
+        <div class="tab-pane fade" id="expenses-tab-pane" role="tabpanel" aria-labelledby="expenses-tab-pane"
+          tabindex="0">
+          <canvas baseChart [data]="ExpensesBarChart" [options]="ExpensesBarChartOptions"
+            [legend]="ExpensesBarChartLegend" [type]="'bar'"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <div class="card white-background border-0 h-100">
+      <div class="card-header white-background">
+        <h4 class="text-center pt-5 fw-bold">Statistics</h4>
+      </div>
+      <div class="card-body mx-auto">
+        <canvas baseChart class="chart" [data]="doughnutChartData" [type]="'doughnut'" [options]="doughnutChartOption">
+        </canvas>
+
+        <div class="mx-5">
+          <div class="d-flex align-content-center pt-4">
+            <p class="circle primary-darker-bg mb-0 me-2 align-self-center"></p>
+            <p class="card-text text-center">Income - <b>82%</b></p>
+          </div>
+
+          <div class="d-flex align-content-center pt-2">
+            <p class="circle primary-light-bg-active mb-0 me-2 align-self-center"></p>
+            <p class="card-text text-center">Expenses - <b>18%</b></p>
+          </div>
+        </div>
+
+        <p class="card-text text-center pt-4">More Income than Expenses</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-5 mx-auto">
+  <h3 class="pb-2 ps-0">Transaction History</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="primary-light-bg-active">Date</th>
+        <th scope="col" class="primary-light-bg-active">Name</th>
+        <th scope="col" class="primary-light-bg-active">Type</th>
+        <th scope="col" class="primary-light-bg-active">Amount</th>
+        <th scope="col" class="primary-light-bg-active">Status</th>
+        <th scope="col" class="primary-light-bg-active">Balance</th>
+      </tr>
+    </thead>
+    <tbody class="gray-light-bg ">
+      <tr>
+        <td>02/07/2023</td>
+        <td>Lummie_bels</td>
+        <td>Transfer</td>
+        <td class="error-dark-hover">-$5,000</td>
+        <td><span class="badge primary-light-bg py-3 fw-light fs-6 black">Success</span></td>
+        <td>$5000.64</td>
+      </tr>
+      <tr>
+        <td>01/07/2023</td>
+        <td>Adedeji Onis</td>
+        <td>Deposit</td>
+        <td class="success-dark-hover">+$10,000</td>
+        <td><span class="badge primary-light-bg py-3 fw-light fs-6 black">Success</span></td>
+        <td>$10,000.64</td>
+      </tr>
+      <tr>
+        <td>01/07/2023</td>
+        <td>Adedeji Onis</td>
+        <td>Transfer</td>
+        <td class="error-dark-hover">-$10,000</td>
+        <td><span class="badge primary-light-bg py-3 fw-light fs-6 black">Success</span></td>
+        <td>$10,000.64</td>
+      </tr>
+      <tr>
+        <td>01/07/2023</td>
+        <td>Adedeji Onis</td>
+        <td>Deposit</td>
+        <td class="success-dark-hover">+$10,000</td>
+        <td><span class="badge primary-light-bg py-3 fw-light fs-6 black">Success</span></td>
+        <td>$10,000.64</td>
+      </tr>
+      <tr>
+        <td>01/07/2023</td>
+        <td>Adedeji Onis</td>
+        <td>Deposit</td>
+        <td class="success-dark-hover">+$10,000</td>
+        <td><span class="badge primary-light-bg py-3 fw-light fs-6 black">Success</span></td>
+        <td>$10,000.64</td>
+      </tr>
+    </tbody>
+  </table>
+  <nav class="">
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link main-background border-0 black fw-bold">1</a></li>
+      <li class="page-item"><a class="page-link main-background border-0 black fw-bold">2</a></li>
+      <li class="page-item"><a class="page-link main-background border-0 black fw-bold">3</a></li>
+    </ul>
+  </nav>
 </div>
