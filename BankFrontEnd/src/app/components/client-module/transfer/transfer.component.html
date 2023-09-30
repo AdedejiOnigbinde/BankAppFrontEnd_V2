@@ -1,1 +1,331 @@
-<p>transfer works!</p>
+<div class="container-fluid px-4">
+  <div class="row">
+
+    <div class="col-8">
+      <div class="card border-0 h-100">
+
+        <div class="card-header white-background d-flex justify-content-around">
+
+          <ul class="nav nav-underline card-header-tabs pt-3" id="myTab" role="tablist">
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="domestic-tab" data-bs-toggle="tab" data-bs-target="#domestic-tab-pane"
+                type="button" role="tab" aria-controls="domestic-tab-pane" aria-selected="true">Domestic
+                Transfer</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="international-tab" data-bs-toggle="tab"
+                data-bs-target="#international-tab-pane" type="button" role="tab" aria-controls="international-tab-pane"
+                aria-selected="false">International
+                Transfer</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="intrabank-tab" data-bs-toggle="tab" data-bs-target="#intrabank-tab-pane"
+                type="button" role="tab" aria-controls="intrabank-tab-pane" aria-selected="false">Intrabank
+                Transfer</button>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="card-body overflow-auto">
+          <div class="tab-content">
+
+            <div class="tab-pane show fade active" id="domestic-tab-pane" role="tabpanel" aria-labelledby="domestic-tab"
+              tabindex="0">
+              <div class="row pb-4 pt-3">
+
+                <div class="col">
+                  <label for="domAccountInput" class="form-label">Recipient Account Number</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="domAccountInput"
+                    aria-label="Account number">
+                </div>
+
+                <div class="col">
+                  <label for="domBankInput" class="form-label">Recipient Bank</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="domBankInput"
+                    aria-label="Bank">
+                </div>
+
+              </div>
+
+              <div class="row pb-4">
+
+                <div class="col">
+                  <label for="domAmountInput" class="form-label">Amount</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="domAmountInput"
+                    aria-label="Amount">
+                </div>
+
+                <div class="col">
+                  <label for="domPinInput" class="form-label">Pin</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="domPinInput"
+                    aria-label="Pin">
+                </div>
+
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input border border-dark border-2 py-2 px-2 me-2 " type="checkbox" value=""
+                  id="domAddBeneficiary">
+                <label class="form-check-label my-1" for="domAddBeneficiary">
+                  Add to Beneficiary
+                </label>
+              </div>
+
+              <div class="row py-4">
+                <div class="col text-center">
+                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
+                      class="grey-light">Submit</span></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="international-tab-pane" role="tabpanel" aria-labelledby="international-tab"
+              tabindex="1">
+              <div class="row pb-4 pt-3">
+
+                <div class="col">
+                  <label for="interAccountInput" class="form-label">Recipient Account Number</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="interAccountInput"
+                    aria-label="Account number">
+                </div>
+
+                <div class="col">
+                  <label for="interBankInput" class="form-label">Recipient Bank</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="interBankInput"
+                    aria-label="Bank">
+                </div>
+
+              </div>
+
+              <div class="row pb-4">
+
+                <div class="col">
+                  <label for="interAmountInput" class="form-label">Amount</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="interAmountInput"
+                    aria-label="Amount">
+                </div>
+
+                <div class="col">
+                  <label for="interPinInput" class="form-label">Pin</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="interPinInput"
+                    aria-label="Pin">
+                </div>
+
+              </div>
+
+              <div class="row pb-4">
+                <div class="col-6">
+                  <label for="interRate" class="form-label">Recipient Gets</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="rate"
+                    aria-label="interRate">
+                </div>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input border border-dark border-2 py-2 px-2 me-2 " type="checkbox" value=""
+                  id="interAddBeneficiary">
+                <label class="form-check-label my-1" for="interAddBeneficiary">
+                  Add to Beneficiary
+                </label>
+              </div>
+
+              <div class="row py-4">
+                <div class="col text-center">
+                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
+                      class="grey-light">Submit</span></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="intrabank-tab-pane" role="tabpanel" aria-labelledby="intrabank-tab"
+              tabindex="0">
+              <div class="row pb-4 pt-3">
+
+                <div class="col">
+                  <label for="intraAccountInput" class="form-label">Transfer From</label>
+                  <select type="text" class="form-select form-select-lg border border-dark" id="intraAccountInput"
+                    aria-label="Account number">
+                    <option value="">Select Account</option>
+                    <option value="0427541108">0427541108</option>
+                    <option value="0427541108">0427541108</option>
+                  </select>
+                </div>
+
+                <div class="col">
+                  <label for="intraBankInput" class="form-label">Transfer To</label>
+                  <select type="text" class="form-select form-select-lg border border-dark" id="intraBankInput"
+                    aria-label="Bank">
+                    <option value="">Select Account</option>
+                    <option value="0427541108">0427541108</option>
+                    <option value="0427541108">0427541108</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="row pb-4">
+
+                <div class="col">
+                  <label for="intraAmountInput" class="form-label">Amount</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="intraAmountInput"
+                    aria-label="Amount">
+                </div>
+
+                <div class="col">
+                  <label for="intraPinInput" class="form-label">Pin</label>
+                  <input type="text" class="form-control form-control-lg border border-dark" id="intraPinInput"
+                    aria-label="Pin">
+                </div>
+
+              </div>
+
+              <div class="row py-4">
+                <div class="col text-center">
+                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
+                      class="grey-light">Submit</span></button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card white-background border-0 h-100">
+        <div class="card-header white-background">
+          <h4 class="text-center pt-4">Daily Limit: <b>$50,000</b></h4>
+        </div>
+        <div class="card-body">
+          <div class="py-3">
+            <div class="d-flex justify-content-between">
+              <p class="primary-active mb-1">$2000</p>
+              <p class="primary-active mb-1">$48000</p>
+            </div>
+            <ngb-progressbar  [value]="2000" height="33px" [max]="50000"></ngb-progressbar>
+            <div class="d-flex justify-content-between pt-1">
+              <span>Spent</span>
+              <span>Remainder</span>
+            </div>
+          </div>
+
+
+          <h5 class="fw-bold card-text pt-4 pb-2">Beneficiary</h5>
+
+          <div class="overflow-auto scrollable-content">
+
+            <div class="d-flex primary-light-bg rounded mb-2">
+              <div class="flex-shrink-0 ms-2 mt-2">
+                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
+              </div>
+              <div class="flex-grow-1 ms-1 mt-2">
+                <p class="mb-0 fw-bold">Timi Banks</p>
+                <p class="mb-1">0567543256</p>
+              </div>
+            </div>
+
+            <div class="d-flex primary-light-bg rounded mb-2">
+              <div class="flex-shrink-0 ms-2 mt-2">
+                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
+              </div>
+              <div class="flex-grow-1 ms-1 mt-2">
+                <p class="mb-0 fw-bold">Timi Banks</p>
+                <p class="mb-1">0567543256</p>
+              </div>
+            </div>
+
+            <div class="d-flex primary-light-bg rounded mb-2">
+              <div class="flex-shrink-0 ms-2 mt-2">
+                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
+              </div>
+              <div class="flex-grow-1 ms-1 mt-2">
+                <p class="mb-0 fw-bold">Timi Banks</p>
+                <p class="mb-1">0567543256</p>
+              </div>
+            </div>
+
+            <div class="d-flex primary-light-bg rounded mb-2">
+              <div class="flex-shrink-0 ms-2 mt-2">
+                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
+              </div>
+              <div class="flex-grow-1 ms-1 mt-2">
+                <p class="mb-0 fw-bold">Timi Banks</p>
+                <p class="mb-1">0567543256</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="row mx-auto pt-5">
+    <h3 class="pb-2 ps-0">Transfer History</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="primary-light-bg-active">Date</th>
+          <th scope="col" class="primary-light-bg-active">Transfer From</th>
+          <th scope="col" class="primary-light-bg-active">Transfer To</th>
+          <th scope="col" class="primary-light-bg-active">Amount</th>
+          <th scope="col" class="primary-light-bg-active">Status</th>
+        </tr>
+      </thead>
+      <tbody class="gray-light-bg ">
+        <tr>
+          <td>02/07/2023</td>
+          <td>Lummie_bels</td>
+          <td>Lummie_bels</td>
+          <td class="error-dark-hover">-$5,000</td>
+          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+        </tr>
+        <tr>
+          <td>01/07/2023</td>
+          <td>Adedeji Onis</td>
+          <td>Adedeji Onis</td>
+          <td class="error-dark-hover">-$10,000</td>
+          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+        </tr>
+        <tr>
+          <td>01/07/2023</td>
+          <td>Adedeji Onis</td>
+          <td>Adedeji Onis</td>
+          <td class="error-dark-hover">-$10,000</td>
+          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+        </tr>
+        <tr>
+          <td>01/07/2023</td>
+          <td>Adedeji Onis</td>
+          <td>Adedeji Onis</td>
+          <td class="error-dark-hover">-$10,000</td>
+          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+        </tr>
+        <tr>
+          <td>01/07/2023</td>
+          <td>Adedeji Onis</td>
+          <td>Adedeji Onis</td>
+          <td class="error-dark-hover">-$10,000</td>
+          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <nav class="">
+      <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">1</a></li>
+        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">2</a></li>
+        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">3</a></li>
+      </ul>
+    </nav>
+  </div>
+
+</div>

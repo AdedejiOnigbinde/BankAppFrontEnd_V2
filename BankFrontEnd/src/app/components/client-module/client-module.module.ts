@@ -8,6 +8,8 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
 import { NewAccountComponent } from './new-account/new-account.component';
 import { NgChartsModule } from 'ng2-charts';
 import { TransferComponent } from './transfer/transfer.component';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { DepositComponent } from './deposit/deposit.component';
 
 
 
@@ -18,12 +20,14 @@ import { TransferComponent } from './transfer/transfer.component';
     ClientDashboardComponent,
     NewAccountComponent,
     TransferComponent,
+    DepositComponent,
   ],
   imports: [
     CommonModule,
     ClientModuleRoutingModule,
     SharedModule,
-    NgChartsModule
+    NgChartsModule,
+    NgbProgressbarModule
   ]
 })
 export class ClientModuleModule { }

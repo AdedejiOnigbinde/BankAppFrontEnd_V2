@@ -1,0 +1,8 @@
+img{
+    width:40px;
+    height: 40px;
+}
+
+.scrollable-content{
+    max-height: 160px;
+}
