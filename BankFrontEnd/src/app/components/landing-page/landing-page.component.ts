@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as Aos from 'aos'
 
 @Component({
   selector: 'app-landing-page',
@@ -11,9 +10,6 @@ export class LandingPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    Aos.init({
-      once: true
-    });
   }
 
 }
