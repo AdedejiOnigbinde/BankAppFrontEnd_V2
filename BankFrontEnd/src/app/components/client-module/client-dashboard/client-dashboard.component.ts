@@ -12,8 +12,10 @@ export class ClientDashboardComponent implements OnInit {
   listOfAccounts: any[] = [];
   recentTransactions: any[] = [];
   sumOfAccountBalances: number = 0;
+  loansBalances: number = 0;
+  savingsBalances: number = 0;
+  checkingsBalances: number = 0;
   errorMessage: string = "";
-  firstName: string = ""
   IncomeBarChartLegend = false;
   ExpensesBarChartLegend = false;
 
@@ -28,8 +30,8 @@ export class ClientDashboardComponent implements OnInit {
     this.accountServe.getAllClientsAccounts().subscribe({
       next: (res) => {
         this.listOfAccounts = res;
-        this.firstName = res[0].ownerId.firstName;
-        this.calculateBalamceSum(this.listOfAccounts)
+        this.getAccountBalances(this.listOfAccounts)
+        // this.calculateLoanSum(this.listOfAccounts)
 
       },
       error: (err) => {
@@ -38,8 +40,18 @@ export class ClientDashboardComponent implements OnInit {
     })
   }
 
-  calculateBalamceSum(accountsArray: any[]) {
-    this.sumOfAccountBalances = accountsArray.reduce((accumulator, account) => accumulator + account.balance, 0);
+  // calculateLoanSum(accountsArray: any[]) {
+  //   this.sumOfAccountBalances = accountsArray.reduce((accumulator, account) => accumulator + account.balance, 0);
+  // }
+
+  getAccountBalances(accountsArray: any[]) {
+    accountsArray.forEach(account => {
+      if (account.accountType === "savings") {
+        this.savingsBalances = account.balance
+      } else {
+        this.checkingsBalances = account.balance
+      }
+    })
   }
 
   getRecentTransaction() {
