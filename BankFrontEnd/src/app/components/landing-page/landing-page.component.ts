@@ -16,10 +16,9 @@ export class LandingPageComponent implements OnInit {
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
-    autoplay:false,
+    autoplay:true,
     dots: false,
     navSpeed: 700,
-    navText: ['<','>'],
     responsive: {
       0: {
         items: 1
@@ -34,7 +33,7 @@ export class LandingPageComponent implements OnInit {
         items: 2
       }
     },
-    nav: true
+    nav: false
   }
 
 }
