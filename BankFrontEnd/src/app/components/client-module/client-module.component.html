@@ -1,26 +1,24 @@
-<div class="container-fluid px-0">
-  <div class="row g-0">
-    <div class="col-lg-2 d-none d-lg-block">
-      <app-side-bar></app-side-bar>
-    </div>
-    <div class="col min-vh-100  main-background">
-      <nav class="navbar shadow-sm grey-light-bg">
-        <div class="container-fluid">
-          <h1 class="pt-3 ps-3">
+<div class="grid grid-cols-12 overflow-hidden">
+  <div class="hidden h-screen lg:block lg:col-span-2 overflow-auto">
+    <app-side-bar></app-side-bar>
+  </div>
+  <div class="h-screen bg-lightgray col-span-12 lg:col-span-10 overflow-x-hidden overflow-y-auto">
+    <nav class="shadow-sm bg-white">
+      <div class="container mx-auto flex justify-between py-10">
+        <div>
+          <h1 class="font-mulish text-2xl font-bold">
             Welcome Adedeji!
-            <h4 class="pt-2">
-              <span class="text-muted fs-5 pe-4">Checkings - 0427541108</span>
-              <span class="text-muted fs-5">Savings - 0427541108</span>
-            </h4>
           </h1>
-          <div>
-            <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
-          </div>
+            <p class="font-mulish font-semibold text-lg text-slate-600 inline me-6">Checkings - 0427541108</p>
+            <p class="font-mulish font-semibold text-lg text-slate-600 inline">Savings - 0427541108</p>
         </div>
-      </nav>
-      <div class="container-fluid pt-5">
-        <router-outlet></router-outlet>
+        <div>
+          <img src="../../../assets/me.png" class="rounded-full h-9 w-9" alt="...">
+        </div>
       </div>
+    </nav>
+    <div class="container mx-auto pt-14">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

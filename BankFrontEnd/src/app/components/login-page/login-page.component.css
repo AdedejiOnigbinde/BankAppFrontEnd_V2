@@ -1,9 +1,9 @@
-.container-fluid {
-    background-image:linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url("../../../assets/deskCalculator.jpg");
+main {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url("../../../assets/deskCalculator.jpg");
     min-height: 100vh;
     background-size: cover
 }
 
-.card{
+.card {
     width: 18rem;
 }

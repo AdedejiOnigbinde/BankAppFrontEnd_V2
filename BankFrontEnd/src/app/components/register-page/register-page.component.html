@@ -1,110 +1,126 @@
 <main>
-    <div class="container-fluid d-flex flex-column align-items-center justify-content-center">
-        <i class="bi bi-bank icon-size-md mb-5">&nbsp;<span>Handle Money</span></i>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-center">Join Us</h5>
-                <div class="alert alert-danger text-center" role="alert" *ngIf="this.errorMessage">
-                    {{this.errorMessage}}
+    <div class="container mx-auto flex flex-col items-center justify-center min-h-screen">
+        <i class="bi bi-bank text-2xl text-white mb-4">&nbsp;<span>Handle Money</span></i>
+        <div class="bg-white rounded">
+            <div class="p-5">
+                <h5 class="mb-3 font-mulish text-2xl text-center text-primaryGreen">Join Us</h5>
+                <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+                    *ngIf="this.errorMessage">
+                    <span class="font-medium text-center">{{this.errorMessage}}</span>
                 </div>
-                <div class="alert alert-success text-center" role="alert" *ngIf="this.successMessage">
-                    {{this.successMessage}}
+                <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert"
+                    *ngIf="this.successMessage">
+                    <span class="font-medium text-center">{{this.successMessage}}</span>
                 </div>
                 <form [formGroup]="registerForm" (ngSubmit)="register()">
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="firstNameInput" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="fisrtNameInput" formControlName="firstName"
+                    <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-3">
+                        <div>
+                            <div>
+                                <label for="firstNameInput" class="pb-2 text-primaryGreen font-mulish">First
+                                    Name</label>
+                                <input type="text"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="fisrtNameInput" formControlName="firstName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['firstName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['firstName'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['firstName'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Letters Are Allowed
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="lastNameInput" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="lastNameInput" formControlName="lastName"
+                        <div>
+                            <div>
+                                <label for="lastNameInput" class="pb-2 text-primaryGreen font-mulish">Last Name</label>
+                                <input type="text"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="lastNameInput" formControlName="lastName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['lastName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['lastName'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['lastName'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Letters Are Allowed
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="userNameInput" class="form-label">User Name</label>
-                                <input type="text" class="form-control" id="userNameInput" formControlName="userName"
+                    <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-3">
+                        <div>
+                            <div>
+                                <label for="userNameInput" class="pb-2 text-primaryGreen font-mulish">User Name</label>
+                                <input type="text"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="userNameInput" formControlName="userName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['userName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['userName'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Letters Are Allowed
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="addressInput" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="addressInput" formControlName="address"
+                        <div>
+                            <div>
+                                <label for="addressInput" class="pb-2 text-primaryGreen font-mulish">Address</label>
+                                <input type="text"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="addressInput" formControlName="address"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['address'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['address'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['address'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Letters And Numbers Are Allowed
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="pinNumberInput" class="form-label">Pin Number</label>
-                                <input type="number" class="form-control" id="pinNumberInput"
-                                    formControlName="pinNumber"
+                    <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-3">
+                        <div>
+                            <div>
+                                <label for="pinNumberInput" class="pb-2 text-primaryGreen font-mulish">Pin
+                                    Number</label>
+                                <input type="number"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="pinNumberInput" formControlName="pinNumber"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['pinNumber'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['pinNumber'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['pinNumber'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Numbers Are Allowed
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="ssnInput" class="form-label">Social Security Number</label>
-                                <input type="number" class="form-control" id="ssnInput" formControlName="ssn"
+                        <div>
+                            <div>
+                                <label for="ssnInput" class="pb-2 text-primaryGreen font-mulish">Social Security
+                                    Number</label>
+                                <input type="number"
+                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="ssnInput" formControlName="ssn"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['ssn'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['ssn'].hasError('required')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     This Field Is Required
                                 </div>
                                 <div *ngIf=" submitted && registerForm.controls['ssn'].hasError('pattern')"
-                                    class="text-danger">
+                                    class="text-red-600">
                                     Only Numbers Are Allowed
                                 </div>
                             </div>
@@ -112,46 +128,52 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="passwordInput" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" formControlName="password"
+                        <label for="passwordInput" class="pb-2 text-primaryGreen font-mulish">Password</label>
+                        <input type="password"
+                            class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                            id="passwordInput" formControlName="password"
                             [ngClass]="{'is-invalid':submitted && registerForm.controls['password'].errors}">
                         <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
-                            class="text-danger">
+                            class="text-red-600">
                             This Field Is Required
                         </div>
                     </div>
 
                     <form [formGroup]="extraInfoForm">
                         <div class="mb-3">
-                            <label for="cPasswordInput" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="cPasswordInput" formControlName="cPassword"
+                            <label for="cPasswordInput" class="pb-2 text-primaryGreen font-mulish">Confirm
+                                Password</label>
+                            <input type="password"
+                                class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                id="cPasswordInput" formControlName="cPassword"
                                 [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['cPassword'].errors}">
                             <div *ngIf=" submitted && extraInfoForm.controls['cPassword'].hasError('required')"
-                                class="text-danger">
+                                class="text-red-600">
                                 This Field Is Required
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="userTypeInput" class="form-label">User Type</label>
-                            <select class="form-select" id="userTypeInput" formControlName="clientType"
+                            <label for="userTypeInput" class="pb-2 text-primaryGreen font-mulish">User Type</label>
+                            <select
+                                class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                id="userTypeInput" formControlName="clientType"
                                 [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['clientType'].errors}">
                                 <option value="Client">User</option>
                                 <option value="Admin">Admin</option>
                             </select>
                             <div *ngIf=" submitted && extraInfoForm.controls['clientType'].hasError('required')"
-                                class="text-danger">
+                                class="text-red-600">
                                 This Field Is Required
                             </div>
                         </div>
                     </form>
 
-                    <button type="submit" class="btn btn-primary mb-3 w-100">Register</button>
+                    <button type="submit"
+                        class="rounded bg-primaryGreen p-2 mb-3 w-100 hover:bg-white hover:border hover:border-primaryGreen hover:text-primaryGreen">Register</button>
                 </form>
-                <div class="text-center">
-
-                    <p class="card-text">Already Have An Account? <a routerLink="/login">Login</a></p>
-                </div>
+                <p class="text-center text-lg font-mulish mb-0">Already Have An Account? <a routerLink="/login"
+                        class="no-underline text-primaryGreen">Login</a></p>
             </div>
         </div>
     </div>

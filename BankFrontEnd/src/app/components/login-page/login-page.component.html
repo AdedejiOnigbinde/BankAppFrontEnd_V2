@@ -1,37 +1,44 @@
 <main>
-    <div class="container-fluid d-flex flex-column align-items-center justify-content-center">
-        <i class="bi bi-bank icon-size-md mb-5">&nbsp;<span>Handle Money</span></i>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-center">Welcome Back</h5>
-                <div class="alert alert-danger text-center" role="alert" *ngIf="this.errorMessage">
-                    {{this.errorMessage}}
-                  </div>
+    <div class="container mx-auto flex flex-col items-center justify-center min-h-screen">
+        <i class="bi bi-bank text-2xl text-white mb-4">&nbsp;<span>Handle Money</span></i>
+        <div class="bg-white rounded">
+            <div class="p-5">
+                <h5 class="mb-3 font-mulish text-2xl text-center text-primaryGreen">Welcome Back</h5>
+                <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+                    *ngIf="this.errorMessage">
+                    <span class="font-medium text-center">{{this.errorMessage}}</span>
+                </div>
                 <form [formGroup]="loginForm" (ngSubmit)="login()">
                     <div class="mb-3">
-                        <label for="userNameInput" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="userNameInput" formControlName="userName"
+                        <label for="userNameInput" class="pb-2 text-primaryGreen font-mulish">User Name</label>
+                        <input type="text"
+                            class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                            id="userNameInput" formControlName="userName"
                             [ngClass]="{'is-invalid':submitted && loginForm.controls['userName'].errors}">
                         <div *ngIf=" submitted && loginForm.controls['userName'].hasError('required')"
-                            class="text-danger">
+                            class="text-red-600">
                             This Field Is Required
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="passwordInput" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" formControlName="password"
+                        <label for="passwordInput" class="pb-2 text-primaryGreen font-mulish">Password</label>
+                        <input type="password"
+                            class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                            id="passwordInput" formControlName="password"
                             [ngClass]="{'is-invalid':submitted && loginForm.controls['password'].errors}">
                         <div *ngIf=" submitted && loginForm.controls['userName'].hasError('required')"
-                            class="text-danger">
+                            class="text-red-600">
                             This Field Is Required
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-3 w-100">Login</button>
+                    <button type="submit"
+                        class="rounded bg-primaryGreen p-2 mb-3 w-100 hover:bg-white hover:border hover:border-primaryGreen hover:text-primaryGreen">Login</button>
                 </form>
-                <div class="text-center">
 
-                    <p class="card-text">Dont Have An Account? <a routerLink="/register">Register</a></p>
-                </div>
+
+                <p class="text-center text-lg font-mulish mb-0">Dont Have An Account? <a routerLink="/register"
+                        class="no-underline text-primaryGreen">Register</a></p>
+
             </div>
         </div>
     </div>
