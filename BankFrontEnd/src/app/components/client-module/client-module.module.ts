@@ -6,7 +6,6 @@ import { ClientModuleComponent } from './client-module.component';
 import { SharedModule } from '../shared/shared.module';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 import { NewAccountComponent } from './new-account/new-account.component';
-import { NgChartsModule } from 'ng2-charts';
 import { TransferComponent } from './transfer/transfer.component';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { DepositComponent } from './deposit/deposit.component';
@@ -26,7 +25,6 @@ import { DepositComponent } from './deposit/deposit.component';
     CommonModule,
     ClientModuleRoutingModule,
     SharedModule,
-    NgChartsModule,
     NgbProgressbarModule
   ]
 })
