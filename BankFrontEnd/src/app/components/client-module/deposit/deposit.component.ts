@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./deposit.component.css']
 })
 export class DepositComponent implements OnInit {
-
+  depositTransactions: any[] = [];
   constructor() { }
 
   ngOnInit(): void {

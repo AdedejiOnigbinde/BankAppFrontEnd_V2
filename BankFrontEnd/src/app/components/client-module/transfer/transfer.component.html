@@ -1,331 +1,320 @@
-<div class="container-fluid px-4">
-  <div class="row">
+<div class="grid lg:grid-cols-12 lg:gap-x-4 gap-y-3 lg:gap-y-0">
 
-    <div class="col-8">
-      <div class="card border-0 h-100">
+  <div class="lg:col-span-8">
+    <div class="bg-white rounded-lg h-full">
 
-        <div class="card-header white-background d-flex justify-content-around">
+      <div class="bg-white pt-10 border-b border-slate-300 rounded-t-lg flex justify-around">
 
-          <ul class="nav nav-underline card-header-tabs pt-3" id="myTab" role="tablist">
+        <ul class="flex flex-col md:flex-row lg:flex-wrap text-base text-center pl-0 mb-0" id="default-tab"
+          data-tabs-toggle="#default-tab-content"
+          data-tabs-active-classes="text-primaryGreen border-primaryGreen font-bold" role="tablist">
 
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="domestic-tab" data-bs-toggle="tab" data-bs-target="#domestic-tab-pane"
-                type="button" role="tab" aria-controls="domestic-tab-pane" aria-selected="true">Domestic
-                Transfer</button>
-            </li>
+          <li class="md:me-2" role="presentation">
+            <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg" id="domesticTransfer-tab"
+              data-tabs-target="#domesticTransfer" type="button" role="tab" aria-controls="domesticTransfer"
+              aria-selected="true">Domestic Transfer</button>
+          </li>
+          <li role="presentation">
+            <button
+              class="inline-block px-4 pt-4 pb-2  border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              id="internationalTransfer-tab" data-tabs-target="#internationalTransfer" type="button" role="tab"
+              aria-controls="internationalTransfer" aria-selected="false">International Transfer</button>
+          </li>
+          <li role="presentation">
+            <button
+              class="inline-block px-4 pt-4 pb-2  border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              id="interbankTransfer-tab" data-tabs-target="#interbankTransfer" type="button" role="tab"
+              aria-controls="interbankTransfer" aria-selected="false">Interbank Transfer</button>
+          </li>
+        </ul>
+      </div>
 
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="international-tab" data-bs-toggle="tab"
-                data-bs-target="#international-tab-pane" type="button" role="tab" aria-controls="international-tab-pane"
-                aria-selected="false">International
-                Transfer</button>
-            </li>
+      <div class="p-6 overflow-y-auto" id="default-tab-content">
 
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="intrabank-tab" data-bs-toggle="tab" data-bs-target="#intrabank-tab-pane"
-                type="button" role="tab" aria-controls="intrabank-tab-pane" aria-selected="false">Intrabank
-                Transfer</button>
-            </li>
+        <div class="hidden" id="domesticTransfer" role="tabpanel" aria-labelledby="domesticTransfer-tab">
+          <form>
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
-          </ul>
+              <div>
+                <label for="domAccountInput" class="font-mulish font-medium text-sm block mb-2">Recipient Account
+                  Number</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="domAccountInput" aria-label="Account number">
+              </div>
+
+              <div>
+                <label for="domBankInput" class="font-mulish font-medium text-sm block mb-2">Recipient Bank</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="domBankInput" aria-label="Bank">
+              </div>
+
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
+
+              <div>
+                <label for="domAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="domAmountInput" aria-label="Amount">
+              </div>
+
+              <div>
+                <label for="domPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="domPinInput" aria-label="Pin">
+              </div>
+
+            </div>
+
+            <div class="flex items-center pb-8">
+              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" value=""
+                id="domAddBeneficiary">
+              <label class="text-base font-mulish font-medium" for="domAddBeneficiary">
+                Add to Beneficiary
+              </label>
+            </div>
+
+            <div class="text-center">
+              <button button type="submit"
+                class="w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
+            </div>
+          </form>
         </div>
 
-        <div class="card-body overflow-auto">
-          <div class="tab-content">
 
-            <div class="tab-pane show fade active" id="domestic-tab-pane" role="tabpanel" aria-labelledby="domestic-tab"
-              tabindex="0">
-              <div class="row pb-4 pt-3">
+        <div class="hidden" id="internationalTransfer" role="tabpanel" aria-labelledby="internationalTransfer-tab">
+          <form>
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
-                <div class="col">
-                  <label for="domAccountInput" class="form-label">Recipient Account Number</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="domAccountInput"
-                    aria-label="Account number">
-                </div>
-
-                <div class="col">
-                  <label for="domBankInput" class="form-label">Recipient Bank</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="domBankInput"
-                    aria-label="Bank">
-                </div>
-
+              <div>
+                <label for="interAccountInput" class="font-mulish font-medium text-sm block mb-2">Recipient Account
+                  Number</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="interAccountInput" aria-label="Account number">
               </div>
 
-              <div class="row pb-4">
-
-                <div class="col">
-                  <label for="domAmountInput" class="form-label">Amount</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="domAmountInput"
-                    aria-label="Amount">
-                </div>
-
-                <div class="col">
-                  <label for="domPinInput" class="form-label">Pin</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="domPinInput"
-                    aria-label="Pin">
-                </div>
-
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input border border-dark border-2 py-2 px-2 me-2 " type="checkbox" value=""
-                  id="domAddBeneficiary">
-                <label class="form-check-label my-1" for="domAddBeneficiary">
-                  Add to Beneficiary
-                </label>
-              </div>
-
-              <div class="row py-4">
-                <div class="col text-center">
-                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
-                      class="grey-light">Submit</span></button>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="tab-pane fade" id="international-tab-pane" role="tabpanel" aria-labelledby="international-tab"
-              tabindex="1">
-              <div class="row pb-4 pt-3">
-
-                <div class="col">
-                  <label for="interAccountInput" class="form-label">Recipient Account Number</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="interAccountInput"
-                    aria-label="Account number">
-                </div>
-
-                <div class="col">
-                  <label for="interBankInput" class="form-label">Recipient Bank</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="interBankInput"
-                    aria-label="Bank">
-                </div>
-
-              </div>
-
-              <div class="row pb-4">
-
-                <div class="col">
-                  <label for="interAmountInput" class="form-label">Amount</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="interAmountInput"
-                    aria-label="Amount">
-                </div>
-
-                <div class="col">
-                  <label for="interPinInput" class="form-label">Pin</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="interPinInput"
-                    aria-label="Pin">
-                </div>
-
-              </div>
-
-              <div class="row pb-4">
-                <div class="col-6">
-                  <label for="interRate" class="form-label">Recipient Gets</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="rate"
-                    aria-label="interRate">
-                </div>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input border border-dark border-2 py-2 px-2 me-2 " type="checkbox" value=""
-                  id="interAddBeneficiary">
-                <label class="form-check-label my-1" for="interAddBeneficiary">
-                  Add to Beneficiary
-                </label>
-              </div>
-
-              <div class="row py-4">
-                <div class="col text-center">
-                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
-                      class="grey-light">Submit</span></button>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="tab-pane fade" id="intrabank-tab-pane" role="tabpanel" aria-labelledby="intrabank-tab"
-              tabindex="0">
-              <div class="row pb-4 pt-3">
-
-                <div class="col">
-                  <label for="intraAccountInput" class="form-label">Transfer From</label>
-                  <select type="text" class="form-select form-select-lg border border-dark" id="intraAccountInput"
-                    aria-label="Account number">
-                    <option value="">Select Account</option>
-                    <option value="0427541108">0427541108</option>
-                    <option value="0427541108">0427541108</option>
-                  </select>
-                </div>
-
-                <div class="col">
-                  <label for="intraBankInput" class="form-label">Transfer To</label>
-                  <select type="text" class="form-select form-select-lg border border-dark" id="intraBankInput"
-                    aria-label="Bank">
-                    <option value="">Select Account</option>
-                    <option value="0427541108">0427541108</option>
-                    <option value="0427541108">0427541108</option>
-                  </select>
-                </div>
-
-              </div>
-
-              <div class="row pb-4">
-
-                <div class="col">
-                  <label for="intraAmountInput" class="form-label">Amount</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="intraAmountInput"
-                    aria-label="Amount">
-                </div>
-
-                <div class="col">
-                  <label for="intraPinInput" class="form-label">Pin</label>
-                  <input type="text" class="form-control form-control-lg border border-dark" id="intraPinInput"
-                    aria-label="Pin">
-                </div>
-
-              </div>
-
-              <div class="row py-4">
-                <div class="col text-center">
-                  <button button type="button" class="btn btn-light primary-bg btn-lg w-50"><span
-                      class="grey-light">Submit</span></button>
-                </div>
+              <div>
+                <label for="interBankInput" class="font-mulish font-medium text-sm block mb-2">Recipient Bank</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="interBankInput" aria-label="Bank">
               </div>
 
             </div>
-          </div>
+
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
+
+              <div>
+                <label for="interAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="interAmountInput" aria-label="Amount">
+              </div>
+
+              <div>
+                <label for="interPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="interPinInput" aria-label="Pin">
+              </div>
+
+            </div>
+
+            <div class="grid lg:grid-cols-2 mb-6">
+              <div class="col-span-1">
+
+
+
+                <div data-popover id="popover-description" role="tooltip"
+                  class="absolute z-10 invisible inline-block transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72">
+                  <p class="font-mulish text-base font-normal p-2.5 mb-0">Selecting the preferred currency, the
+                    converted price will automatically display on the receiver's
+                    get's input.</p>
+                </div>
+
+                <label for="interRate" class="font-mulish font-medium text-sm pb-2.5 flex items-center">Recipient
+                  Gets<button data-popover-target="popover-description" data-popover-placement="top" type="button"><svg
+                      class="w-4 h-4 ms-2 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor"
+                      viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"></path>
+                    </svg><span class="sr-only">Show information</span></button></label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="rate" aria-label="interRate">
+              </div>
+            </div>
+
+            <div class="flex items-center pb-8">
+              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" value=""
+                id="interAddBeneficiary">
+              <label class="text-base font-mulish font-medium" for="interAddBeneficiary">
+                Add to Beneficiary
+              </label>
+            </div>
+
+            <div class="text-center">
+              <button button type="submit"
+                class="w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
+            </div>
+
+          </form>
         </div>
+
+
+        <div class="hidden" id="interbankTransfer" role="tabpanel" aria-labelledby="interbankTransfer-tab">
+          <form>
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
+
+              <div>
+                <label for="intraAccountInput" class="font-mulish font-medium text-sm block mb-2">Transfer From</label>
+                <select type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="intraAccountInput" aria-label="Account number">
+                  <option value="">Select Account</option>
+                  <option value="0427541108">0427541108</option>
+                  <option value="0427541108">0427541108</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="intraBankInput" class="font-mulish font-medium text-sm block mb-2">Transfer To</label>
+                <select type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="intraBankInput" aria-label="Bank">
+                  <option value="">Select Account</option>
+                  <option value="0427541108">0427541108</option>
+                  <option value="0427541108">0427541108</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-8">
+
+              <div>
+                <label for="intraAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="intraAmountInput" aria-label="Amount">
+              </div>
+
+              <div>
+                <label for="intraPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
+                <input type="text"
+                  class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
+                  id="intraPinInput" aria-label="Pin">
+              </div>
+
+            </div>
+
+            <div class="text-center">
+              <button button type="submit"
+                class="w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
+            </div>
+          </form>
+
+        </div>
+
       </div>
     </div>
-
-    <div class="col-4">
-      <div class="card white-background border-0 h-100">
-        <div class="card-header white-background">
-          <h4 class="text-center pt-4">Daily Limit: <b>$50,000</b></h4>
-        </div>
-        <div class="card-body">
-          <div class="py-3">
-            <div class="d-flex justify-content-between">
-              <p class="primary-active mb-1">$2000</p>
-              <p class="primary-active mb-1">$48000</p>
-            </div>
-            <ngb-progressbar  [value]="2000" height="33px" [max]="50000"></ngb-progressbar>
-            <div class="d-flex justify-content-between pt-1">
-              <span>Spent</span>
-              <span>Remainder</span>
-            </div>
-          </div>
-
-
-          <h5 class="fw-bold card-text pt-4 pb-2">Beneficiary</h5>
-
-          <div class="overflow-auto scrollable-content">
-
-            <div class="d-flex primary-light-bg rounded mb-2">
-              <div class="flex-shrink-0 ms-2 mt-2">
-                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
-              </div>
-              <div class="flex-grow-1 ms-1 mt-2">
-                <p class="mb-0 fw-bold">Timi Banks</p>
-                <p class="mb-1">0567543256</p>
-              </div>
-            </div>
-
-            <div class="d-flex primary-light-bg rounded mb-2">
-              <div class="flex-shrink-0 ms-2 mt-2">
-                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
-              </div>
-              <div class="flex-grow-1 ms-1 mt-2">
-                <p class="mb-0 fw-bold">Timi Banks</p>
-                <p class="mb-1">0567543256</p>
-              </div>
-            </div>
-
-            <div class="d-flex primary-light-bg rounded mb-2">
-              <div class="flex-shrink-0 ms-2 mt-2">
-                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
-              </div>
-              <div class="flex-grow-1 ms-1 mt-2">
-                <p class="mb-0 fw-bold">Timi Banks</p>
-                <p class="mb-1">0567543256</p>
-              </div>
-            </div>
-
-            <div class="d-flex primary-light-bg rounded mb-2">
-              <div class="flex-shrink-0 ms-2 mt-2">
-                <img src="../../../assets/handshake.jpg" class="rounded-circle me-2" alt="...">
-              </div>
-              <div class="flex-grow-1 ms-1 mt-2">
-                <p class="mb-0 fw-bold">Timi Banks</p>
-                <p class="mb-1">0567543256</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
   </div>
-  
-  <div class="row mx-auto pt-5">
-    <h3 class="pb-2 ps-0">Transfer History</h3>
 
-    <table class="table">
-      <thead>
+  <div class="lg:col-span-4">
+    <div class="bg-white rounded-lg h-full">
+      <div class="bg-white pt-10 pb-3.5 border-b border-slate-300 rounded-t-lg">
+        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>$50,000</b></h4>
+      </div>
+      <div class="p-6">
+        <div class="py-3.5">
+          <div class="flex justify-between">
+            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">$2000</p>
+            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">$48000</p>
+          </div>
+          <div class="w-full h-8 bg-gray-200 rounded-md">
+            <div class="h-8 bg-primaryGreenLightActive rounded-md" style="width: 45%"></div>
+          </div>
+          <div class="flex justify-between pt-1">
+            <p class="font-mulish font-normal text-sm mb-0">Spent</p>
+            <p class="font-mulish font-normal text-sm mb-0">Remainder</p>
+          </div>
+        </div>
+
+
+        <h5 class="font-bold font-mulish text-2xl pt-10 pb-3.5">Beneficiary</h5>
+
+        <div class="overflow-y-auto max-h-40">
+
+          <div class="flex bg-primaryGreenLight rounded-md mb-2 p-1.5">
+            <div class="shrink-0 ms-2">
+              <img src="../../../assets/me.png" class="rounded-full me-2" alt="...">
+            </div>
+            <div class="grow ms-1 self-center">
+              <p class="mb-0 fw-bold">Timi Banks</p>
+              <p class="mb-1">0567543256</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="grid gap-y-4 py-12">
+  <h3 class="font-mulish text-2xl font-semibold">Transaction History</h3>
+  <div class="overflow-x-auto">
+    <table class="w-full text-base font-mulish">
+      <thead class="text-base font-semibold text-gray-700 capitalize bg-primaryGreenLightHover">
         <tr>
-          <th scope="col" class="primary-light-bg-active">Date</th>
-          <th scope="col" class="primary-light-bg-active">Transfer From</th>
-          <th scope="col" class="primary-light-bg-active">Transfer To</th>
-          <th scope="col" class="primary-light-bg-active">Amount</th>
-          <th scope="col" class="primary-light-bg-active">Status</th>
+          <th scope="col" class="px-6 py-3">
+            Date
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Transfer From
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Transfer To
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Amount
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Status
+          </th>
         </tr>
       </thead>
-      <tbody class="gray-light-bg ">
-        <tr>
-          <td>02/07/2023</td>
-          <td>Lummie_bels</td>
-          <td>Lummie_bels</td>
-          <td class="error-dark-hover">-$5,000</td>
-          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
-        </tr>
-        <tr>
-          <td>01/07/2023</td>
-          <td>Adedeji Onis</td>
-          <td>Adedeji Onis</td>
-          <td class="error-dark-hover">-$10,000</td>
-          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
-        </tr>
-        <tr>
-          <td>01/07/2023</td>
-          <td>Adedeji Onis</td>
-          <td>Adedeji Onis</td>
-          <td class="error-dark-hover">-$10,000</td>
-          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
-        </tr>
-        <tr>
-          <td>01/07/2023</td>
-          <td>Adedeji Onis</td>
-          <td>Adedeji Onis</td>
-          <td class="error-dark-hover">-$10,000</td>
-          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
-        </tr>
-        <tr>
-          <td>01/07/2023</td>
-          <td>Adedeji Onis</td>
-          <td>Adedeji Onis</td>
-          <td class="error-dark-hover">-$10,000</td>
-          <td><span class="badge primary-light-bg py-2 fw-light fs-6 black">Success</span></td>
+      <tbody *ngFor="let transaction of transferTransactions">
+        <tr class="bg-white border-b border-slate-300">
+          <th scope="row" class="px-6 py-4">
+            {{transaction.transactionDate}}
+          </th>
+          <td class="px-6 py-4">
+            {{transaction.fromAcct}}
+          </td>
+          <td class="px-6 py-4">
+            {{transaction.toAcct}}
+          </td>
+          <td
+            class="px-6 py-4 text-errorDarkHoverr">
+            {{ transaction.transAmount| currency:'NGN': true }}
+          </td>
+          <td class="px-6 py-4" [ngClass]="{
+            'bg-green-500': transaction.transStatus === 'success',
+            'bg-red-500': transaction.transStatus === 'failure',
+            'bg-yellow-500': transaction.transStatus === 'pending'
+          }">
+            {{ transaction.transStatus }}
+          </td>
         </tr>
       </tbody>
     </table>
-    <nav class="">
-      <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">1</a></li>
-        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">2</a></li>
-        <li class="page-item"><a class="page-link main-background border-0 black fw-bold">3</a></li>
-      </ul>
-    </nav>
   </div>
-
 </div>

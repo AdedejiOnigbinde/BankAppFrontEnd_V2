@@ -23,7 +23,8 @@
             <a href="#faqs" class="block py-2 px-3 md:border-0 md:p-0 no-underline text-black text-center">FAQs</a>
           </li>
           <li>
-            <a href="#contacts" class="block py-2 px-3 md:border-0 md:p-0 no-underline text-black text-center">Contact</a>
+            <a href="#contacts"
+              class="block py-2 px-3 md:border-0 md:p-0 no-underline text-black text-center">Contact</a>
           </li>
           <li class="md:hidden block">
             <a class="block py-2 px-3 md:border-0 md:p-0 no-underline text-black text-center" routerLink="/login">Sign
@@ -42,43 +43,41 @@
 </header>
 <main>
   <section class="bg-lightgray">
-    <div class="container">
-      <div class="grid md:grid-cols-2">
+    <div class="container mx-auto">
+      <div class="grid lg:grid-cols-2 gap-y-8">
 
-        <!-- <div class="order-last md:order-first"> -->
-        <div>
+        <div class="text-center lg:text-start">
           <span
             class="bg-primaryGreenLightHover rounded text-primaryGreenDarkHover text-medium px-4 py-3 inline-block mb-4">Bank
             With Confidence</span>
           <h1 class="text-5xl font-bold">Your Financial Journey</h1>
-          <h1 class="text-5xl font-bold pb-6">Starts Here With Us!</h1>
+          <h1 class="text-5xl font-bold pb-8">Starts Here With Us!</h1>
           <p class="mb-0 text-xl text-gray-600 capitalize">
             Each of your transactions are met with our confidence and
           </p>
-          <p class="mb-0 text-xl text-gray-600 pb-14 capitalize">
+          <p class="mb-0 text-xl text-gray-600 pb-10 capitalize">
             clarity. We are committed to making your banking easy
           </p>
           <button
             class="w-40 h-14 rounded text-lightgray bg-primaryGreenDark hover:bg-lightgray hover:text-primaryGreenDark hover:border-[1.5px] hover:border-primaryGreenDark "
             routerLink="/register">Get
             Started</button>
-          <div class="flex flex-row pt-16">
-            <div class="pe-10">
+          <div class="pt-12">
+            <div class="pe-8 inline-block">
               <p class="text-primaryGreenDark text-2xl mb-2 font-bold">1.5M+</p>
               <p class="text-gray-600 text-lg ">Users</p>
             </div>
-            <div class="pe-10">
+            <div class="pe-8 inline-block">
               <p class="text-primaryGreenDark text-2xl mb-2 font-bold">24Hours</p>
               <p class="text-gray-600 text-lg">Customer Support</p>
             </div>
-            <div>
+            <div class="inline-block">
               <p class="text-primaryGreenDark text-2xl mb-2 font-bold">100%</p>
               <p class="text-gray-600 text-lg">Easy And Safe</p>
             </div>
           </div>
         </div>
 
-        <!-- <div class="order-first md:order-last"> -->
         <div>
           <img src="../../../assets/womansittingwithlaptop.png" alt="A Woman With A Laptop">
         </div>
@@ -153,7 +152,7 @@
     <div class="grid lg:grid-cols-2 gap-x-10 gap-y-10 lg:gap-y-0">
       <div>
         <div class="border-2 rounded">
-          <h3 class="text-3xl mb-0 pt-8 ps-8 font-bold">Basic Transactions</h3>
+          <h3 class="text-3xl mb-0 pt-8 ps-8 font-bold text-center lg:text-start">Basic Transactions</h3>
 
           <div class="px-8 py-10 grid gap-y-4">
 
@@ -236,7 +235,7 @@
   </div>
 
   <div class="container mx-auto grid lg:grid-cols-2 gap-x-10 pb-16">
-    <div class="pb-8 lg:pb-0">
+    <div class="pb-8 lg:pb-0 text-center lg:text-start">
       <h1 class="capitalize text-4xl/[52px] font-semibold pb-10">Discover how we elevate your experience when you
         bank<br />
         with us.</h1>
@@ -249,8 +248,8 @@
 
     <div class="grid gap-y-6 lg:gap-y-14">
       <div class="grid lg:grid-cols-2 gap-y-6 lg:gap-y-0 gap-x-16">
-        <div>
-          <div class="flex pb-3">
+        <div class="text-center lg:text-start">
+          <div class="flex pb-3 justify-center lg:justify-normal">
             <div class="bg-primaryGreenLight rounded-full w-10 h-10 text-center me-2">
               <h1 class="font-bold text-3xl">1</h1>
             </div>
@@ -258,8 +257,8 @@
           </div>
           <p>With us, your accounts and personal information is safe with our security measures.</p>
         </div>
-        <div>
-          <div class="flex pb-3">
+        <div class="text-center lg:text-start">
+          <div class="flex pb-3 justify-center lg:justify-normal">
             <div class="bg-primaryGreenLight rounded-full w-10 h-10 text-center me-2">
               <h1 class="font-bold text-3xl">2</h1>
             </div>
@@ -269,8 +268,8 @@
         </div>
       </div>
       <div class="grid lg:grid-cols-2 gap-y-6 gap-x-16">
-        <div>
-          <div class="flex pb-3">
+        <div class="text-center lg:text-start">
+          <div class="flex pb-3 justify-center lg:justify-normal">
             <div class="bg-primaryGreenLight rounded-full w-10 h-10 text-center me-2">
               <h1 class="font-bold text-3xl">3</h1>
             </div>
@@ -279,8 +278,8 @@
           <p>With our web app, you can manage your finances anytime, anywhere. It is a banking that fits your lifestyle.
           </p>
         </div>
-        <div>
-          <div class="flex pb-3">
+        <div class="text-center lg:text-start">
+          <div class="flex pb-3 justify-center lg:justify-normal">
             <div class="bg-primaryGreenLight rounded-full w-10 h-10 text-center me-2">
               <h1 class="font-bold text-3xl">4</h1>
             </div>
@@ -389,7 +388,7 @@
         </ng-template>
       </owl-carousel-o>
 
-      <div class="grid gap-y-10 lg:hidden">
+      <div class="grid gap-y-10 lg:hidden px-4">
         <div class="md:flex">
           <img src="../../../assets/me.png" class="w-full pb-4 md:pb-0 md:me-3 md:w-fit" alt="...">
           <div>
@@ -628,7 +627,7 @@
       </div>
 
       <div class="grid lg:grid-cols-3">
-        
+
       </div>
 
     </div>

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transfer.component.css']
 })
 export class TransferComponent implements OnInit {
-
+  transferTransactions: any[] = [];
   constructor() { }
 
   ngOnInit(): void {
