@@ -7,25 +7,23 @@
       <div class="bg-white pt-10 border-b border-slate-300 rounded-t-lg flex justify-around">
 
         <ul class="flex flex-col md:flex-row lg:flex-wrap text-base text-center pl-0 mb-0" id="default-tab"
-          data-tabs-toggle="#default-tab-content"
-          data-tabs-active-classes="text-primaryGreen border-primaryGreen font-bold" role="tablist">
+          role="tablist">
 
           <li class="md:me-2" role="presentation">
-            <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg" id="domesticTransfer-tab"
-              data-tabs-target="#domesticTransfer" type="button" role="tab" aria-controls="domesticTransfer"
-              aria-selected="true">Domestic Transfer</button>
+            <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg" id="domesticTransfer-tab" type="button"
+              role="tab" aria-controls="domesticTransfer" aria-selected="false">Domestic Transfer</button>
           </li>
           <li role="presentation">
             <button
               class="inline-block px-4 pt-4 pb-2  border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              id="internationalTransfer-tab" data-tabs-target="#internationalTransfer" type="button" role="tab"
-              aria-controls="internationalTransfer" aria-selected="false">International Transfer</button>
+              id="internationalTransfer-tab" type="button" role="tab" aria-controls="internationalTransfer"
+              aria-selected="false">International Transfer</button>
           </li>
           <li role="presentation">
             <button
               class="inline-block px-4 pt-4 pb-2  border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              id="interbankTransfer-tab" data-tabs-target="#interbankTransfer" type="button" role="tab"
-              aria-controls="interbankTransfer" aria-selected="false">Interbank Transfer</button>
+              id="interbankTransfer-tab" type="button" role="tab" aria-controls="interbankTransfer"
+              aria-selected="false">Interbank Transfer</button>
           </li>
         </ul>
       </div>
@@ -230,7 +228,8 @@
   <div class="lg:col-span-4">
     <div class="bg-white rounded-lg h-full">
       <div class="bg-white pt-10 pb-3.5 border-b border-slate-300 rounded-t-lg">
-        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>{{50000| currency:'NGN': true}}</b></h4>
+        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>{{50000| currency:'NGN': true}}</b>
+        </h4>
       </div>
       <div class="p-6">
         <div class="py-3.5">
@@ -303,8 +302,7 @@
           <td class="px-6 py-4">
             {{transaction.toAcct}}
           </td>
-          <td
-            class="px-6 py-4 text-errorDarkHoverr">
+          <td class="px-6 py-4 text-errorDarkHoverr">
             {{ transaction.transAmount| currency:'NGN': true }}
           </td>
           <td class="px-6 py-4" [ngClass]="{
