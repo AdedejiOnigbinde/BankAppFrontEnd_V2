@@ -9,6 +9,7 @@ import { NewAccountComponent } from './new-account/new-account.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { DepositComponent } from './deposit/deposit.component';
+import { GetLoanComponent } from './get-loan/get-loan.component';
 
 
 
@@ -20,6 +21,7 @@ import { DepositComponent } from './deposit/deposit.component';
     NewAccountComponent,
     TransferComponent,
     DepositComponent,
+    GetLoanComponent,
   ],
   imports: [
     CommonModule,

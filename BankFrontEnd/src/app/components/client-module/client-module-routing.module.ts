@@ -5,6 +5,7 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
 import { NewAccountComponent } from './new-account/new-account.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { DepositComponent } from './deposit/deposit.component';
+import { GetLoanComponent } from './get-loan/get-loan.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,8 @@ const routes: Routes = [
       { path: "", component: ClientDashboardComponent },
       {path:"newaccount", component:NewAccountComponent},
       {path:"transfer", component:TransferComponent},
-      {path:"deposit",component:DepositComponent}
+      {path:"deposit",component:DepositComponent},
+      {path:"getloan",component:GetLoanComponent}
     ]
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account/account.service';
 import { TransactionService } from '../services/transaction/transaction.service';
-
+import { TabItem, Tabs } from 'flowbite';
 @Component({
   selector: 'app-client-dashboard',
   templateUrl: './client-dashboard.component.html',
@@ -15,6 +15,9 @@ export class ClientDashboardComponent implements OnInit {
   savingsBalances: number = 0;
   checkingsBalances: number = 0;
   errorMessage: string = "";
+  tabsElement!: HTMLElement | null;
+  tabElements: TabItem[] = [];
+  tabs!: Tabs;
 
 
   constructor(private accountServe: AccountService, private transactionServe: TransactionService) { }
@@ -22,6 +25,7 @@ export class ClientDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getAccountList();
     this.getRecentTransaction();
+    this.initializeTabs();
   }
 
   getAccountList() {
@@ -30,7 +34,6 @@ export class ClientDashboardComponent implements OnInit {
         this.listOfAccounts = res;
         this.getAccountBalances(this.listOfAccounts)
         // this.calculateLoanSum(this.listOfAccounts)
-
       },
       error: (err) => {
         this.errorMessage = err.message
@@ -66,5 +69,29 @@ export class ClientDashboardComponent implements OnInit {
   determineTransactionType(transactionType: String): boolean {
     return transactionType === 'withdrawal' || transactionType === 'transfer';
   }
+
+  options = {
+    defaultTabId: 'income',
+    activeClasses:
+    'text-primaryGreen border-primaryGreen font-bold',
+  };
+
+  initializeTabs(): void {
+    this.tabsElement = document.getElementById('default-tab');
+    this.tabElements = [
+      {
+        id: 'income',
+        triggerEl: document.querySelector('#income-tab') as HTMLElement,
+        targetEl: document.querySelector('#income') as HTMLElement,
+      },
+      {
+        id: 'expenses',
+        triggerEl: document.querySelector('#expenses-tab') as HTMLElement,
+        targetEl: document.querySelector('#expenses') as HTMLElement,
+      },
+    ];
+    this.tabs = new Tabs(this.tabsElement, this.tabElements, this.options);
+  }
+
 
 }

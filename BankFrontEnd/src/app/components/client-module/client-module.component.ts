@@ -14,7 +14,8 @@ export class ClientModuleComponent implements OnInit {
     '/client': 'Welcome Adedeji!',
     '/client/newaccount': 'Open Account',
     '/client/transfer':'Transfer',
-    '/client/deposit':'Deposit'
+    '/client/deposit':'Deposit',
+    '/client/getloan':'Get Loan'
   };
   checkingAccountNum: string = 'Checkings - 0427541108'
   savingsAccountNum: string = 'Savings - 0427541108'

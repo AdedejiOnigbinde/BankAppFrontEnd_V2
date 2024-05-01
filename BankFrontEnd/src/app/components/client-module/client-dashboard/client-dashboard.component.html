@@ -29,19 +29,16 @@
       <div class="bg-white flex justify-between items-center lg:py-6 lg:px-8 border-b border-slate-300 rounded-t-lg">
         <h4 class="font-mulish text-base lg:text-xl font-bold mb-0">Balance History</h4>
 
-        <ul class="flex flex-col md:flex-row lg:flex-wrap text-base text-center pl-0" id="default-tab"
-          data-tabs-toggle="#default-tab-content"
-          data-tabs-active-classes="text-primaryGreen border-primaryGreen font-bold" role="tablist">
+        <ul class="flex flex-col md:flex-row lg:flex-wrap text-base text-center pl-0" id="default-tab" role="tablist">
 
           <li class="md:me-2" role="presentation">
-            <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg" id="income-tab"
-              data-tabs-target="#income" type="button" role="tab" aria-controls="income"
-              aria-selected="false">Income</button>
+            <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg" id="income-tab" type="button" role="tab"
+              aria-controls="income" aria-selected="false">Income</button>
           </li>
           <li role="presentation">
             <button
               class="inline-block px-4 pt-4 pb-2  border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              id="expenses-tab" data-tabs-target="#expenses" type="button" role="tab" aria-controls="expenses"
+              id="expenses-tab" type="button" role="tab" aria-controls="expenses"
               aria-selected="false">Expenses</button>
           </li>
         </ul>
@@ -137,27 +134,27 @@
       <tbody *ngFor="let transaction of recentTransactions">
         <tr class="bg-white border-b border-slate-300">
           <th scope="row" class="px-6 py-4">
-            {{transaction.transactionDate}}
+            {{transaction.transactionDate | date: "shortDate"}}
           </th>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 text-center">
             {{transaction.toAcct}}
           </td>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 text-center">
             {{transaction.transType}}
           </td>
           <td
-            [class]="'px-6 py-4 ' + (determineTransactionType(transaction.transType) ? 'text-errorDarkHover' : 'text-successDarkHover')">
+            [class]="'px-6 py-4 text-center ' + (determineTransactionType(transaction.transType) ? 'text-errorDarkHover' : 'text-successDarkHover')">
             {{ transaction.transAmount| currency:'NGN': true }}
           </td>
-          <td class="px-6 py-4" [ngClass]="{
-            'bg-green-500': transaction.transStatus === 'success',
-            'bg-red-500': transaction.transStatus === 'failure',
-            'bg-yellow-500': transaction.transStatus === 'pending'
-          }">
-            {{ transaction.transStatus }}
+          <td class="px-6 py-4 text-center">
+            <p class="py-2 rounded-lg capitalize"[ngClass]="{
+              'bg-successLight text-successDarker': transaction.status === 'success',
+              'bg-errorLight text-errorDarker': transaction.status === 'failure',
+              'bg-warningLight text-warningDarker': transaction.status === 'pending'
+            }">{{ transaction.status }}</p>
           </td>
-          <td class="px-6 py-4">
-            {{ transaction.transBalance| currency:'NGN': true }}
+          <td class="px-6 py-4 text-center">
+            {{ transaction.balance| currency:'NGN': true }}
           </td>
         </tr>
       </tbody>
