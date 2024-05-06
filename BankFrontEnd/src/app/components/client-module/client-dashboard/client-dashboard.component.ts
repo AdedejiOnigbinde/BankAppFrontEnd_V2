@@ -2,48 +2,45 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account/account.service';
 import { TransactionService } from '../services/transaction/transaction.service';
 import { TabItem, Tabs } from 'flowbite';
+import { accountDto, transactionDto } from '../types';
+import { ClientService } from '../services/client/client.service';
 @Component({
   selector: 'app-client-dashboard',
   templateUrl: './client-dashboard.component.html',
   styleUrls: ['./client-dashboard.component.css']
 })
 export class ClientDashboardComponent implements OnInit {
-  listOfAccounts: any[] = [];
-  recentTransactions: any[] = [];
-  sumOfAccountBalances: number = 0;
-  loansBalances: number = 0;
+  listOfAccounts: accountDto[];
+  recentTransactions: transactionDto[];
+  loansBalanceSum: number = 0;
   savingsBalances: number = 0;
   checkingsBalances: number = 0;
   errorMessage: string = "";
   tabsElement!: HTMLElement | null;
   tabElements: TabItem[] = [];
-  tabs!: Tabs;
+  tabs: Tabs;
 
 
-  constructor(private accountServe: AccountService, private transactionServe: TransactionService) { }
+  constructor(private accountServe: AccountService, private transactionServe: TransactionService, private clientServe: ClientService) { }
 
   ngOnInit(): void {
     this.getAccountList();
     this.getRecentTransaction();
     this.initializeTabs();
+    this.getTotalLoanSum();
   }
 
   getAccountList() {
     this.accountServe.getAllClientsAccounts().subscribe({
-      next: (res) => {
+      next: (res: accountDto[]) => {
         this.listOfAccounts = res;
         this.getAccountBalances(this.listOfAccounts)
-        // this.calculateLoanSum(this.listOfAccounts)
       },
       error: (err) => {
         this.errorMessage = err.message
       }
     })
   }
-
-  // calculateLoanSum(accountsArray: any[]) {
-  //   this.sumOfAccountBalances = accountsArray.reduce((accumulator, account) => accumulator + account.balance, 0);
-  // }
 
   getAccountBalances(accountsArray: any[]) {
     accountsArray.forEach(account => {
@@ -57,8 +54,19 @@ export class ClientDashboardComponent implements OnInit {
 
   getRecentTransaction() {
     this.transactionServe.getAllRecentTransactions().subscribe({
-      next: (res) => {
+      next: (res: transactionDto[]) => {
         this.recentTransactions = res;
+      },
+      error: (err) => {
+        this.errorMessage = err.message
+      }
+    })
+  }
+
+  getTotalLoanSum() {
+    this.clientServe.getTotalLoanSum().subscribe({
+      next: (res: number) => {
+        this.loansBalanceSum = res;
       },
       error: (err) => {
         this.errorMessage = err.message
@@ -73,7 +81,7 @@ export class ClientDashboardComponent implements OnInit {
   options = {
     defaultTabId: 'income',
     activeClasses:
-    'text-primaryGreen border-primaryGreen font-bold',
+      'text-primaryGreen border-primaryGreen font-bold',
   };
 
   initializeTabs(): void {

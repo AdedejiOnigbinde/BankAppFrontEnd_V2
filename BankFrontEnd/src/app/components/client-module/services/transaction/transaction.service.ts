@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { getCookie } from 'typescript-cookie';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
+import { transactionDto } from '../../types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private userToken = getCookie("userToken");
-  private authHeader = new HttpHeaders({
-    "Content-Type": "application/json",
-    "Authorization": `bearer ${this.userToken}`
-  });
-
+  
   constructor(private http: HttpClient) { }
-  getAllRecentTransactions(): Observable<any> {
-    return this.http.get<Observable<any>>("http://localhost:8080/transaction/accountrecenttransactions", { headers: this.authHeader })
+  getAllRecentTransactions(): Observable<transactionDto[]> {
+    return this.http.get<transactionDto[]>("transaction/recent")
   }
 }

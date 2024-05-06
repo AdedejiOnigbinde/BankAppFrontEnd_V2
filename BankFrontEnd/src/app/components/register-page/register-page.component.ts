@@ -8,10 +8,10 @@ import { AuthServiceService } from 'src/app/services/auth-service/auth-service.s
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent implements OnInit {
-  errorMessage!: string;
-  successMessage!: string;
-  registerForm!: FormGroup;
-  extraInfoForm!: FormGroup
+  errorMessage: string;
+  successMessage: string;
+  registerForm: FormGroup;
+  extraInfoForm: FormGroup
   submitted = false;
   constructor(private formBuilder: FormBuilder, private authservice: AuthServiceService) { }
 
@@ -20,7 +20,7 @@ export class RegisterPageComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/), Validators.minLength(4)]],
       lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/), Validators.minLength(4)]],
       userName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/), Validators.minLength(4)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8),Validators.maxLength(16)]],
       address: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+/)]],
       pinNumber: [0, [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(4), Validators.maxLength(4)]],
       ssn: [0, [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(9), Validators.maxLength(9)]],
@@ -40,7 +40,7 @@ export class RegisterPageComponent implements OnInit {
       this.errorMessage = "Some fields Are Invalid"
     } else {
       this.authservice.register(this.registerForm.value, this.extraInfoForm.controls['clientType'].value).subscribe({
-        next: (res) => {
+        next: (res:string[]) => {
           this.successMessage = res[0];
           this.registerForm.reset();
           this.extraInfoForm.reset();

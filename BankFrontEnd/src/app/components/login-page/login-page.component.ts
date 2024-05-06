@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service/auth-service.service';
 import { setCookie } from 'typescript-cookie'
+import { loginResponse } from '../types';
 
 
 @Component({
@@ -11,8 +12,8 @@ import { setCookie } from 'typescript-cookie'
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit {
-  errorMessage!: string;
-  loginForm!: FormGroup;
+  errorMessage: string;
+  loginForm: FormGroup;
   submitted = false;
   constructor(private formBuilder: FormBuilder, private authservice: AuthServiceService, private route: Router) { }
 
@@ -28,10 +29,10 @@ export class LoginPageComponent implements OnInit {
     this.errorMessage = '';
     if (this.loginForm.valid) {
       this.authservice.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          setCookie('userToken', res[0], { expires: 1 });
+        next: (res:loginResponse) => {
+          setCookie('userToken', res.accessToken, { expires: 1 });
           //implement conditional Routing
-          if (res[1] == "USER") {
+          if (res.role == "USER") {
             this.route.navigate(['client'])
           } 
           // else if (res[1] == "ADMIN") {

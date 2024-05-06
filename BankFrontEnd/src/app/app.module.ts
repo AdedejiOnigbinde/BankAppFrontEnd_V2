@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { RequestInterceptorService } from './request-interceptor.service';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     LandingPageComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -28,10 +29,10 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     HttpClientModule,
     FormsModule,
     CarouselModule,
-    
+
   ],
-  exports:[],
-  providers: [],
+  exports: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

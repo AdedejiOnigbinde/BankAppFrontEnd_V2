@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AccountService } from './services/account/account.service';
+import { accountDto } from './types';
 
 @Component({
   selector: 'app-client-module',
@@ -13,13 +15,15 @@ export class ClientModuleComponent implements OnInit {
   headerTextMap: { [key: string]: string } = {
     '/client': 'Welcome Adedeji!',
     '/client/newaccount': 'Open Account',
-    '/client/transfer':'Transfer',
-    '/client/deposit':'Deposit',
-    '/client/getloan':'Get Loan'
+    '/client/transfer': 'Transfer',
+    '/client/deposit': 'Deposit',
+    '/client/getloan': 'Get Loan'
   };
-  checkingAccountNum: string = 'Checkings - 0427541108'
-  savingsAccountNum: string = 'Savings - 0427541108'
-  constructor(private router: Router) { }
+  listOfAccounts: accountDto[];
+  checkingAccountNum: number;
+  savingsAccountNum: number;
+  errorMessage: string = "";
+  constructor(private router: Router, private accountServe: AccountService) { }
 
   ngOnInit(): void {
     this.setHeaderText();
@@ -34,6 +38,31 @@ export class ClientModuleComponent implements OnInit {
     const currentRoute = this.router.url;
     this.headerText = this.headerTextMap[currentRoute];
     this.isClientRoute = currentRoute === '/client';
+    if (this.isClientRoute) {
+      this.getAccountList()
+    }
+  }
+
+  getAccountList() {
+    this.accountServe.getAllClientsAccounts().subscribe({
+      next: (res: accountDto[]) => {
+        this.listOfAccounts = res;
+        this.getAccountNumbers(this.listOfAccounts)
+      },
+      error: (err) => {
+        this.errorMessage = err.message
+      }
+    })
+  }
+
+  getAccountNumbers(accountsArray: accountDto[]) {
+    accountsArray.forEach(account => {
+      if (account.accountType === "savings") {
+        this.checkingAccountNum = account.accountNumber
+      } else {
+        this.savingsAccountNum = account.accountNumber
+      }
+    })
   }
 
 }
