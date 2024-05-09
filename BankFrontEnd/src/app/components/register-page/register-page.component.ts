@@ -40,8 +40,8 @@ export class RegisterPageComponent implements OnInit {
       this.errorMessage = "Some fields Are Invalid"
     } else {
       this.authservice.register(this.registerForm.value, this.extraInfoForm.controls['clientType'].value).subscribe({
-        next: (res:string[]) => {
-          this.successMessage = res[0];
+        next: (res:string) => {
+          this.successMessage = res;
           this.registerForm.reset();
           this.extraInfoForm.reset();
           this.submitted = false

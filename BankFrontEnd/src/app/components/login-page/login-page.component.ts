@@ -14,7 +14,7 @@ import { loginResponse } from '../types';
 export class LoginPageComponent implements OnInit {
   errorMessage: string;
   loginForm: FormGroup;
-  submitted = false;
+  submitted:boolean = false;
   constructor(private formBuilder: FormBuilder, private authservice: AuthServiceService, private route: Router) { }
 
   ngOnInit(): void {

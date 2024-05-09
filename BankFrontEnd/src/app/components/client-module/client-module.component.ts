@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AccountService } from './services/account/account.service';
-import { accountDto } from './types';
+import { accountDto, clientDto } from './types';
+import { ClientService } from './services/client/client.service';
 
 @Component({
   selector: 'app-client-module',
@@ -13,7 +14,6 @@ export class ClientModuleComponent implements OnInit {
   headerText: string = ''
   isClientRoute: boolean = false;
   headerTextMap: { [key: string]: string } = {
-    '/client': 'Welcome Adedeji!',
     '/client/newaccount': 'Open Account',
     '/client/transfer': 'Transfer',
     '/client/deposit': 'Deposit',
@@ -23,7 +23,7 @@ export class ClientModuleComponent implements OnInit {
   checkingAccountNum: number;
   savingsAccountNum: number;
   errorMessage: string = "";
-  constructor(private router: Router, private accountServe: AccountService) { }
+  constructor(private router: Router, private accountServe: AccountService, private clientServe: ClientService) { }
 
   ngOnInit(): void {
     this.setHeaderText();
@@ -39,7 +39,8 @@ export class ClientModuleComponent implements OnInit {
     this.headerText = this.headerTextMap[currentRoute];
     this.isClientRoute = currentRoute === '/client';
     if (this.isClientRoute) {
-      this.getAccountList()
+      this.getAccountList();
+      this.getClientName();
     }
   }
 
@@ -61,6 +62,17 @@ export class ClientModuleComponent implements OnInit {
         this.checkingAccountNum = account.accountNumber
       } else {
         this.savingsAccountNum = account.accountNumber
+      }
+    })
+  }
+
+  getClientName() {
+    this.clientServe.getProfileData().subscribe({
+      next: (res: clientDto) => {
+        this.headerText = `Welcome ${res.firstName}`;
+      },
+      error: (err) => {
+        this.errorMessage = err.message
       }
     })
   }

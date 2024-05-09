@@ -17,3 +17,10 @@ export type accountDto = {
     dailyTransferLimit: number;
     accountStatus: string;
 }
+
+export type clientDto = {
+    photoUrl: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+}

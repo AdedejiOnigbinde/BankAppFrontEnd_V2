@@ -13,4 +13,8 @@ export class AccountService {
     return this.http.get<accountDto[]>("account/client")
   }
 
+  createAccount(accountType: string): Observable<string> {
+    return this.http.post<string>("account/create", { "accountType": accountType });
+  }
+
 }

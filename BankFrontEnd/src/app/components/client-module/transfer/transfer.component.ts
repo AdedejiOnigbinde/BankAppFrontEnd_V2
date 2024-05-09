@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TabItem, Tabs } from 'flowbite';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
@@ -11,16 +11,23 @@ export class TransferComponent implements OnInit {
   tabsElement!: HTMLElement | null;
   tabElements: TabItem[] = [];
   tabs!: Tabs;
-  constructor() { }
+  domesticTransferForm: FormGroup;
+  internationalTranferFrom: FormGroup;
+  interBankTranferForm: FormGroup;
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeTabs();
+    // this.domesticTransferForm = this.formBuilder.group({
+    //   userName: ['', Validators.required],
+    //   password: ['', Validators.required]
+    // })
   }
 
   options = {
     defaultTabId: 'domestic',
     activeClasses:
-    'text-primaryGreen border-primaryGreen font-bold',
+      'text-primaryGreen border-primaryGreen font-bold',
   };
 
   initializeTabs(): void {

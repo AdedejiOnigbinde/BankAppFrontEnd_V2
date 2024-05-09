@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms'; 
 
 import { ClientModuleRoutingModule } from './client-module-routing.module';
 import { ClientModuleComponent } from './client-module.component';
@@ -27,7 +28,8 @@ import { GetLoanComponent } from './get-loan/get-loan.component';
     CommonModule,
     ClientModuleRoutingModule,
     SharedModule,
-    NgbProgressbarModule
+    NgbProgressbarModule,
+    ReactiveFormsModule 
   ]
 })
 export class ClientModuleModule { }
