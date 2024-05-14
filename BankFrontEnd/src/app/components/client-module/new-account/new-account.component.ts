@@ -27,7 +27,7 @@ export class NewAccountComponent implements OnInit {
     this.isSubmitted = true;
 
     if (this.accountCreationForm.valid) {
-      
+
       this.accountServe.createAccount(this.accountCreationForm.controls['accountType'].value).subscribe({
         next: (res: string) => {
           this.openModal();
@@ -37,6 +37,7 @@ export class NewAccountComponent implements OnInit {
         },
         error: (err) => {
           this.errorMessage = err.error;
+          this.isSubmitted = false;
         }
       })
 

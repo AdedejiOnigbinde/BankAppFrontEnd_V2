@@ -1,4 +1,4 @@
-<h1 class="font-mulish text-2xl font-bold mb-10">Checking: {{5000| currency:'NGN': true}}</h1>
+<h1 class="font-mulish text-2xl font-bold mb-10">Checking: {{checkingAccount?.balance| currency:'NGN': true}}</h1>
 <div class="grid lg:grid-cols-12 lg:gap-x-4 gap-y-3 lg:gap-y-0">
 
   <div class="lg:col-span-8">
@@ -31,22 +31,54 @@
       <div class="p-6 overflow-y-auto" id="default-tab-content">
 
         <div class="hidden" id="domesticTransfer" role="tabpanel" aria-labelledby="domesticTransfer-tab">
-          <form>
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+            *ngIf="this.errorMessage">
+            <span class="font-medium text-center">{{this.errorMessage}}</span>
+          </div>
+          <form [formGroup]="domesticTransferForm" (ngSubmit)="submitDomesticTransfer()">
             <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
               <div>
                 <label for="domAccountInput" class="font-mulish font-medium text-sm block mb-2">Recipient Account
                   Number</label>
-                <input type="text"
+                <input type="number"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domAccountInput" aria-label="Account number" formControlName="recipientAccount">
+                  id="domAccountInput" aria-label="Account number" formControlName="recipientAccount"
+                  [ngClass]="{'is-invalid':isSubmitted && domesticTransferForm.controls['recipientAccount'].errors}">
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Numbers Are Allowed
+                </div>
+                <div *ngIf="isSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('min')"
+                  class="text-red-600">
+                  Minimum Length Is 12 Numbers
+                </div>
+                <div *ngIf="isSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('max')"
+                  class="text-red-600">
+                  Maximum Length Is 12 Numbers
+                </div>
               </div>
+
 
               <div>
                 <label for="domBankInput" class="font-mulish font-medium text-sm block mb-2">Recipient Bank</label>
                 <input type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domBankInput" aria-label="Bank">
+                  id="domBankInput" aria-label="Bank" formControlName="recipientBank"
+                  [ngClass]="{'is-invalid':isSubmitted && domesticTransferForm.controls['recipientBank'].errors}">
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['recipientBank'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['recipientBank'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Letters Are Allowed
+                </div>
+
               </div>
 
             </div>
@@ -55,23 +87,55 @@
 
               <div>
                 <label for="domAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
-                <input type="text"
+                <input type="number"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domAmountInput" aria-label="Amount">
+                  id="domAmountInput" aria-label="Amount" formControlName="amount"
+                  [ngClass]="{'is-invalid':isSubmitted && domesticTransferForm.controls['amount'].errors}">
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['amount'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['amount'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Numbers Are Allowed
+                </div>
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['amount'].hasError('min')"
+                  class="text-red-600">
+                  Value Must Be Greater Than Zero
+                </div>
               </div>
+
 
               <div>
                 <label for="domPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
-                <input type="text"
+                <input type="number"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domPinInput" aria-label="Pin">
+                  id="domPinInput" aria-label="Pin" formControlName="pin"
+                  [ngClass]="{'is-invalid':isSubmitted && domesticTransferForm.controls['pin'].errors}">
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['pin'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div *ngIf=" isSubmitted && domesticTransferForm.controls['pin'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Numbers Are Allowed
+                </div>
+                <div *ngIf="isSubmitted && domesticTransferForm.controls['pin'].hasError('min')"
+                  class="text-red-600">
+                  Minimum Length Is 4 Numbers
+                </div>
+                <div *ngIf="isSubmitted && domesticTransferForm.controls['pin'].hasError('max')"
+                  class="text-red-600">
+                  Maximum Length Is 4 Numbers
+                </div>
+
               </div>
 
             </div>
 
             <div class="flex items-center pb-8">
-              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" value=""
-                id="domAddBeneficiary">
+              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox"
+                formControlName="saveBeneficiary" id="domAddBeneficiary">
               <label class="text-base font-mulish font-medium" for="domAddBeneficiary">
                 Add to Beneficiary
               </label>
@@ -228,17 +292,20 @@
   <div class="lg:col-span-4">
     <div class="bg-white rounded-lg h-full">
       <div class="bg-white pt-10 pb-3.5 border-b border-slate-300 rounded-t-lg">
-        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>{{50000| currency:'NGN': true}}</b>
+        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit:
+          <b>{{checkingAccount?.dailyTransferLimit| currency:'NGN': true}}</b>
         </h4>
       </div>
       <div class="p-6">
         <div class="py-3.5">
           <div class="flex justify-between">
-            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{2000| currency:'NGN': true}}</p>
-            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{48000| currency:'NGN': true}}</p>
+            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{checkingAccount?.calcLimit|
+              currency:'NGN': true}}</p>
+            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{transferLimitUpperBound|
+              currency:'NGN': true}}</p>
           </div>
           <div class="w-full h-8 bg-gray-200 rounded-md">
-            <div class="h-8 bg-primaryGreenLightActive rounded-md" style="width: 25%"></div>
+            <div class="h-8 bg-primaryGreenLightActive rounded-md" [style.width.%]="transferLimitPercentage"></div>
           </div>
           <div class="flex justify-between pt-1">
             <p class="font-mulish font-normal text-sm mb-0">Spent</p>
@@ -251,13 +318,13 @@
 
         <div class="overflow-y-auto max-h-40">
 
-          <div class="flex bg-primaryGreenLight rounded-md mb-2 p-1.5">
+          <div *ngFor="let beneficiary of beneficiaryList" class="flex bg-primaryGreenLight rounded-md mb-2 p-1.5">
             <div class="shrink-0 ms-2">
               <img src="../../../assets/me.png" class="rounded-full me-2" alt="...">
             </div>
             <div class="grow ms-1 self-center">
-              <p class="mb-0 fw-bold">Timi Banks</p>
-              <p class="mb-1">0567543256</p>
+              <p class="mb-0 fw-bold">{{beneficiary.bank}}</p>
+              <p class="mb-1">{{beneficiary.bankAccountNumber}}</p>
             </div>
           </div>
         </div>

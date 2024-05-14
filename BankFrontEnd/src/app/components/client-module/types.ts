@@ -24,3 +24,18 @@ export type clientDto = {
     lastName: string;
     address: string;
 }
+
+export type beneficiaryDto = {
+    beneficiaryId: number,
+    bankAccountNumber: number;
+    bank: string;
+}
+
+export type transferRequestDto = {
+    toAcct: number;
+    fromacct: number; 
+    bank: string;
+    amount: number;
+    pin: number;
+    addBeneficary: boolean;
+}
