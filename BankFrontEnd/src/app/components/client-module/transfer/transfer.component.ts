@@ -15,14 +15,15 @@ export class TransferComponent implements OnInit {
   tabsElement!: HTMLElement | null;
   tabElements: TabItem[] = [];
   tabs!: Tabs;
-  isSubmitted: boolean = false;
+  isDomesticFormSubmitted: boolean = false;
+  isInternationalFormSubmitted: boolean = false;
   checkingAccount: accountDto;
   transferLimitUpperBound: number = 0;
   transferLimitPercentage: number = 0;
   beneficiaryList: beneficiaryDto[];
   errorMessage: string = "";
   domesticTransferForm: FormGroup;
-  internationalTranferFrom: FormGroup;
+  internationalTranferForm: FormGroup;
   interBankTranferForm: FormGroup;
   constructor(private formBuilder: FormBuilder, private accountServe: AccountService, private clientServe: ClientService, private transactionServe: TransactionService) { }
 
@@ -30,12 +31,21 @@ export class TransferComponent implements OnInit {
     this.initializeTabs();
     this.getAccountList();
     this.getBeneficiaries();
+    this.setupAmountChangeSubscription();
     this.domesticTransferForm = this.formBuilder.group({
-      recipientAccount: [0, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
+      recipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
       recipientBank: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
-      amount: [0, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
-      pin: [0, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
+      amount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      pin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
       saveBeneficiary: [false]
+    })
+    this.internationalTranferForm = this.formBuilder.group({
+      interRecipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
+      interRecipientBank: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
+      interAmount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      interPin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
+      interSaveBeneficiary: [false],
+      rate: []
     })
   }
 
@@ -75,7 +85,7 @@ export class TransferComponent implements OnInit {
 
   submitDomesticTransfer() {
     this.errorMessage = '';
-    this.isSubmitted = true;
+    this.isDomesticFormSubmitted = true;
     if (this.domesticTransferForm.valid) {
       const transactionRequest: transferRequestDto = {
         toAcct: this.domesticTransferForm.controls['recipientAccount'].value,
@@ -90,17 +100,58 @@ export class TransferComponent implements OnInit {
           this.getAccountList();
           this.getBeneficiaries();
           this.domesticTransferForm.reset()
-          this.isSubmitted = false;
+          this.isDomesticFormSubmitted = false;
         },
         error: (err) => {
           this.errorMessage = err.message;
-          this.isSubmitted = false;
+          this.isDomesticFormSubmitted = false;
         }
       })
     }
   }
 
+  submitInternationalTransfer() {
+    this.errorMessage = '';
+    this.isInternationalFormSubmitted = true;
+    if (this.internationalTranferForm.valid) {
+      const transactionRequest: transferRequestDto = {
+        toAcct: this.internationalTranferForm.controls['interRecipientAccount'].value,
+        fromacct: this.checkingAccount.accountNumber,
+        bank: this.internationalTranferForm.controls['interRecipientBank'].value,
+        amount: this.internationalTranferForm.controls['interAmount'].value,
+        pin: this.internationalTranferForm.controls['interPin'].value,
+        addBeneficary: this.internationalTranferForm.controls['interSaveBeneficiary'].value
+      }
+      this.transactionServe.submitTransferRequest(transactionRequest).subscribe({
+        next: (res: string) => {
+          this.getAccountList();
+          this.getBeneficiaries();
+          this.internationalTranferForm.reset()
+          this.isInternationalFormSubmitted = false;
+        },
+        error: (err) => {
+          this.errorMessage = err.message;
+          this.isInternationalFormSubmitted = false;
+        }
+      })
+    }
+  }
 
+  setupAmountChangeSubscription(): void {
+    const interAmountControl = this.internationalTranferForm.get('interAmount');
+    const rateControl = this.internationalTranferForm.get('rate');
+
+    if (interAmountControl && rateControl) {
+      interAmountControl.valueChanges.subscribe((amount: number) => {
+        if (amount !== null && amount !== undefined) {
+          // Calculate the rate based on the amount (multiply by 1000)
+          const rate = amount * 1000;
+          // Update the value of the rate control
+          rateControl.setValue(rate);
+        }
+      });
+    }
+  }
 
   options = {
     defaultTabId: 'domestic',

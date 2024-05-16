@@ -5,7 +5,6 @@ import { getCookie } from 'typescript-cookie';
 
 export class RequestInterceptorService implements HttpInterceptor {
     private loginOrRegisterEndpoints: string[] = ['/login', '/register', '/register-admin'];
-    private userToken = getCookie("userToken");
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const isLoginOrRegisterRequest = this.loginOrRegisterEndpoints.some(endpoint => request.url.includes(endpoint));
@@ -17,10 +16,10 @@ export class RequestInterceptorService implements HttpInterceptor {
         if (isLoginOrRegisterRequest) {
             return next.handle(modifiedRequest);
         }
-        
+        const userToken = getCookie("userToken");
         const requestWithAuthHeader = modifiedRequest.clone({
             setHeaders: {
-                Authorization: `bearer ${this.userToken}` 
+                Authorization: `bearer ${userToken}`
             }
         });
 
