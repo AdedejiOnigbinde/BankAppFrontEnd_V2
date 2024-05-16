@@ -7,12 +7,11 @@
         </div>
     </div>
 
-    <div id="accordion-color" data-accordion="collapse" class="mt-12">
-        <h2 id="accordion-color-heading-1" class="mb-0">
+    <div id="sidenav-accordion" class="mt-12">
+        <h2 id="account-section-heading" class="mb-0">
             <button type="button"
                 class="flex items-center justify-between w-full p-3 font-bold text-sm text-black bg-white"
-                data-accordion-target="#accordion-color-body-1" aria-expanded="true"
-                aria-controls="accordion-color-body-1">
+                aria-expanded="true" aria-controls="account-section-body">
                 <span class="font-mulish">Account</span>
                 <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -21,7 +20,7 @@
                 </svg>
             </button>
         </h2>
-        <div id="accordion-color-body-1" class="hidden" aria-labelledby="accordion-color-heading-1">
+        <div id="account-section-body" class="hidden" aria-labelledby="account-section-heading">
             <ul class="w-48 text-sm font-medium text-gray-900 bg-primaryGreenLightActive w-full ps-0">
                 <li class="w-full text-center py-2.5 border-y border-bg-primaryGreenLightHover flex items-center justify-center hover:bg-primaryGreenLightHover"
                     routerLink="/client">
@@ -48,11 +47,10 @@
 
 
 
-        <h2 id="accordion-color-heading-2" class="mt-4 mb-0">
+        <h2 id="loan-section-header" class="mt-4 mb-0">
             <button type="button"
                 class="flex items-center justify-between w-full p-3 font-bold text-sm text-black bg-white gap-3"
-                data-accordion-target="#accordion-color-body-2" aria-expanded="false"
-                aria-controls="accordion-color-body-2">
+                aria-expanded="false" aria-controls="loan-section-body">
                 <span class="font-mulish">Loan</span>
                 <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -61,7 +59,7 @@
                 </svg>
             </button>
         </h2>
-        <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
+        <div id="loan-section-body" class="hidden" aria-labelledby="loan-section-header">
             <ul class="w-48 text-sm font-medium text-gray-900 bg-primaryGreenLightActive w-full ps-0">
                 <li class="w-full text-center py-2.5 border-y border-bg-primaryGreenLightHover flex items-center justify-center hover:bg-primaryGreenLightHover"
                     routerLink="/client/getloan">
@@ -77,11 +75,10 @@
         </div>
 
 
-        <h2 id="accordion-color-heading-3" class="mt-4 mb-0">
+        <h2 id="bill-section-header" class="mt-4 mb-0">
             <button type="button"
                 class="flex items-center justify-between w-full p-3 font-bold text-sm text-black bg-white gap-3"
-                data-accordion-target="#accordion-color-body-3" aria-expanded="false"
-                aria-controls="accordion-color-body-3">
+                aria-expanded="false" aria-controls="bill-section-body">
                 <span class="font-mulish">Bill Payment</span>
                 <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -90,7 +87,7 @@
                 </svg>
             </button>
         </h2>
-        <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
+        <div id="bill-section-body" class="hidden" aria-labelledby="bill-section-header">
             <ul class="w-48 text-sm font-medium text-gray-900 bg-primaryGreenLightActive w-full ps-0">
                 <li
                     class="w-full text-center py-2.5 border-y border-bg-primaryGreenLightHover flex items-center justify-center hover:bg-primaryGreenLightHover">
@@ -100,11 +97,10 @@
             </ul>
         </div>
 
-        <h2 id="accordion-color-heading-4" class="mt-4 mb-0">
+        <h2 id="profile-section-header" class="mt-4 mb-0">
             <button type="button"
                 class="flex items-center justify-between w-full p-3 font-bold text-sm text-black bg-white gap-3"
-                data-accordion-target="#accordion-color-body-4" aria-expanded="false"
-                aria-controls="accordion-color-body-2">
+                aria-expanded="false" aria-controls="profile-section-body">
                 <span class="font-mulish">Profile</span>
                 <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -113,14 +109,14 @@
                 </svg>
             </button>
         </h2>
-        <div id="accordion-color-body-4" class="hidden" aria-labelledby="accordion-color-heading-4">
+        <div id="profile-section-body" class="hidden" aria-labelledby="profile-section-header">
             <ul class="w-48 text-sm font-medium text-gray-900 bg-primaryGreenLightActive w-full ps-0">
                 <li
                     class="w-full text-center py-2.5 border-y border-bg-primaryGreenLightHover flex items-center justify-center hover:bg-primaryGreenLightHover">
                     <iconify-icon icon="tabler:settings" class="text-base black"></iconify-icon>
                     <span class="text-black font-mulish font-bold ms-2 text-base">Settings</span>
                 </li>
-                <li
+                <li (click)="logout()"
                     class="w-full py-2.5 border-b border-bg-primaryGreenLightHover flex items-center justify-center hover:bg-primaryGreenLightHover">
                     <iconify-icon icon="tabler:logout" class="text-base black"></iconify-icon>
                     <span class="text-black font-mulish font-bold ms-2 text-base">Log Out</span>

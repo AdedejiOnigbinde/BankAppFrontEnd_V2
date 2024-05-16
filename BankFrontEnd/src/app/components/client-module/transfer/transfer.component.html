@@ -45,19 +45,23 @@
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
                   id="domAccountInput" aria-label="Account number" formControlName="recipientAccount"
                   [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].errors}">
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('required')"
+                <div
+                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('required')"
                   class="text-red-600">
                   This Field Is Required
                 </div>
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('pattern')"
+                <div
+                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('pattern')"
                   class="text-red-600">
                   Only Numbers Are Allowed
                 </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('min')"
+                <div
+                  *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('min')"
                   class="text-red-600">
                   Minimum Length Is 12 Numbers
                 </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('max')"
+                <div
+                  *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('max')"
                   class="text-red-600">
                   Maximum Length Is 12 Numbers
                 </div>
@@ -70,11 +74,13 @@
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
                   id="domBankInput" aria-label="Bank" formControlName="recipientBank"
                   [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].errors}">
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('required')"
+                <div
+                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('required')"
                   class="text-red-600">
                   This Field Is Required
                 </div>
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('pattern')"
+                <div
+                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('pattern')"
                   class="text-red-600">
                   Only Letters Are Allowed
                 </div>
@@ -120,10 +126,12 @@
                   class="text-red-600">
                   Only Numbers Are Allowed
                 </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('min')" class="text-red-600">
+                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('min')"
+                  class="text-red-600">
                   Minimum Length Is 4 Numbers
                 </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('max')" class="text-red-600">
+                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('max')"
+                  class="text-red-600">
                   Maximum Length Is 4 Numbers
                 </div>
 
@@ -168,11 +176,13 @@
                   class="text-red-600">
                   Only Numbers Are Allowed
                 </div>
-                <div *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('min')"
+                <div
+                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('min')"
                   class="text-red-600">
                   Minimum Length Is 12 Numbers
                 </div>
-                <div *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('max')"
+                <div
+                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('max')"
                   class="text-red-600">
                   Maximum Length Is 12 Numbers
                 </div>
@@ -189,7 +199,8 @@
                   class="text-red-600">
                   This Field Is Required
                 </div>
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientBank'].hasError('pattern')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientBank'].hasError('pattern')"
                   class="text-red-600">
                   Only Letters Are Allowed
                 </div>
@@ -205,15 +216,18 @@
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
                   id="interAmountInput" aria-label="Amount" formControlName="interAmount"
                   [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].errors}">
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('required')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('required')"
                   class="text-red-600">
                   This Field Is Required
                 </div>
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('pattern')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('pattern')"
                   class="text-red-600">
                   Only Numbers Are Allowed
                 </div>
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('min')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('min')"
                   class="text-red-600">
                   Value Must Be Greater Than Zero
                 </div>
@@ -225,19 +239,23 @@
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
                   id="interPinInput" aria-label="Pin" formControlName="interPin"
                   [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].errors}">
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('required')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('required')"
                   class="text-red-600">
                   This Field Is Required
                 </div>
-                <div *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('pattern')"
+                <div
+                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('pattern')"
                   class="text-red-600">
                   Only Numbers Are Allowed
                 </div>
-                <div *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('min')"
+                <div
+                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('min')"
                   class="text-red-600">
                   Minimum Length Is 4 Numbers
                 </div>
-                <div *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('max')"
+                <div
+                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('max')"
                   class="text-red-600">
                   Maximum Length Is 4 Numbers
                 </div>
@@ -270,8 +288,7 @@
             </div>
 
             <div class="flex items-center pb-8">
-              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox"
-                id="interAddBeneficiary">
+              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" id="interAddBeneficiary">
               <label class="text-base font-mulish font-medium" for="interAddBeneficiary"
                 formControlName="interSaveBeneficiary">
                 Add to Beneficiary
@@ -288,17 +305,17 @@
 
 
         <div class="hidden" id="interbankTransfer" role="tabpanel" aria-labelledby="interbankTransfer-tab">
-          <form>
+          <form [formGroup]="interBankTranferForm">
             <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
               <div>
                 <label for="intraAccountInput" class="font-mulish font-medium text-sm block mb-2">Transfer From</label>
                 <select type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAccountInput" aria-label="Account number">
+                  id="intraAccountInput" aria-label="Account number" formControlName="senderAccount">
                   <option value="">Select Account</option>
-                  <option value="0427541108">0427541108</option>
-                  <option value="0427541108">0427541108</option>
+                  <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
+                    }}</option>
                 </select>
               </div>
 
@@ -306,10 +323,10 @@
                 <label for="intraBankInput" class="font-mulish font-medium text-sm block mb-2">Transfer To</label>
                 <select type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraBankInput" aria-label="Bank">
+                  id="intraBankInput" aria-label="Bank" formControlName="interRecipientAccount">
                   <option value="">Select Account</option>
-                  <option value="0427541108">0427541108</option>
-                  <option value="0427541108">0427541108</option>
+                  <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
+                    }}</option>
                 </select>
               </div>
 
@@ -321,14 +338,14 @@
                 <label for="intraAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
                 <input type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAmountInput" aria-label="Amount">
+                  id="intraAmountInput" aria-label="Amount" formControlName="amount">
               </div>
 
               <div>
                 <label for="intraPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
-                <input type="text"
+                <input type="password"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraPinInput" aria-label="Pin">
+                  id="intraPinInput" aria-label="Pin" formControlName="pin">
               </div>
 
             </div>

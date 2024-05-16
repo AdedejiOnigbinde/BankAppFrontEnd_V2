@@ -21,6 +21,7 @@ export class TransferComponent implements OnInit {
   transferLimitUpperBound: number = 0;
   transferLimitPercentage: number = 0;
   beneficiaryList: beneficiaryDto[];
+  accountList: accountDto[];
   errorMessage: string = "";
   domesticTransferForm: FormGroup;
   internationalTranferForm: FormGroup;
@@ -31,7 +32,6 @@ export class TransferComponent implements OnInit {
     this.initializeTabs();
     this.getAccountList();
     this.getBeneficiaries();
-    this.setupAmountChangeSubscription();
     this.domesticTransferForm = this.formBuilder.group({
       recipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
       recipientBank: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
@@ -47,11 +47,25 @@ export class TransferComponent implements OnInit {
       interSaveBeneficiary: [false],
       rate: []
     })
+    this.interBankTranferForm = this.formBuilder.group({
+      recipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
+      senderAccount: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
+      amount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      pin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
+    })
+    this.internationalTranferForm.controls['interAmount'].valueChanges.subscribe((amount: number) => {
+      let exchangeRate = amount / 1000;
+      let formattedExchangeRate = this.formatCurrency(exchangeRate);
+      this.internationalTranferForm.patchValue({
+        rate: formattedExchangeRate
+      });
+    });
   }
 
   getAccountList() {
     this.accountServe.getAllClientsAccounts().subscribe({
       next: (res: accountDto[]) => {
+        this.accountList = res;
         this.getCheckingAccount(res)
       },
       error: (err) => {
@@ -137,21 +151,7 @@ export class TransferComponent implements OnInit {
     }
   }
 
-  setupAmountChangeSubscription(): void {
-    const interAmountControl = this.internationalTranferForm.get('interAmount');
-    const rateControl = this.internationalTranferForm.get('rate');
 
-    if (interAmountControl && rateControl) {
-      interAmountControl.valueChanges.subscribe((amount: number) => {
-        if (amount !== null && amount !== undefined) {
-          // Calculate the rate based on the amount (multiply by 1000)
-          const rate = amount * 1000;
-          // Update the value of the rate control
-          rateControl.setValue(rate);
-        }
-      });
-    }
-  }
 
   options = {
     defaultTabId: 'domestic',
@@ -179,6 +179,10 @@ export class TransferComponent implements OnInit {
       },
     ];
     this.tabs = new Tabs(this.tabsElement, this.tabElements, this.options);
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
   }
 
 }
