@@ -17,12 +17,16 @@ export class TransferComponent implements OnInit {
   tabs!: Tabs;
   isDomesticFormSubmitted: boolean = false;
   isInternationalFormSubmitted: boolean = false;
+  isinterBankTranferFormSubmitted: boolean = false;
   checkingAccount: accountDto;
   transferLimitUpperBound: number = 0;
   transferLimitPercentage: number = 0;
   beneficiaryList: beneficiaryDto[];
   accountList: accountDto[];
   errorMessage: string = "";
+  dTerrorMessage: string = "";
+  iTerrorMessage: string = "";
+  iBerrorMessage: string = "";
   domesticTransferForm: FormGroup;
   internationalTranferForm: FormGroup;
   interBankTranferForm: FormGroup;
@@ -48,8 +52,8 @@ export class TransferComponent implements OnInit {
       rate: []
     })
     this.interBankTranferForm = this.formBuilder.group({
-      recipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
-      senderAccount: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
+      recipientAccount: ['', Validators.required],
+      senderAccount: ['', Validators.required],
       amount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
       pin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
     })
@@ -98,7 +102,7 @@ export class TransferComponent implements OnInit {
   }
 
   submitDomesticTransfer() {
-    this.errorMessage = '';
+    this.dTerrorMessage = '';
     this.isDomesticFormSubmitted = true;
     if (this.domesticTransferForm.valid) {
       const transactionRequest: transferRequestDto = {
@@ -117,7 +121,7 @@ export class TransferComponent implements OnInit {
           this.isDomesticFormSubmitted = false;
         },
         error: (err) => {
-          this.errorMessage = err.message;
+          this.dTerrorMessage= err.message;
           this.isDomesticFormSubmitted = false;
         }
       })
@@ -125,7 +129,7 @@ export class TransferComponent implements OnInit {
   }
 
   submitInternationalTransfer() {
-    this.errorMessage = '';
+    this.iTerrorMessage = '';
     this.isInternationalFormSubmitted = true;
     if (this.internationalTranferForm.valid) {
       const transactionRequest: transferRequestDto = {
@@ -144,12 +148,43 @@ export class TransferComponent implements OnInit {
           this.isInternationalFormSubmitted = false;
         },
         error: (err) => {
-          this.errorMessage = err.message;
+          this.iTerrorMessage = err.message;
           this.isInternationalFormSubmitted = false;
         }
       })
     }
   }
+
+  submitInterbankTransfer() {
+    this.iBerrorMessage = '';
+    this.isinterBankTranferFormSubmitted = true;
+    if (this.interBankTranferForm.controls['recipientAccount'].value === this.interBankTranferForm.controls['senderAccount'].value) {
+      this.iBerrorMessage = "Cannot Make A Transfer The To Same Account"
+    }
+    else if (this.interBankTranferForm.valid) {
+      const transactionRequest: transferRequestDto = {
+        toAcct: this.interBankTranferForm.controls['recipientAccount'].value,
+        fromacct: this.interBankTranferForm.controls['senderAccount'].value,
+        bank: '',
+        amount: this.interBankTranferForm.controls['amount'].value,
+        pin: this.interBankTranferForm.controls['pin'].value,
+        addBeneficary: false
+      }
+      this.transactionServe.submitInnerBankTransferRequest(transactionRequest).subscribe({
+        next: (res: string) => {
+          this.getAccountList();
+          this.getBeneficiaries();
+          this.internationalTranferForm.reset()
+          this.isinterBankTranferFormSubmitted  = false;
+        },
+        error: (err) => {
+          this.iBerrorMessage = err.message;
+          this.isinterBankTranferFormSubmitted  = false;
+        }
+      })
+    }
+  }
+
 
 
 

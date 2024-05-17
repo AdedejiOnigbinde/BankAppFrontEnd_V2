@@ -32,8 +32,8 @@
 
         <div class="hidden" id="domesticTransfer" role="tabpanel" aria-labelledby="domesticTransfer-tab">
           <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
-            *ngIf="this.errorMessage">
-            <span class="font-medium text-center">{{this.errorMessage}}</span>
+            *ngIf="this.dTerrorMessage">
+            <span class="font-medium text-center">{{this.dTerrorMessage}}</span>
           </div>
           <form [formGroup]="domesticTransferForm" (ngSubmit)="submitDomesticTransfer()">
             <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
@@ -156,6 +156,10 @@
 
 
         <div class="hidden" id="internationalTransfer" role="tabpanel" aria-labelledby="internationalTransfer-tab">
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+            *ngIf="this.iTerrorMessage">
+            <span class="font-medium text-center">{{this.iTerrorMessage}}</span>
+          </div>
           <form [formGroup]="internationalTranferForm" (ngSubmit)="submitInternationalTransfer()">
             <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
@@ -288,9 +292,9 @@
             </div>
 
             <div class="flex items-center pb-8">
-              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" id="interAddBeneficiary">
-              <label class="text-base font-mulish font-medium" for="interAddBeneficiary"
+              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" id="interAddBeneficiary"
                 formControlName="interSaveBeneficiary">
+              <label class="text-base font-mulish font-medium" for="interAddBeneficiary">
                 Add to Beneficiary
               </label>
             </div>
@@ -305,29 +309,45 @@
 
 
         <div class="hidden" id="interbankTransfer" role="tabpanel" aria-labelledby="interbankTransfer-tab">
-          <form [formGroup]="interBankTranferForm">
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+            *ngIf="this.iBerrorMessage">
+            <span class="font-medium text-center">{{this.iBerrorMessage}}</span>
+          </div>
+          <form [formGroup]="interBankTranferForm" (ngSubmit)="submitInterbankTransfer()">
             <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
               <div>
                 <label for="intraAccountInput" class="font-mulish font-medium text-sm block mb-2">Transfer From</label>
                 <select type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAccountInput" aria-label="Account number" formControlName="senderAccount">
+                  id="intraAccountInput" aria-label="Account number" formControlName="senderAccount"
+                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['senderAccount'].errors}">
                   <option value="">Select Account</option>
                   <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
                     }}</option>
                 </select>
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['senderAccount'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
               </div>
 
               <div>
                 <label for="intraBankInput" class="font-mulish font-medium text-sm block mb-2">Transfer To</label>
                 <select type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraBankInput" aria-label="Bank" formControlName="interRecipientAccount">
+                  id="intraBankInput" aria-label="Bank" formControlName="recipientAccount"
+                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['recipientAccount'].errors}">
                   <option value="">Select Account</option>
                   <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
                     }}</option>
                 </select>
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['recipientAccount'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
               </div>
 
             </div>
@@ -338,14 +358,48 @@
                 <label for="intraAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
                 <input type="text"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAmountInput" aria-label="Amount" formControlName="amount">
+                  id="intraAmountInput" aria-label="Amount" formControlName="amount"
+                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].errors}">
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Numbers Are Allowed
+                </div>
+                <div *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('min')"
+                  class="text-red-600">
+                  Value Must Be Greater Than Zero
+                </div>
               </div>
 
               <div>
                 <label for="intraPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
                 <input type="password"
                   class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraPinInput" aria-label="Pin" formControlName="pin">
+                  id="intraPinInput" aria-label="Pin" formControlName="pin"
+                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].errors}">
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('required')"
+                  class="text-red-600">
+                  This Field Is Required
+                </div>
+                <div
+                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('pattern')"
+                  class="text-red-600">
+                  Only Numbers Are Allowed
+                </div>
+                <div *ngIf="isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('min')"
+                  class="text-red-600">
+                  Minimum Length Is 4 Numbers
+                </div>
+                <div *ngIf="isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('max')"
+                  class="text-red-600">
+                  Maximum Length Is 4 Numbers
+                </div>
               </div>
 
             </div>
