@@ -10,7 +10,7 @@ export class TransactionService {
 
   constructor(private http: HttpClient) { }
   getAllRecentTransactions(): Observable<transactionDto[]> {
-    return this.http.get<transactionDto[]>("transaction/recent")
+    return this.http.get<transactionDto[]>("transaction/recent");
   }
 
 

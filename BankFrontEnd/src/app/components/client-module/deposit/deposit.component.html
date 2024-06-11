@@ -4,7 +4,11 @@
         <div class="bg-white rounded-lg h-full">
 
             <div class="p-6 overflow-y-auto">
-                <form>
+                <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
+                    *ngIf="this.errorMessage">
+                    <span class="font-medium text-center">{{this.errorMessage}}</span>
+                </div>
+                <form [formGroup]="depositRequestForm" (ngSubmit)="createDepositRequest()">
                     <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-3">
 
                         <div>
@@ -12,15 +16,42 @@
                                 Number</label>
                             <input type="text"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="checkNumberInput" aria-label="Account number">
+                                id="checkNumberInput" formControlName="checkNumber"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['checkNumber'].errors}">
+                            <div *ngIf=" depositRequestFormSubmitted && depositRequestForm.controls['checkNumber'].hasError('required')"
+                                class="text-red-600">
+                                This Field Is Required
+                            </div>
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['checkNumber'].hasError('pattern')"
+                                class="text-red-600">
+                                Only Numbers Are Allowed
+                            </div>
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['checkNumber'].hasError('maxlength')"
+                                class="text-red-600">
+                                The Check Number Can Only Be A Maximum Of 25 Digits
+                            </div>
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['checkNumber'].hasError('minlength')"
+                                class="text-red-600">
+                                The Check Number Must Be A Minimum Of 21 Digits
+                            </div>
+
                         </div>
 
                         <div>
                             <label for="checkAmountInput" class="font-mulish font-medium text-sm block mb-2">Check
                                 Amount</label>
-                            <input type="text"
+                            <input type="number"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="checkAmountInput" aria-label="Bank">
+                                formControlName="checkAmount"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['checkAmount'].errors}">
+                            <div *ngIf=" depositRequestFormSubmitted && depositRequestForm.controls['checkAmount'].hasError('required')"
+                                class="text-red-600">
+                                This Field Is Required
+                            </div>
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['checkAmount'].hasError('min')"
+                                class="text-red-600">
+                                Value Must Be Greater Than Zero
+                            </div>
                         </div>
 
                     </div>
@@ -32,7 +63,16 @@
                                 From</label>
                             <input type="text"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="recipientBankInput" aria-label="Amount">
+                                formControlName="checkBank"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['checkBank'].errors}">
+                            <div *ngIf=" depositRequestFormSubmitted && depositRequestForm.controls['checkBank'].hasError('required')"
+                                class="text-red-600">
+                                This Field Is Required
+                            </div>
+                            <div *ngIf=" depositRequestFormSubmitted && depositRequestForm.controls['checkBank'].hasError('pattern')"
+                                class="text-red-600">
+                                Only Letters Are Allowed
+                            </div>
                         </div>
 
                         <div>
@@ -40,7 +80,12 @@
                                 class="font-mulish font-medium text-sm block mb-2">Description</label>
                             <input type="text"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="descriptionInput" aria-label="Pin">
+                                formControlName="description"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['description'].errors}">
+                            <div *ngIf=" depositRequestFormSubmitted && depositRequestForm.controls['description'].hasError('pattern')"
+                                class="text-red-600">
+                                Only Letters Are Allowed
+                            </div>
                         </div>
 
                     </div>
@@ -50,17 +95,28 @@
                     <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-8">
 
                         <div>
-                            <label for="checkingsInput" class="font-mulish font-medium text-sm block mb-2">Checkings</label>
-                            <input type="text"
+                            <label for="checkingsInput"
+                                class="font-mulish font-medium text-sm block mb-2">Checkings</label>
+                            <input type="number"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="checkingsInput" aria-label="Amount">
+                                id="checkingsInput" formControlName="splitCheckingAmount"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['splitCheckingAmount'].errors}">
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['splitCheckingAmount'].hasError('min')"
+                                class="text-red-600">
+                                Value Cannot Be Less Than Zero
+                            </div>
                         </div>
 
                         <div>
                             <label for="savingsInput" class="font-mulish font-medium text-sm block mb-2">Savings</label>
-                            <input type="text"
+                            <input type="number"
                                 class="border border-black block w-full rounded-md h-12 focus:ring-4 focus:ring-primaryGreenLightActive"
-                                id="savingsInput" aria-label="Pin">
+                                id="savingsInput" formControlName="splitSavingsAmount"
+                                [ngClass]="{'is-invalid':depositRequestFormSubmitted && depositRequestForm.controls['splitSavingsAmount'].errors}">
+                            <div *ngIf="depositRequestFormSubmitted && depositRequestForm.controls['splitSavingsAmount'].hasError('min')"
+                                class="text-red-600">
+                                Value Cannot Be Less Than Zero
+                            </div>
                         </div>
 
                     </div>
@@ -78,13 +134,16 @@
     <div class="lg:col-span-4">
         <div class="bg-white rounded-lg h-full">
             <div class="bg-white pt-10 pb-3.5 border-b border-slate-300 rounded-t-lg">
-                <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>{{50000| currency:'NGN': true}}</b></h4>
+                <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit: <b>{{50000| currency:'NGN':
+                        true}}</b></h4>
             </div>
             <div class="p-6">
                 <div class="py-3.5">
                     <div class="flex justify-between">
-                        <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{2000| currency:'NGN': true}}</p>
-                        <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{48000| currency:'NGN': true}}</p>
+                        <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{2000| currency:'NGN':
+                            true}}</p>
+                        <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{48000| currency:'NGN':
+                            true}}</p>
                     </div>
                     <div class="w-full h-8 bg-gray-200 rounded-md">
                         <div class="h-8 bg-primaryGreenLightActive rounded-md" style="width: 45%"></div>
@@ -121,23 +180,25 @@
                     </th>
                 </tr>
             </thead>
-            <tbody *ngFor="let transaction of depositTransactions">
+            <tbody *ngFor="let deposit of depositTransactions">
                 <tr class="bg-white border-b border-slate-300">
                     <th scope="row" class="px-6 py-4">
-                        {{transaction.transactionDate}}
+                        {{deposit.requestDate | date: "shortDate"}}
                     </th>
-                    <td class="px-6 py-4">
-                        {{transaction.checknumber}}
+                    <td class="px-6 py-4 text-center">
+                        {{deposit.checkNumber}}
                     </td>
-                    <td class="px-6 py-4 text-errorDarkHoverr">
-                        {{ transaction.transAmount| currency:'NGN': true }}
+                    <td class="px-6 py-4 text-successDarkHover text-center">
+                        +{{ deposit.checkAmount| currency:'NGN': true }}
                     </td>
-                    <td class="px-6 py-4" [ngClass]="{
-              'bg-green-500': transaction.transStatus === 'success',
-              'bg-red-500': transaction.transStatus === 'failure',
-              'bg-yellow-500': transaction.transStatus === 'pending'
-            }">
-                        {{ transaction.transStatus }}
+                    <td class="px-6 py-4 text-center">
+                        <p class="py-2 rounded-lg capitalize" [ngClass]="{
+                'bg-successLight text-successDarker': deposit.status === 'approved',
+                'bg-errorLight text-errorDarker': deposit.status === 'rejected',
+                'bg-warningLight text-warningDarker': deposit.status === 'in review'
+              }">
+                            {{deposit.status }}
+                        </p>
                     </td>
                 </tr>
             </tbody>

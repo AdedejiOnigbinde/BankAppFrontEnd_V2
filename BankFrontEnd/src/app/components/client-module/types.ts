@@ -33,9 +33,30 @@ export type beneficiaryDto = {
 
 export type transferRequestDto = {
     toAcct: number;
-    fromacct: number; 
+    fromacct: number;
     bank: string;
     amount: number;
     pin: number;
     addBeneficary: boolean;
+}
+
+export type depositRequestDto = {
+    depositRequestId: number;
+    checkNumber: string;
+    checkBank: string;
+    checkAmount: number;
+    description: string;
+    status: string;
+    requestDate: string;
+    splitCheckingAmount: number;
+    splitSavingsAmount: number;
+}
+
+export type depositRequestPayload = {
+    checkNumber: number;
+    checkBank: string;
+    checkAmount: number;
+    description?: string;
+    splitCheckingAmount?: number;
+    splitSavingsAmount?: number;
 }
