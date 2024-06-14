@@ -59,9 +59,9 @@ export class ClientModuleComponent implements OnInit {
   getAccountNumbers(accountsArray: accountDto[]) {
     accountsArray.forEach(account => {
       if (account.accountType === "savings") {
-        this.checkingAccountNum = account.accountNumber
-      } else {
         this.savingsAccountNum = account.accountNumber
+      } else {
+        this.checkingAccountNum = account.accountNumber
       }
     })
   }
