@@ -12,13 +12,13 @@ export class AuthServiceService {
     return this.http.post<loginResponse>("auth/login", loginData)
   }
 
-  register(registerData:registerFormData, userType: string): Observable<string> {
+  register(registerData: registerFormData, userType: string): Observable<string> {
     let registerLink = null;
     if (userType == "Admin") {
       registerLink = "register-admin"
     } else if (userType == "Client") {
       registerLink = "register"
     }
-    return this.http.post<string>(`auth/${registerLink}`, registerData)
+    return this.http.post(`auth/${registerLink}`, registerData, { responseType: 'text' })
   }
 } 

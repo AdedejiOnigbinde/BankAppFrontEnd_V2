@@ -133,10 +133,19 @@
                             class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                             id="passwordInput" formControlName="password"
                             [ngClass]="{'is-invalid':submitted && registerForm.controls['password'].errors}">
-                        <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
+                        <div *ngIf=" submitted && registerForm.controls['password'].hasError('required')"
                             class="text-red-600">
                             This Field Is Required
                         </div>
+                        <div *ngIf=" submitted && registerForm.controls['password'].hasError('minlength')"
+                            class="text-red-600">
+                            Password Must Be 8 Characters long
+                        </div>
+                        <div *ngIf=" submitted && registerForm.controls['password'].hasError('maxlength')"
+                            class="text-red-600">
+                            Password Can Ba A Maximum Of 16 Characters long
+                        </div>
+                        
                     </div>
 
                     <form [formGroup]="extraInfoForm">

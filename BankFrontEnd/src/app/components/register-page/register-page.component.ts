@@ -33,6 +33,9 @@ export class RegisterPageComponent implements OnInit {
   }
 
   register(): void {
+    debugger;
+    this.successMessage ='';
+    this.errorMessage='';
     this.submitted = true
     if (this.extraInfoForm.controls['cPassword'].value != this.registerForm.controls['password'].value) {
       this.errorMessage = "Passwords Do Not Match";
@@ -46,6 +49,7 @@ export class RegisterPageComponent implements OnInit {
         },
         error: (err) => {
           this.errorMessage = err.error;
+          this.submitted = false
         }
       })
     }
