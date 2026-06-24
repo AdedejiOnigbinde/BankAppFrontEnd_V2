@@ -9,7 +9,6 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RequestInterceptorService } from './request-interceptor.service';
 
 
@@ -28,8 +27,6 @@ import { RequestInterceptorService } from './request-interceptor.service';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    CarouselModule,
-
   ],
   exports: [],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true }],

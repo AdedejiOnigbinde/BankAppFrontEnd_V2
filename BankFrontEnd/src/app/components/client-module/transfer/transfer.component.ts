@@ -27,6 +27,9 @@ export class TransferComponent implements OnInit {
   dTerrorMessage: string = "";
   iTerrorMessage: string = "";
   iBerrorMessage: string = "";
+  dTsuccessMessage: string = "";
+  iTsuccessMessage: string = "";
+  iBsuccessMessage: string = "";
   domesticTransferForm: FormGroup;
   internationalTranferForm: FormGroup;
   interBankTranferForm: FormGroup;
@@ -90,19 +93,17 @@ export class TransferComponent implements OnInit {
   }
 
   getCheckingAccount(accountsArray: accountDto[]) {
-    accountsArray.forEach(account => {
-      if (account.accountType === "checkings") {
-        this.checkingAccount = account;
-        this.transferLimitUpperBound = this.checkingAccount.dailyTransferLimit - this.checkingAccount.calcLimit;
-        this.transferLimitPercentage = (this.checkingAccount.calcLimit / this.checkingAccount.dailyTransferLimit) * 100;
-      } else {
-        this.checkingAccount = null;
-      }
-    })
+    const checking = accountsArray.find(a => a.accountType === 'checkings');
+    this.checkingAccount = checking ?? null;
+    if (checking) {
+      this.transferLimitUpperBound = checking.dailyTransferLimit - checking.calcLimit;
+      this.transferLimitPercentage = (checking.calcLimit / checking.dailyTransferLimit) * 100;
+    }
   }
 
   submitDomesticTransfer() {
     this.dTerrorMessage = '';
+    this.dTsuccessMessage = '';
     this.isDomesticFormSubmitted = true;
     if (this.domesticTransferForm.valid) {
       const transactionRequest: transferRequestDto = {
@@ -115,13 +116,14 @@ export class TransferComponent implements OnInit {
       }
       this.transactionServe.submitTransferRequest(transactionRequest).subscribe({
         next: (res: string) => {
+          this.dTsuccessMessage = res || 'Transfer submitted successfully.';
           this.getAccountList();
           this.getBeneficiaries();
-          this.domesticTransferForm.reset()
+          this.domesticTransferForm.reset();
           this.isDomesticFormSubmitted = false;
         },
         error: (err) => {
-          this.dTerrorMessage= err.message;
+          this.dTerrorMessage = err.message;
           this.isDomesticFormSubmitted = false;
         }
       })
@@ -130,6 +132,7 @@ export class TransferComponent implements OnInit {
 
   submitInternationalTransfer() {
     this.iTerrorMessage = '';
+    this.iTsuccessMessage = '';
     this.isInternationalFormSubmitted = true;
     if (this.internationalTranferForm.valid) {
       const transactionRequest: transferRequestDto = {
@@ -142,9 +145,10 @@ export class TransferComponent implements OnInit {
       }
       this.transactionServe.submitTransferRequest(transactionRequest).subscribe({
         next: (res: string) => {
+          this.iTsuccessMessage = res || 'Transfer submitted successfully.';
           this.getAccountList();
           this.getBeneficiaries();
-          this.internationalTranferForm.reset()
+          this.internationalTranferForm.reset();
           this.isInternationalFormSubmitted = false;
         },
         error: (err) => {
@@ -157,9 +161,10 @@ export class TransferComponent implements OnInit {
 
   submitInterbankTransfer() {
     this.iBerrorMessage = '';
+    this.iBsuccessMessage = '';
     this.isinterBankTranferFormSubmitted = true;
     if (this.interBankTranferForm.controls['recipientAccount'].value === this.interBankTranferForm.controls['senderAccount'].value) {
-      this.iBerrorMessage = "Cannot Make A Transfer The To Same Account"
+      this.iBerrorMessage = "Cannot Make A Transfer To The Same Account";
     }
     else if (this.interBankTranferForm.valid) {
       const transactionRequest: transferRequestDto = {
@@ -172,14 +177,15 @@ export class TransferComponent implements OnInit {
       }
       this.transactionServe.submitInnerBankTransferRequest(transactionRequest).subscribe({
         next: (res: string) => {
+          this.iBsuccessMessage = res || 'Transfer submitted successfully.';
           this.getAccountList();
           this.getBeneficiaries();
-          this.internationalTranferForm.reset()
-          this.isinterBankTranferFormSubmitted  = false;
+          this.interBankTranferForm.reset();
+          this.isinterBankTranferFormSubmitted = false;
         },
         error: (err) => {
           this.iBerrorMessage = err.message;
-          this.isinterBankTranferFormSubmitted  = false;
+          this.isinterBankTranferFormSubmitted = false;
         }
       })
     }

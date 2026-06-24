@@ -1,7 +1,7 @@
 <main>
-    <div class="container mx-auto flex flex-col items-center justify-center min-h-screen">
+    <div class="container mx-auto flex flex-col items-center justify-center min-h-screen px-4 py-8">
         <i class="bi bi-bank text-2xl text-white mb-4">&nbsp;<span>Handle Money</span></i>
-        <div class="bg-white rounded">
+        <div class="bg-white rounded w-full max-w-lg">
             <div class="p-5">
                 <h5 class="mb-3 font-mulish text-2xl text-center text-primaryGreen">Join Us</h5>
                 <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
@@ -19,8 +19,8 @@
                                 <label for="firstNameInput" class="pb-2 text-primaryGreen font-mulish">First
                                     Name</label>
                                 <input type="text"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
-                                    id="fisrtNameInput" formControlName="firstName"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    id="firstNameInput" formControlName="firstName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['firstName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['firstName'].hasError('required')"
                                     class="text-red-600">
@@ -36,7 +36,7 @@
                             <div>
                                 <label for="lastNameInput" class="pb-2 text-primaryGreen font-mulish">Last Name</label>
                                 <input type="text"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                     id="lastNameInput" formControlName="lastName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['lastName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['lastName'].hasError('required')"
@@ -56,7 +56,7 @@
                             <div>
                                 <label for="userNameInput" class="pb-2 text-primaryGreen font-mulish">User Name</label>
                                 <input type="text"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                     id="userNameInput" formControlName="userName"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['userName'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['userName'].hasError('required')"
@@ -73,7 +73,7 @@
                             <div>
                                 <label for="addressInput" class="pb-2 text-primaryGreen font-mulish">Address</label>
                                 <input type="text"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                     id="addressInput" formControlName="address"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['address'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['address'].hasError('required')"
@@ -94,7 +94,7 @@
                                 <label for="pinNumberInput" class="pb-2 text-primaryGreen font-mulish">Pin
                                     Number</label>
                                 <input type="number"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                     id="pinNumberInput" formControlName="pinNumber"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['pinNumber'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['pinNumber'].hasError('required')"
@@ -112,7 +112,7 @@
                                 <label for="ssnInput" class="pb-2 text-primaryGreen font-mulish">Social Security
                                     Number</label>
                                 <input type="number"
-                                    class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                    class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                     id="ssnInput" formControlName="ssn"
                                     [ngClass]="{'is-invalid':submitted && registerForm.controls['ssn'].errors}">
                                 <div *ngIf=" submitted && registerForm.controls['ssn'].hasError('required')"
@@ -130,7 +130,7 @@
                     <div class="mb-3">
                         <label for="passwordInput" class="pb-2 text-primaryGreen font-mulish">Password</label>
                         <input type="password"
-                            class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                            class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                             id="passwordInput" formControlName="password"
                             [ngClass]="{'is-invalid':submitted && registerForm.controls['password'].errors}">
                         <div *ngIf=" submitted && registerForm.controls['password'].hasError('required')"
@@ -153,7 +153,7 @@
                             <label for="cPasswordInput" class="pb-2 text-primaryGreen font-mulish">Confirm
                                 Password</label>
                             <input type="password"
-                                class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                 id="cPasswordInput" formControlName="cPassword"
                                 [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['cPassword'].errors}">
                             <div *ngIf=" submitted && extraInfoForm.controls['cPassword'].hasError('required')"
@@ -165,7 +165,7 @@
                         <div class="mb-3">
                             <label for="userTypeInput" class="pb-2 text-primaryGreen font-mulish">User Type</label>
                             <select
-                                class="rounded block w-full border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
+                                class="rounded block w-full px-3 py-2 border border-slate-700 focus:border-primaryGreenLightActive focus:ring-4 focus:ring-primaryGreenLightActive"
                                 id="userTypeInput" formControlName="clientType"
                                 [ngClass]="{'is-invalid':submitted && extraInfoForm.controls['clientType'].errors}">
                                 <option value="Client">User</option>

@@ -4,21 +4,49 @@
   </div>
   <div class="h-screen bg-lightgray col-span-12 lg:col-span-10 overflow-x-hidden overflow-y-auto">
     <nav class="shadow-sm bg-white">
-      <div class="container mx-auto px-5 flex justify-between items-center py-6">
-        <div>
-          <h1 class="font-mulish text-2xl font-bold">
+      <div class="container mx-auto px-5 flex justify-between items-center py-4 lg:py-6">
+        <div class="min-w-0">
+          <h1 class="font-mulish text-xl lg:text-2xl font-bold truncate">
             {{headerText}}
           </h1>
-            <p class="font-mulish font-semibold text-lg text-slate-600 inline me-6" *ngIf="isClientRoute">Checkings - {{checkingAccountNum}}</p>
-            <p class="font-mulish font-semibold text-lg text-slate-600 inline" *ngIf="isClientRoute">Savings - {{savingsAccountNum}}</p>
+          <div class="hidden md:block" *ngIf="isClientRoute">
+            <p class="font-mulish font-semibold text-sm text-slate-600 inline me-4">Checkings - {{checkingAccountNum}}</p>
+            <p class="font-mulish font-semibold text-sm text-slate-600 inline">Savings - {{savingsAccountNum}}</p>
+          </div>
         </div>
-        <div>
-          <img src="../../../assets/me.png" class="rounded-full h-9 w-9" alt="...">
+        <div class="shrink-0 ms-4">
+          <img src="../../../assets/me.png" class="rounded-full h-9 w-9" alt="Profile">
         </div>
       </div>
     </nav>
-    <div class="container mx-auto px-5 pt-14">
+    <div class="container mx-auto px-4 lg:px-5 pt-6 lg:pt-14 pb-20 lg:pb-8">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+
+<!-- Mobile bottom navigation – visible only below lg breakpoint -->
+<nav class="fixed bottom-0 left-0 right-0 lg:hidden z-50 bg-primaryGreenLightActive border-t border-primaryGreenLightHover shadow-lg">
+  <div class="grid grid-cols-4">
+    <a routerLink="/client" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="bg-primaryGreenLightHover"
+      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+      <i class="bi bi-grid-fill text-xl"></i>
+      <span class="text-xs mt-1">Dashboard</span>
+    </a>
+    <a routerLink="/client/transfer" routerLinkActive="bg-primaryGreenLightHover"
+      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+      <i class="bi bi-arrow-left-right text-xl"></i>
+      <span class="text-xs mt-1">Transfer</span>
+    </a>
+    <a routerLink="/client/deposit" routerLinkActive="bg-primaryGreenLightHover"
+      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+      <i class="bi bi-cash-stack text-xl"></i>
+      <span class="text-xs mt-1">Deposit</span>
+    </a>
+    <a routerLink="/client/newaccount" routerLinkActive="bg-primaryGreenLightHover"
+      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+      <i class="bi bi-plus-circle text-xl"></i>
+      <span class="text-xs mt-1">Account</span>
+    </a>
+  </div>
+</nav>

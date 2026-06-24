@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms'; 
 
@@ -29,7 +29,8 @@ import { GetLoanComponent } from './get-loan/get-loan.component';
     ClientModuleRoutingModule,
     SharedModule,
     NgbProgressbarModule,
-    ReactiveFormsModule 
-  ]
+    ReactiveFormsModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ClientModuleModule { }

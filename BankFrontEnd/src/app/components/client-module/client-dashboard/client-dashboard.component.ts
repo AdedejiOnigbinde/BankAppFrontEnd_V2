@@ -42,14 +42,14 @@ export class ClientDashboardComponent implements OnInit {
     })
   }
 
-  getAccountBalances(accountsArray: any[]) {
+  getAccountBalances(accountsArray: accountDto[]) {
     accountsArray.forEach(account => {
-      if (account.accountType === "savings") {
-        this.savingsBalances = account.balance
-      } else {
-        this.checkingsBalances = account.balance
+      if (account.accountType === 'savings') {
+        this.savingsBalances = account.balance;
+      } else if (account.accountType === 'checkings') {
+        this.checkingsBalances = account.balance;
       }
-    })
+    });
   }
 
   getRecentTransaction() {
