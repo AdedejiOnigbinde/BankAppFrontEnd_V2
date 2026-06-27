@@ -75,7 +75,8 @@
           [class.rotate-180]="openSection !== 'bills'"></i>
       </button>
       <div [hidden]="openSection !== 'bills'" class="mt-1 space-y-0.5">
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/75 hover:bg-primaryGreenActive hover:text-white transition-colors font-mulish cursor-pointer">
+        <a routerLink="/client/paybill" routerLinkActive="bg-primaryGreen text-white font-bold"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/75 hover:bg-primaryGreenActive hover:text-white transition-colors font-mulish cursor-pointer">
           <i class="bi bi-receipt text-base w-5 text-center"></i>
           <span class="text-sm">Pay Bill</span>
         </a>
@@ -91,7 +92,8 @@
           [class.rotate-180]="openSection !== 'profile'"></i>
       </button>
       <div [hidden]="openSection !== 'profile'" class="mt-1 space-y-0.5">
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/75 hover:bg-primaryGreenActive hover:text-white transition-colors font-mulish cursor-pointer">
+        <a routerLink="/client/settings" routerLinkActive="bg-primaryGreen text-white font-bold"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/75 hover:bg-primaryGreenActive hover:text-white transition-colors font-mulish cursor-pointer">
           <i class="bi bi-gear text-base w-5 text-center"></i>
           <span class="text-sm">Settings</span>
         </a>

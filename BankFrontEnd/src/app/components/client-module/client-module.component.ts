@@ -18,7 +18,9 @@ export class ClientModuleComponent implements OnInit {
     '/client/transfer': 'Transfer',
     '/client/deposit': 'Deposit',
     '/client/getloan': 'Get Loan',
-    '/client/payloan': 'My Loans'
+    '/client/payloan': 'My Loans',
+    '/client/paybill':  'Bill Payment',
+    '/client/settings': 'Settings'
   };
   listOfAccounts: accountDto[];
   checkingAccountNum: number;

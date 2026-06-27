@@ -1,0 +1,80 @@
+<div class="grid grid-cols-12 overflow-hidden">
+
+  <!-- Sidebar -->
+  <div class="hidden h-screen lg:flex lg:col-span-2 flex-col bg-gray-900 overflow-auto shadow-lg">
+
+    <!-- Brand -->
+    <div class="px-5 py-6 border-b border-gray-700 shrink-0">
+      <div class="flex items-center gap-3">
+        <i class="bi bi-bank text-2xl text-white"></i>
+        <div>
+          <span class="text-white text-base font-bold font-mulish block leading-tight">Handle Money</span>
+          <span class="text-xs text-gray-400 font-mulish uppercase tracking-widest">Admin</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a routerLink="/admin" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="bg-primaryGreen text-white"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors font-mulish cursor-pointer">
+        <i class="bi bi-speedometer2 text-base w-5 text-center"></i>
+        <span class="text-sm">Dashboard</span>
+      </a>
+      <a routerLink="/admin/clients" routerLinkActive="bg-primaryGreen text-white"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors font-mulish cursor-pointer">
+        <i class="bi bi-people text-base w-5 text-center"></i>
+        <span class="text-sm">Clients</span>
+      </a>
+      <a routerLink="/admin/accounts" routerLinkActive="bg-primaryGreen text-white"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors font-mulish cursor-pointer">
+        <i class="bi bi-credit-card text-base w-5 text-center"></i>
+        <span class="text-sm">Accounts</span>
+      </a>
+      <a routerLink="/admin/loans" routerLinkActive="bg-primaryGreen text-white"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors font-mulish cursor-pointer">
+        <i class="bi bi-cash-coin text-base w-5 text-center"></i>
+        <span class="text-sm">Loan Requests</span>
+      </a>
+      <a routerLink="/admin/deposits" routerLinkActive="bg-primaryGreen text-white"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors font-mulish cursor-pointer">
+        <i class="bi bi-receipt text-base w-5 text-center"></i>
+        <span class="text-sm">Deposit Requests</span>
+      </a>
+    </nav>
+
+    <!-- Logout -->
+    <div class="px-3 py-4 border-t border-gray-700 shrink-0">
+      <button (click)="logout()"
+        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-red-900/40 hover:text-red-300 transition-colors font-mulish">
+        <i class="bi bi-box-arrow-right text-base w-5 text-center"></i>
+        <span class="text-sm">Log Out</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="h-screen bg-lightgray col-span-12 lg:col-span-10 overflow-x-hidden overflow-y-auto flex flex-col">
+
+    <!-- Top bar -->
+    <header class="bg-white shadow-sm shrink-0">
+      <div class="px-4 lg:px-8 py-4 flex items-center justify-between">
+        <div>
+          <p class="font-mulish text-xs text-gray-400 uppercase tracking-wider mb-0">Admin Portal</p>
+          <h1 class="font-mulish text-lg font-bold text-gray-900 mb-0">Handle Money</h1>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-primaryGreen flex items-center justify-center shadow-sm">
+          <i class="bi bi-shield-fill text-white text-base"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="container mx-auto px-4 lg:px-6 py-6">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+  </div>
+</div>

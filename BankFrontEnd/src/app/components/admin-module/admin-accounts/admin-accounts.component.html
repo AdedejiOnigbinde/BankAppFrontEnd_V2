@@ -1,0 +1,71 @@
+<div class="flex items-center justify-between mb-6">
+  <h2 class="font-mulish text-xl font-bold text-gray-900 mb-0">Accounts</h2>
+  <span *ngIf="page" class="font-mulish text-sm text-gray-500">{{page.totalElements}} total</span>
+</div>
+
+<div class="bg-white rounded-xl overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm font-mulish">
+      <thead class="bg-gray-50 text-gray-600 border-b border-gray-200">
+        <tr>
+          <th class="px-5 py-3 text-left font-semibold">Account #</th>
+          <th class="px-5 py-3 text-left font-semibold">Type</th>
+          <th class="hidden sm:table-cell px-5 py-3 text-right font-semibold">Balance</th>
+          <th class="hidden md:table-cell px-5 py-3 text-right font-semibold">Daily Limit</th>
+          <th class="px-5 py-3 text-center font-semibold">Status</th>
+          <th class="hidden lg:table-cell px-5 py-3 text-left font-semibold">Owner ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="isLoading">
+          <td colspan="6" class="px-5 py-16 text-center">
+            <i class="bi bi-arrow-repeat animate-spin text-primaryGreen text-3xl block mb-2"></i>
+            <p class="font-mulish text-gray-500 text-sm">Loading accounts...</p>
+          </td>
+        </tr>
+        <tr *ngIf="error && !isLoading">
+          <td colspan="6" class="px-5 py-10 text-center font-mulish text-red-500 text-sm">
+            <i class="bi bi-exclamation-circle me-1"></i>{{error}}
+          </td>
+        </tr>
+        <tr *ngFor="let acc of page?.content"
+          class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+          <td class="px-5 py-4 font-mono text-xs text-gray-700">{{acc.accountNumber}}</td>
+          <td class="px-5 py-4 capitalize text-gray-700">{{acc.accountType}}</td>
+          <td class="hidden sm:table-cell px-5 py-4 text-right font-semibold text-gray-900">
+            {{acc.balance | currency:'NGN':true}}
+          </td>
+          <td class="hidden md:table-cell px-5 py-4 text-right text-gray-600">
+            {{acc.dailyTransferLimit | currency:'NGN':true}}
+          </td>
+          <td class="px-5 py-4 text-center">
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold capitalize"
+              [ngClass]="statusClass(acc.accountStatus)">
+              {{acc.accountStatus}}
+            </span>
+          </td>
+          <td class="hidden lg:table-cell px-5 py-4 text-gray-500">#{{acc.ownerId}}</td>
+        </tr>
+        <tr *ngIf="page?.content?.length === 0 && !isLoading">
+          <td colspan="6" class="px-5 py-16 text-center font-mulish text-gray-400 text-sm">No accounts found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="page && page.totalPages > 1"
+    class="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
+    <p class="font-mulish text-xs text-gray-500">Page {{currentPage + 1}} of {{page.totalPages}}</p>
+    <div class="flex gap-2">
+      <button type="button" [disabled]="currentPage === 0" (click)="loadPage(currentPage - 1)"
+        class="px-3 h-8 rounded-lg border border-gray-200 text-sm font-mulish text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+        <i class="bi bi-chevron-left text-xs"></i> Prev
+      </button>
+      <button type="button" [disabled]="currentPage >= page.totalPages - 1" (click)="loadPage(currentPage + 1)"
+        class="px-3 h-8 rounded-lg border border-gray-200 text-sm font-mulish text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+        Next <i class="bi bi-chevron-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+</div>

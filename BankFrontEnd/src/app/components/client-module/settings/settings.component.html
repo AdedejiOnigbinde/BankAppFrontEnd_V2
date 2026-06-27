@@ -1,0 +1,246 @@
+<!-- ── Profile section ──────────────────────────────────────── -->
+<div class="bg-white rounded-xl overflow-hidden mb-5">
+
+  <!-- Avatar + display name header -->
+  <div class="bg-primaryGreenDark px-6 py-8 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+    <div class="shrink-0">
+      <div *ngIf="!profile?.photoUrl"
+        class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
+        <span class="text-white text-2xl font-bold font-mulish">{{initials}}</span>
+      </div>
+      <img *ngIf="profile?.photoUrl" [src]="profile.photoUrl" [alt]="displayName"
+        class="w-20 h-20 rounded-full object-cover object-top border-2 border-white/30">
+    </div>
+    <div class="text-center sm:text-left">
+      <p class="text-white text-xl font-bold font-mulish mb-1">{{displayName}}</p>
+      <p class="text-primaryGreenLightActive font-mulish text-sm mb-0">{{profile?.address}}</p>
+    </div>
+  </div>
+
+  <!-- Profile edit form -->
+  <div class="px-5 sm:px-6 py-5 border-b border-slate-200 flex items-center justify-between">
+    <h4 class="font-mulish font-bold text-base text-gray-900 mb-0">Personal Information</h4>
+    <button type="button" *ngIf="!isEditing" (click)="isEditing = true; profileSuccess = ''"
+      class="flex items-center gap-2 px-4 h-9 rounded-lg border-2 border-primaryGreenDark text-primaryGreenDark text-sm font-bold font-mulish hover:bg-primaryGreenDark hover:text-white transition-all duration-200">
+      <i class="bi bi-pencil text-xs"></i> Edit
+    </button>
+  </div>
+  <div class="p-5 sm:p-6">
+
+    <div class="p-3 mb-5 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="profileError">
+      <i class="bi bi-exclamation-circle me-1"></i>{{profileError}}
+    </div>
+    <div class="p-3 mb-5 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert" *ngIf="profileSuccess">
+      <i class="bi bi-check-circle me-1"></i>{{profileSuccess}}
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+      <div class="grid sm:grid-cols-2 gap-4 mb-4">
+
+        <div>
+          <label for="firstNameSetting" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">First Name</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-person text-base"></i></span>
+            <input type="text" id="firstNameSetting" formControlName="firstName" [readonly]="!isEditing"
+              class="pl-9 w-full rounded-lg border h-12 pr-3 font-mulish outline-none transition-all"
+              [ngClass]="isEditing ? 'border-gray-300 focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen' : 'border-gray-200 bg-gray-50 text-gray-600 cursor-default'">
+          </div>
+          <p *ngIf="profileSubmitted && profileForm.controls['firstName'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+        </div>
+
+        <div>
+          <label for="lastNameSetting" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Last Name</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-person text-base"></i></span>
+            <input type="text" id="lastNameSetting" formControlName="lastName" [readonly]="!isEditing"
+              class="pl-9 w-full rounded-lg border h-12 pr-3 font-mulish outline-none transition-all"
+              [ngClass]="isEditing ? 'border-gray-300 focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen' : 'border-gray-200 bg-gray-50 text-gray-600 cursor-default'">
+          </div>
+          <p *ngIf="profileSubmitted && profileForm.controls['lastName'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="addressSetting" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Address</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-geo-alt text-base"></i></span>
+            <input type="text" id="addressSetting" formControlName="address" [readonly]="!isEditing"
+              class="pl-9 w-full rounded-lg border h-12 pr-3 font-mulish outline-none transition-all"
+              [ngClass]="isEditing ? 'border-gray-300 focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen' : 'border-gray-200 bg-gray-50 text-gray-600 cursor-default'">
+          </div>
+          <p *ngIf="profileSubmitted && profileForm.controls['address'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="photoUrlSetting" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">
+            Photo URL <span class="text-gray-400 font-normal">(Optional)</span>
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-image text-base"></i></span>
+            <input type="url" id="photoUrlSetting" formControlName="photoUrl" [readonly]="!isEditing"
+              placeholder="https://example.com/photo.jpg"
+              class="pl-9 w-full rounded-lg border h-12 pr-3 font-mulish outline-none transition-all"
+              [ngClass]="isEditing ? 'border-gray-300 focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen' : 'border-gray-200 bg-gray-50 text-gray-600 cursor-default'">
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isEditing" class="flex flex-col sm:flex-row justify-end gap-3">
+        <button type="button" (click)="cancelEdit()"
+          class="w-full sm:w-auto px-8 h-12 rounded-lg border-2 border-gray-300 text-gray-600 font-bold text-base font-mulish hover:border-gray-400 transition-colors">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="profileLoading"
+          class="w-full sm:w-auto px-8 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+          [ngClass]="profileLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+          <span *ngIf="!profileLoading"><i class="bi bi-check-lg me-2"></i>Save Changes</span>
+          <span *ngIf="profileLoading" class="flex items-center gap-2 justify-center">
+            <i class="bi bi-arrow-repeat animate-spin"></i>Saving...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- ── Security section ─────────────────────────────────────── -->
+<div class="bg-white rounded-xl overflow-hidden mb-5">
+
+  <div class="px-5 sm:px-6 py-5 border-b border-slate-200">
+    <h4 class="font-mulish font-bold text-base text-gray-900 mb-0">Change Password</h4>
+  </div>
+  <div class="p-5 sm:p-6">
+
+    <div class="p-3 mb-5 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="passwordError">
+      <i class="bi bi-exclamation-circle me-1"></i>{{passwordError}}
+    </div>
+    <div class="p-3 mb-5 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert" *ngIf="passwordSuccess">
+      <i class="bi bi-check-circle me-1"></i>{{passwordSuccess}}
+    </div>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <div class="grid sm:grid-cols-2 gap-4 mb-4">
+
+        <div class="sm:col-span-2 sm:w-1/2">
+          <label for="oldPasswordInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Current Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-lock text-base"></i></span>
+            <input [type]="showOldPassword ? 'text' : 'password'" id="oldPasswordInput" formControlName="oldPassword" placeholder="Enter current password"
+              class="pl-9 pr-10 w-full rounded-lg border border-gray-300 h-12 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+              [ngClass]="{'border-red-400': passwordSubmitted && passwordForm.controls['oldPassword'].errors}">
+            <button type="button" (click)="showOldPassword = !showOldPassword"
+              class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-primaryGreen transition-colors">
+              <i [class]="showOldPassword ? 'bi bi-eye-slash text-base' : 'bi bi-eye text-base'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordSubmitted && passwordForm.controls['oldPassword'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+        </div>
+
+        <div>
+          <label for="newPasswordInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">New Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-lock-fill text-base"></i></span>
+            <input [type]="showNewPassword ? 'text' : 'password'" id="newPasswordInput" formControlName="newPassword" placeholder="Min 8 characters"
+              class="pl-9 pr-10 w-full rounded-lg border border-gray-300 h-12 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+              [ngClass]="{'border-red-400': passwordSubmitted && passwordForm.controls['newPassword'].errors}">
+            <button type="button" (click)="showNewPassword = !showNewPassword"
+              class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-primaryGreen transition-colors">
+              <i [class]="showNewPassword ? 'bi bi-eye-slash text-base' : 'bi bi-eye text-base'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordSubmitted && passwordForm.controls['newPassword'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+          <p *ngIf="passwordSubmitted && passwordForm.controls['newPassword'].hasError('minlength')" class="text-red-600 text-xs mt-1 font-mulish">Minimum 8 characters.</p>
+        </div>
+
+        <div>
+          <label for="confirmPasswordInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Confirm New Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-lock-fill text-base"></i></span>
+            <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPasswordInput" formControlName="confirmPassword" placeholder="Re-enter new password"
+              class="pl-9 pr-10 w-full rounded-lg border border-gray-300 h-12 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+              [ngClass]="{'border-red-400': passwordSubmitted && (passwordForm.controls['confirmPassword'].errors || passwordForm.hasError('mismatch'))}">
+            <button type="button" (click)="showConfirmPassword = !showConfirmPassword"
+              class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-primaryGreen transition-colors">
+              <i [class]="showConfirmPassword ? 'bi bi-eye-slash text-base' : 'bi bi-eye text-base'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordSubmitted && passwordForm.controls['confirmPassword'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+          <p *ngIf="passwordSubmitted && passwordForm.hasError('mismatch')" class="text-red-600 text-xs mt-1 font-mulish">Passwords do not match.</p>
+        </div>
+
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" [disabled]="passwordLoading"
+          class="w-full sm:w-auto px-8 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+          [ngClass]="passwordLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+          <span *ngIf="!passwordLoading"><i class="bi bi-shield-check me-2"></i>Update Password</span>
+          <span *ngIf="passwordLoading" class="flex items-center gap-2 justify-center">
+            <i class="bi bi-arrow-repeat animate-spin"></i>Updating...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- ── Danger zone ──────────────────────────────────────────── -->
+<div class="bg-white rounded-xl overflow-hidden border border-red-200">
+  <div class="px-5 sm:px-6 py-5 border-b border-red-100">
+    <h4 class="font-mulish font-bold text-base text-red-600 mb-0">
+      <i class="bi bi-exclamation-triangle me-2"></i>Danger Zone
+    </h4>
+  </div>
+  <div class="p-5 sm:p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <p class="font-mulish font-semibold text-sm text-gray-800 mb-1">Delete Account</p>
+        <p class="font-mulish text-xs text-gray-500 mb-0">
+          Permanently deletes your account, all accounts, loans, bills and transactions. This action cannot be undone.
+        </p>
+      </div>
+      <button type="button" (click)="showDeleteModal = true"
+        class="shrink-0 px-6 h-10 rounded-lg border-2 border-red-500 text-red-500 font-bold text-sm font-mulish hover:bg-red-500 hover:text-white transition-all duration-200">
+        Delete Account
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Delete confirmation modal ───────────────────────────── -->
+<div *ngIf="showDeleteModal"
+  class="fixed inset-0 z-50 bg-gray-900 bg-opacity-60 flex items-center justify-center px-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div class="bg-errorDarker px-6 py-8 text-center">
+      <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+        <i class="bi bi-trash3 text-white text-3xl"></i>
+      </div>
+      <h3 class="text-white text-xl font-bold font-mulish mb-0">Delete Your Account?</h3>
+    </div>
+    <div class="px-6 py-6">
+      <p class="font-mulish text-sm text-gray-600 mb-5 text-center">
+        This will permanently delete your Handle Money account and all associated data. This <strong>cannot be undone</strong>.
+      </p>
+      <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" *ngIf="deleteError" role="alert">
+        <i class="bi bi-exclamation-circle me-1"></i>{{deleteError}}
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button type="button" (click)="showDeleteModal = false; deleteError = ''"
+          class="flex-1 h-12 rounded-lg border-2 border-gray-300 text-gray-600 font-bold text-base font-mulish hover:border-gray-400 transition-colors">
+          Cancel
+        </button>
+        <button type="button" (click)="confirmDeleteAccount()" [disabled]="deleteLoading"
+          class="flex-1 h-12 rounded-lg text-white font-bold text-base font-mulish transition-all duration-200"
+          [ngClass]="deleteLoading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 active:scale-95'">
+          <span *ngIf="!deleteLoading">Yes, Delete Everything</span>
+          <span *ngIf="deleteLoading" class="flex items-center gap-2 justify-center">
+            <i class="bi bi-arrow-repeat animate-spin"></i>Deleting...
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

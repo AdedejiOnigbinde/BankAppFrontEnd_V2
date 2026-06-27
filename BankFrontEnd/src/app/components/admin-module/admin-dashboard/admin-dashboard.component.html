@@ -1,0 +1,70 @@
+<h2 class="font-mulish text-xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
+
+<div *ngIf="isLoading" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+  <div *ngFor="let i of [1,2,3,4]" class="bg-white rounded-xl p-6 animate-pulse">
+    <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+    <div class="h-8 bg-gray-200 rounded w-1/3"></div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+  <a routerLink="/admin/clients" class="bg-white rounded-xl p-6 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer no-underline">
+    <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center shrink-0">
+      <i class="bi bi-people-fill text-blue-600 text-xl"></i>
+    </div>
+    <div>
+      <p class="font-mulish text-xs text-gray-500 mb-1">Total Clients</p>
+      <p class="font-mulish text-2xl font-bold text-gray-900 mb-0">{{totalClients}}</p>
+    </div>
+  </a>
+
+  <a routerLink="/admin/accounts" class="bg-white rounded-xl p-6 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer no-underline">
+    <div class="bg-primaryGreenLight rounded-full w-12 h-12 flex items-center justify-center shrink-0">
+      <i class="bi bi-credit-card-fill text-primaryGreenDark text-xl"></i>
+    </div>
+    <div>
+      <p class="font-mulish text-xs text-gray-500 mb-1">Total Accounts</p>
+      <p class="font-mulish text-2xl font-bold text-gray-900 mb-0">{{totalAccounts}}</p>
+    </div>
+  </a>
+
+  <a routerLink="/admin/loans" class="bg-white rounded-xl p-6 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer no-underline">
+    <div class="bg-warningLight rounded-full w-12 h-12 flex items-center justify-center shrink-0">
+      <i class="bi bi-cash-coin text-warningDarkHover text-xl"></i>
+    </div>
+    <div>
+      <p class="font-mulish text-xs text-gray-500 mb-1">Pending Loans</p>
+      <p class="font-mulish text-2xl font-bold text-gray-900 mb-0">{{pendingLoans}}</p>
+    </div>
+  </a>
+
+  <a routerLink="/admin/deposits" class="bg-white rounded-xl p-6 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer no-underline">
+    <div class="bg-warningLight rounded-full w-12 h-12 flex items-center justify-center shrink-0">
+      <i class="bi bi-inbox-fill text-warningDarkHover text-xl"></i>
+    </div>
+    <div>
+      <p class="font-mulish text-xs text-gray-500 mb-1">Pending Deposits</p>
+      <p class="font-mulish text-2xl font-bold text-gray-900 mb-0">{{pendingDeposits}}</p>
+    </div>
+  </a>
+</div>
+
+<!-- Quick action cards -->
+<div class="grid sm:grid-cols-2 gap-4">
+  <div class="bg-white rounded-xl p-6">
+    <h4 class="font-mulish font-bold text-base text-gray-900 mb-2">Loan Requests</h4>
+    <p class="font-mulish text-sm text-gray-500 mb-4">Review and approve or reject pending loan applications.</p>
+    <a routerLink="/admin/loans"
+      class="inline-flex items-center gap-2 px-4 h-9 rounded-lg bg-primaryGreen text-white text-sm font-bold font-mulish hover:bg-primaryGreenDark transition-colors no-underline">
+      <i class="bi bi-arrow-right-circle"></i> Review Loans
+    </a>
+  </div>
+  <div class="bg-white rounded-xl p-6">
+    <h4 class="font-mulish font-bold text-base text-gray-900 mb-2">Deposit Requests</h4>
+    <p class="font-mulish text-sm text-gray-500 mb-4">Process check deposits waiting for admin approval.</p>
+    <a routerLink="/admin/deposits"
+      class="inline-flex items-center gap-2 px-4 h-9 rounded-lg bg-primaryGreen text-white text-sm font-bold font-mulish hover:bg-primaryGreenDark transition-colors no-underline">
+      <i class="bi bi-arrow-right-circle"></i> Review Deposits
+    </a>
+  </div>
+</div>

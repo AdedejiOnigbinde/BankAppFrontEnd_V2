@@ -7,6 +7,8 @@ import { TransferComponent } from './transfer/transfer.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { GetLoanComponent } from './get-loan/get-loan.component';
 import { PayLoanComponent } from './pay-loan/pay-loan.component';
+import { PayBillComponent } from './pay-bill/pay-bill.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -16,7 +18,9 @@ const routes: Routes = [
       { path: "transfer",   component: TransferComponent },
       { path: "deposit",    component: DepositComponent },
       { path: "getloan",    component: GetLoanComponent },
-      { path: "payloan",    component: PayLoanComponent }
+      { path: "payloan",    component: PayLoanComponent },
+      { path: "paybill",    component: PayBillComponent },
+      { path: "settings",   component: SettingsComponent }
     ]
   }
 ];

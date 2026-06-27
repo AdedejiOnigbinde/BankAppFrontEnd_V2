@@ -90,6 +90,7 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   get expensePercentage(): number {
-    return 100 - this.incomePercentage;
+    const total = this.totalIncome + this.totalExpenses;
+    return total > 0 ? 100 - this.incomePercentage : 0;
   }
 }

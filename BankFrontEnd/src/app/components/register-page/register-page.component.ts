@@ -8,8 +8,8 @@ import { AuthServiceService } from 'src/app/services/auth-service/auth-service.s
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent implements OnInit {
-  errorMessage: string;
-  successMessage: string;
+  errorMessage = '';
+  successMessage = '';
   registerForm: FormGroup;
   extraInfoForm: FormGroup;
   submitted = false;
@@ -38,7 +38,7 @@ export class RegisterPageComponent implements OnInit {
     this.successMessage ='';
     this.errorMessage='';
     this.submitted = true
-    if (this.extraInfoForm.controls['cPassword'].value != this.registerForm.controls['password'].value) {
+    if (this.extraInfoForm.controls['cPassword'].value !== this.registerForm.controls['password'].value) {
       this.errorMessage = "Passwords Do Not Match";
     } else if (this.registerForm.valid) {
       this.authservice.register(this.registerForm.value, this.extraInfoForm.controls['clientType'].value).subscribe({

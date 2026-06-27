@@ -1,6 +1,5 @@
 export type loginResponse = {
     role: string;
-    accessToken: string;
 }
 
 export type loginFormData = {

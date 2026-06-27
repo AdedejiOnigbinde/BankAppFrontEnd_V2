@@ -1,28 +1,31 @@
+import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { getCookie } from 'typescript-cookie';
+import { AuthStateService } from './services/auth-state/auth-state.service';
 
+@Injectable()
 export class RequestInterceptorService implements HttpInterceptor {
-    private loginOrRegisterEndpoints: string[] = ['/login', '/register', '/register-admin'];
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const isLoginOrRegisterRequest = this.loginOrRegisterEndpoints.some(endpoint => request.url.includes(endpoint));
+  constructor(private router: Router, private authState: AuthStateService) { }
 
-        const modifiedRequest = request.clone({
-            url: environment.apiUrl + request.url,
-        });
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const modified = request.clone({
+      url: environment.apiUrl + request.url,
+      withCredentials: true   // browser sends HttpOnly JWT cookie automatically
+    });
 
-        if (isLoginOrRegisterRequest) {
-            return next.handle(modifiedRequest);
+    return next.handle(modified).pipe(
+      catchError((err) => {
+        if (err.status === 401) {
+          // Session expired or invalid — clear local state and redirect
+          this.authState.clear();
+          this.router.navigate(['/login']);
         }
-        const userToken = getCookie("userToken");
-        const requestWithAuthHeader = modifiedRequest.clone({
-            setHeaders: {
-                Authorization: `bearer ${userToken}`
-            }
-        });
-
-        return next.handle(requestWithAuthHeader);
-    }
+        return throwError(() => err);
+      })
+    );
+  }
 }

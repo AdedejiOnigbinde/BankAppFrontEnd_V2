@@ -12,6 +12,8 @@ import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { DepositComponent } from './deposit/deposit.component';
 import { GetLoanComponent } from './get-loan/get-loan.component';
 import { PayLoanComponent } from './pay-loan/pay-loan.component';
+import { PayBillComponent } from './pay-bill/pay-bill.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { PayLoanComponent } from './pay-loan/pay-loan.component';
     DepositComponent,
     GetLoanComponent,
     PayLoanComponent,
+    PayBillComponent,
+    SettingsComponent,
   ],
   imports: [
     CommonModule,

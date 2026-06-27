@@ -83,3 +83,31 @@ export type loanPaymentRequest = {
     loanId: string;
     paymentAmount: string;
 }
+
+export type changePasswordRequest = {
+    oldPassword: string;
+    newPassword: string;
+}
+
+export type billDto = {
+    billId: number;
+    category: string;
+    biller: string;
+    nickname: string;
+}
+
+export type payBillRequest = {
+    amount: number;
+    biller: string;
+    pin: number;
+    saveBill: boolean;
+    nickName?: string;
+    category?: string;
+}
+
+export type paidBillDto = {
+    paymentDate: string;
+    status: string;
+    amount: number;
+    biller: string;
+}

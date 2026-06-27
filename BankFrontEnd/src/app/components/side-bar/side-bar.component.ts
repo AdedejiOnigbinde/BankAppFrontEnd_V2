@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { removeCookie } from 'typescript-cookie';
+import { AuthServiceService } from 'src/app/services/auth-service/auth-service.service';
+import { AuthStateService } from 'src/app/services/auth-state/auth-state.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,14 +11,25 @@ import { removeCookie } from 'typescript-cookie';
 export class SideBarComponent {
   openSection: string = 'account';
 
-  constructor(private route: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthServiceService,
+    private authState: AuthStateService
+  ) { }
 
   toggleSection(section: string): void {
     this.openSection = this.openSection === section ? null : section;
   }
 
   logout(): void {
-    removeCookie('userToken');
-    this.route.navigate(['/']);
+    this.authService.logout().subscribe({
+      next: () => this.clearAndRedirect(),
+      error: () => this.clearAndRedirect()  // clear local state even if the call fails
+    });
+  }
+
+  private clearAndRedirect(): void {
+    this.authState.clear();
+    this.router.navigate(['/']);
   }
 }
