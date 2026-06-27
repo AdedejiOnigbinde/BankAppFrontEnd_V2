@@ -1,92 +1,157 @@
-<div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
-    *ngIf="this.errorMessage">
-    <span class="font-medium text-center">{{this.errorMessage}}</span>
+<!-- Error alert -->
+<div class="p-3 mb-6 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="errorMessage">
+  <span class="font-medium font-mulish">{{errorMessage}}</span>
 </div>
-<h3 class="font-mulish text-2xl font-semibold border-b border-slate-300 pb-8">Account Opening</h3>
-<form [formGroup]="accountCreationForm" (ngSubmit)="createAccount()">
-    <div class="grid lg:grid-cols-12 py-10 border-b border-slate-300 gap-y-4 lg:gap-x-4 lg:gap-y-0">
-        <div class="lg:col-span-5">
-            <h4 class="mb-3 font-bold text-xl font-mulish">Form</h4>
-            <span class="capitalize font-mulish text-base text-slate-600">
-                We are exited on you choosing to open another account
-                with us at Handle Money! We appreciate your continued
-                trust in using our banking web app.
-            </span>
-        </div>
-        <div class="lg:col-span-7">
-            <label for="accountSelection" class="pb-2.5 font-mulish text-base font-medium capitalize block mb-1">Type of
-                account</label>
-            <select
-                class="bg-lightgray border border-black text-gray-900 text-sm rounded-lg focus:ring-primaryGreenLightActive focus:ring-4 block w-full px-3 py-3.5"
-                id="accountSelection" formControlName="accountType"
-                [ngClass]="{'is-invalid':isSubmitted && accountCreationForm.controls['accountType'].errors}" required>
-                <option selected value="">Select...</option>
-                <option value="checkings">Checking</option>
-                <option value="savings">Savings</option>
-            </select>
-            <div *ngIf=" isSubmitted && accountCreationForm.controls['accountType'].hasError('required')"
-                class="text-red-600">
-                Please Select A Type Of Account
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+
+  <!-- Page header -->
+  <div class="px-6 sm:px-8 py-6 border-b border-slate-200">
+    <h3 class="font-mulish text-xl sm:text-2xl font-bold text-gray-900 mb-1">Open A New Account</h3>
+    <p class="font-mulish text-sm text-slate-500 mb-0">We are excited to help you grow with Handle Money.</p>
+  </div>
+
+  <form [formGroup]="accountCreationForm" (ngSubmit)="createAccount()">
+
+    <!-- Step 1: Account type -->
+    <div class="px-6 sm:px-8 py-8 border-b border-slate-200">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="bg-primaryGreenLight text-primaryGreenDark font-bold text-sm font-mulish w-7 h-7 rounded-full flex items-center justify-center shrink-0">1</span>
+        <h4 class="font-mulish font-bold text-lg text-gray-900 mb-0">Choose Account Type</h4>
+      </div>
+      <p class="font-mulish text-sm text-slate-500 mb-6 ms-0 sm:ms-10">Select the type of account you would like to open.</p>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <!-- Checking card -->
+        <label for="checkingsOption" class="cursor-pointer">
+          <input type="radio" id="checkingsOption" value="checkings" formControlName="accountType" class="sr-only">
+          <div class="rounded-xl border-2 p-5 transition-all duration-200 h-full"
+            [ngClass]="{
+              'border-primaryGreen bg-primaryGreenLight': accountCreationForm.controls['accountType'].value === 'checkings',
+              'border-red-400 bg-red-50': isSubmitted && accountCreationForm.controls['accountType'].hasError('required') && accountCreationForm.controls['accountType'].value !== 'checkings',
+              'border-gray-200 bg-white hover:border-gray-300': accountCreationForm.controls['accountType'].value !== 'checkings' && !(isSubmitted && accountCreationForm.controls['accountType'].hasError('required'))
+            }">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="bg-primaryGreen rounded-full w-10 h-10 flex items-center justify-center shrink-0">
+                <i class="bi bi-credit-card text-white text-lg"></i>
+              </div>
+              <h5 class="font-mulish font-bold text-base text-gray-900 mb-0">Checking Account</h5>
             </div>
-        </div>
+            <p class="font-mulish text-sm text-slate-600 mb-0">Best for everyday transactions, bill payments and transfers.</p>
+          </div>
+        </label>
+
+        <!-- Savings card -->
+        <label for="savingsOption" class="cursor-pointer">
+          <input type="radio" id="savingsOption" value="savings" formControlName="accountType" class="sr-only">
+          <div class="rounded-xl border-2 p-5 transition-all duration-200 h-full"
+            [ngClass]="{
+              'border-primaryGreen bg-primaryGreenLight': accountCreationForm.controls['accountType'].value === 'savings',
+              'border-red-400 bg-red-50': isSubmitted && accountCreationForm.controls['accountType'].hasError('required') && accountCreationForm.controls['accountType'].value !== 'savings',
+              'border-gray-200 bg-white hover:border-gray-300': accountCreationForm.controls['accountType'].value !== 'savings' && !(isSubmitted && accountCreationForm.controls['accountType'].hasError('required'))
+            }">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="bg-primaryGreen rounded-full w-10 h-10 flex items-center justify-center shrink-0">
+                <i class="bi bi-piggy-bank text-white text-lg"></i>
+              </div>
+              <h5 class="font-mulish font-bold text-base text-gray-900 mb-0">Savings Account</h5>
+            </div>
+            <p class="font-mulish text-sm text-slate-600 mb-0">Build your savings and earn on funds you don't need daily.</p>
+          </div>
+        </label>
+
+      </div>
+
+      <p *ngIf="isSubmitted && accountCreationForm.controls['accountType'].hasError('required')"
+        class="text-red-600 text-sm mt-3 font-mulish">
+        <i class="bi bi-exclamation-circle me-1"></i>Please select an account type.
+      </p>
     </div>
 
-    <div class="grid lg:grid-cols-12 pt-10 mb-8 gap-y-4 lg:gap-x-4 lg:gap-y-0">
-        <div class="lg:col-span-5">
-            <h4 class="mb-3 font-bold text-xl font-mulish">Agreement</h4>
-            <span class="capitalize font-mulish text-base text-slate-600">
-                Please read, review and agree to the 2 terms to enable
-                you open another account on Handle Money web app.
-            </span>
+    <!-- Step 2: Agreement -->
+    <div class="px-6 sm:px-8 py-8 border-b border-slate-200">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="bg-primaryGreenLight text-primaryGreenDark font-bold text-sm font-mulish w-7 h-7 rounded-full flex items-center justify-center shrink-0">2</span>
+        <h4 class="font-mulish font-bold text-lg text-gray-900 mb-0">Review &amp; Agree</h4>
+      </div>
+      <p class="font-mulish text-sm text-slate-500 mb-6 ms-0 sm:ms-10">Please read and agree to both terms before submitting.</p>
 
-        </div>
-        <div class="lg:col-span-7 flex flex-col justify-center">
-            <div class="pb-3.5">
-                <input class="border-2 border-gray-500 rounded py-2 px-2 me-2 bg-lightgray" type="checkbox"
-                    [ngClass]="{'is-invalid':isSubmitted && accountCreationForm.controls['termsBox'].errors}"
-                    id="termsCheck" formControlName="termsBox" required>
-                <label class="text-base font-mulish font-medium" for="termsCheck">
-                    I agree to the Handle Money Terms and Conditions
-                </label>
-                <div *ngIf=" isSubmitted && accountCreationForm.controls['termsBox'].hasError('required')"
-                    class="text-red-600">
-                    Please Check This Box
-                </div>
-            </div>
-            <div>
-                <input class="border-2 border-gray-500 rounded py-2 px-2 me-2 bg-lightgray" type="checkbox"
-                    [ngClass]="{'is-invalid':isSubmitted && accountCreationForm.controls['privacyBox'].errors}"
-                    id="privacyCheck" formControlName="privacyBox" required>
-                <label class="text-base font-mulish font-medium" for="privacyCheck">
-                    I consent to the Handle Money Privacy Policy
-                </label>
-            </div>
-            <div *ngIf=" isSubmitted && accountCreationForm.controls['privacyBox'].hasError('required')"
-                class="text-red-600">
-                Please Check This Box
-            </div>
-        </div>
-    </div>
-    <div class="text-center pb-10">
-        <button type="submit" data-modal-target="popup-modal"
-            class="w-full sm:w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
-    </div>
-</form>
+      <div class="space-y-4 ms-0 sm:ms-10">
 
+        <label for="termsCheck"
+          class="flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-colors"
+          [ngClass]="{
+            'border-primaryGreen bg-primaryGreenLight': accountCreationForm.controls['termsBox'].value,
+            'border-red-400 bg-red-50': isSubmitted && accountCreationForm.controls['termsBox'].hasError('required'),
+            'border-gray-200 bg-gray-50 hover:border-gray-300': !accountCreationForm.controls['termsBox'].value && !(isSubmitted && accountCreationForm.controls['termsBox'].hasError('required'))
+          }">
+          <input type="checkbox" id="termsCheck" formControlName="termsBox"
+            class="mt-0.5 w-4 h-4 accent-primaryGreen shrink-0 cursor-pointer">
+          <span class="font-mulish text-sm text-gray-700">
+            I agree to the <strong>Handle Money Terms and Conditions</strong>
+          </span>
+        </label>
+        <p *ngIf="isSubmitted && accountCreationForm.controls['termsBox'].hasError('required')"
+          class="text-red-600 text-xs font-mulish -mt-2">
+          <i class="bi bi-exclamation-circle me-1"></i>You must agree to the terms.
+        </p>
+
+        <label for="privacyCheck"
+          class="flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-colors"
+          [ngClass]="{
+            'border-primaryGreen bg-primaryGreenLight': accountCreationForm.controls['privacyBox'].value,
+            'border-red-400 bg-red-50': isSubmitted && accountCreationForm.controls['privacyBox'].hasError('required'),
+            'border-gray-200 bg-gray-50 hover:border-gray-300': !accountCreationForm.controls['privacyBox'].value && !(isSubmitted && accountCreationForm.controls['privacyBox'].hasError('required'))
+          }">
+          <input type="checkbox" id="privacyCheck" formControlName="privacyBox"
+            class="mt-0.5 w-4 h-4 accent-primaryGreen shrink-0 cursor-pointer">
+          <span class="font-mulish text-sm text-gray-700">
+            I consent to the <strong>Handle Money Privacy Policy</strong>
+          </span>
+        </label>
+        <p *ngIf="isSubmitted && accountCreationForm.controls['privacyBox'].hasError('required')"
+          class="text-red-600 text-xs font-mulish -mt-2">
+          <i class="bi bi-exclamation-circle me-1"></i>You must consent to the privacy policy.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="px-6 sm:px-8 py-6 flex justify-end">
+      <button type="submit" [disabled]="isLoading"
+        class="w-full sm:w-auto px-10 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+        [ngClass]="isLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+        <span *ngIf="!isLoading">Open Account</span>
+        <span *ngIf="isLoading" class="flex items-center gap-2 justify-center">
+          <i class="bi bi-arrow-repeat animate-spin"></i> Opening...
+        </span>
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Success modal -->
 <div #popupModal id="popup-modal" tabindex="-1"
-    class="hidden fixed inset-0 z-50 overflow-auto bg-gray-900 bg-opacity-50">
-    <div class="flex items-center justify-center min-h-screen w-3/5 mx-auto">
-        <div class="bg-white rounded-lg shadow-lg">
-            <div class="p-4 md:p-5 text-center">
-                <div class="p-4 md:p-5 text-center">
-                    <p class="capitalize font-mulish text-base font-normal mb-0 p-10">Thank you for choosing Handle
-                        Money! Your account will be created, and you will receive a confirmation email shortly. If you
-                        need further assistance, please contact our support team at support@handlemoney.co</p>
-                    <button (click)="closeModal()"
-                        class="text-white bg-primaryGreen rounded-md font-mulish hover:bg-primaryGreenHover rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Got
-                        It</button>
-                </div>
-            </div>
-        </div>
+  class="hidden fixed inset-0 z-50 bg-gray-900 bg-opacity-60 flex items-center justify-center px-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div class="bg-primaryGreen px-6 py-8 text-center">
+      <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+        <i class="bi bi-check-lg text-white text-3xl"></i>
+      </div>
+      <h3 class="text-white text-xl font-bold font-mulish mb-0">Account Request Submitted!</h3>
     </div>
+    <div class="px-8 py-8 text-center">
+      <p class="font-mulish text-base text-gray-600 mb-6">
+        Thank you for choosing Handle Money! Your account will be created shortly. A confirmation email will be sent to you. For assistance, contact us at
+        <span class="text-primaryGreenDark font-semibold">support@handlemoney.co</span>
+      </p>
+      <button (click)="closeModal()"
+        class="w-full h-12 rounded-lg text-white bg-primaryGreen hover:bg-primaryGreenDark shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 font-bold text-base font-mulish">
+        Got It
+      </button>
+    </div>
+  </div>
 </div>

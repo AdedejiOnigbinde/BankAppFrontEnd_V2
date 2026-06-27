@@ -6,18 +6,19 @@ import { NewAccountComponent } from './new-account/new-account.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { GetLoanComponent } from './get-loan/get-loan.component';
+import { PayLoanComponent } from './pay-loan/pay-loan.component';
 
 const routes: Routes = [
   {
     path: "", component: ClientModuleComponent, children: [
-      { path: "", component: ClientDashboardComponent },
-      {path:"newaccount", component:NewAccountComponent},
-      {path:"transfer", component:TransferComponent},
-      {path:"deposit",component:DepositComponent},
-      {path:"getloan",component:GetLoanComponent}
+      { path: "",           component: ClientDashboardComponent },
+      { path: "newaccount", component: NewAccountComponent },
+      { path: "transfer",   component: TransferComponent },
+      { path: "deposit",    component: DepositComponent },
+      { path: "getloan",    component: GetLoanComponent },
+      { path: "payloan",    component: PayLoanComponent }
     ]
   }
-
 ];
 
 @NgModule({

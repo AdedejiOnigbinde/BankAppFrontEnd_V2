@@ -11,8 +11,10 @@ export class RegisterPageComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
   registerForm: FormGroup;
-  extraInfoForm: FormGroup
+  extraInfoForm: FormGroup;
   submitted = false;
+  showPassword = false;
+  showConfirmPassword = false;
   constructor(private formBuilder: FormBuilder, private authservice: AuthServiceService) { }
 
   ngOnInit(): void {
@@ -33,7 +35,6 @@ export class RegisterPageComponent implements OnInit {
   }
 
   register(): void {
-    debugger;
     this.successMessage ='';
     this.errorMessage='';
     this.submitted = true

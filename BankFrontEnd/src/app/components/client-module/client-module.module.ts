@@ -11,9 +11,7 @@ import { TransferComponent } from './transfer/transfer.component';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { DepositComponent } from './deposit/deposit.component';
 import { GetLoanComponent } from './get-loan/get-loan.component';
-
-
-
+import { PayLoanComponent } from './pay-loan/pay-loan.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +21,7 @@ import { GetLoanComponent } from './get-loan/get-loan.component';
     TransferComponent,
     DepositComponent,
     GetLoanComponent,
+    PayLoanComponent,
   ],
   imports: [
     CommonModule,

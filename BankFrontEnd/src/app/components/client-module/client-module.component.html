@@ -1,50 +1,87 @@
 <div class="grid grid-cols-12 overflow-hidden">
+
+  <!-- Sidebar – desktop only -->
   <div class="hidden h-screen lg:block lg:col-span-2 overflow-auto">
     <app-side-bar></app-side-bar>
   </div>
-  <div class="h-screen bg-lightgray col-span-12 lg:col-span-10 overflow-x-hidden overflow-y-auto">
-    <nav class="shadow-sm bg-white">
-      <div class="container mx-auto px-5 flex justify-between items-center py-4 lg:py-6">
+
+  <!-- Main content column -->
+  <div class="h-screen bg-lightgray col-span-12 lg:col-span-10 overflow-x-hidden overflow-y-auto flex flex-col">
+
+    <!-- Top navigation bar -->
+    <header class="bg-white shadow-sm shrink-0">
+      <div class="px-4 lg:px-8 py-3 flex items-center justify-between gap-4">
+
+        <!-- Page title + account chips -->
         <div class="min-w-0">
-          <h1 class="font-mulish text-xl lg:text-2xl font-bold truncate">
+          <h1 class="font-mulish text-lg lg:text-xl font-bold text-gray-900 truncate leading-tight">
             {{headerText}}
           </h1>
-          <div class="hidden md:block" *ngIf="isClientRoute">
-            <p class="font-mulish font-semibold text-sm text-slate-600 inline me-4">Checkings - {{checkingAccountNum}}</p>
-            <p class="font-mulish font-semibold text-sm text-slate-600 inline">Savings - {{savingsAccountNum}}</p>
+          <div class="flex items-center gap-2 mt-1" *ngIf="isClientRoute">
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-primaryGreenLight text-primaryGreenDark text-xs font-semibold font-mulish px-2.5 py-1 rounded-full">
+              <i class="bi bi-credit-card text-xs"></i>
+              Checking &middot; {{checkingAccountNum}}
+            </span>
+            <span class="hidden sm:inline-flex items-center gap-1.5 bg-primaryGreenLight text-primaryGreenDark text-xs font-semibold font-mulish px-2.5 py-1 rounded-full">
+              <i class="bi bi-piggy-bank text-xs"></i>
+              Savings &middot; {{savingsAccountNum}}
+            </span>
           </div>
         </div>
-        <div class="shrink-0 ms-4">
-          <img src="../../../assets/me.png" class="rounded-full h-9 w-9" alt="Profile">
+
+        <!-- Right side: profile avatar -->
+        <div class="shrink-0 flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-primaryGreen flex items-center justify-center shadow-sm">
+            <i class="bi bi-person-fill text-white text-base"></i>
+          </div>
         </div>
+
       </div>
-    </nav>
-    <div class="container mx-auto px-4 lg:px-5 pt-6 lg:pt-14 pb-20 lg:pb-8">
-      <router-outlet></router-outlet>
-    </div>
+
+      <!-- Mobile account chips – shown below header on small screens -->
+      <div class="sm:hidden px-4 pb-3 flex items-center gap-2" *ngIf="isClientRoute">
+        <span class="inline-flex items-center gap-1.5 bg-primaryGreenLight text-primaryGreenDark text-xs font-semibold font-mulish px-2.5 py-1 rounded-full">
+          <i class="bi bi-credit-card text-xs"></i>
+          {{checkingAccountNum}}
+        </span>
+        <span class="inline-flex items-center gap-1.5 bg-primaryGreenLight text-primaryGreenDark text-xs font-semibold font-mulish px-2.5 py-1 rounded-full">
+          <i class="bi bi-piggy-bank text-xs"></i>
+          {{savingsAccountNum}}
+        </span>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="container mx-auto px-4 lg:px-6 py-6 pb-24 lg:pb-8">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
   </div>
 </div>
 
-<!-- Mobile bottom navigation – visible only below lg breakpoint -->
-<nav class="fixed bottom-0 left-0 right-0 lg:hidden z-50 bg-primaryGreenLightActive border-t border-primaryGreenLightHover shadow-lg">
+<!-- Mobile bottom navigation -->
+<nav class="fixed bottom-0 left-0 right-0 lg:hidden z-50 bg-primaryGreenDark border-t border-primaryGreenActive shadow-lg">
   <div class="grid grid-cols-4">
-    <a routerLink="/client" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="bg-primaryGreenLightHover"
-      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+    <a routerLink="/client" [routerLinkActiveOptions]="{exact: true}"
+      routerLinkActive="text-primaryGreenLightActive"
+      class="flex flex-col items-center py-3 text-white/60 font-mulish hover:text-primaryGreenLightActive transition-colors">
       <i class="bi bi-grid-fill text-xl"></i>
       <span class="text-xs mt-1">Dashboard</span>
     </a>
-    <a routerLink="/client/transfer" routerLinkActive="bg-primaryGreenLightHover"
-      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+    <a routerLink="/client/transfer" routerLinkActive="text-primaryGreenLightActive"
+      class="flex flex-col items-center py-3 text-white/60 font-mulish hover:text-primaryGreenLightActive transition-colors">
       <i class="bi bi-arrow-left-right text-xl"></i>
       <span class="text-xs mt-1">Transfer</span>
     </a>
-    <a routerLink="/client/deposit" routerLinkActive="bg-primaryGreenLightHover"
-      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+    <a routerLink="/client/deposit" routerLinkActive="text-primaryGreenLightActive"
+      class="flex flex-col items-center py-3 text-white/60 font-mulish hover:text-primaryGreenLightActive transition-colors">
       <i class="bi bi-cash-stack text-xl"></i>
       <span class="text-xs mt-1">Deposit</span>
     </a>
-    <a routerLink="/client/newaccount" routerLinkActive="bg-primaryGreenLightHover"
-      class="flex flex-col items-center py-3 text-black font-mulish hover:bg-primaryGreenLightHover">
+    <a routerLink="/client/newaccount" routerLinkActive="text-primaryGreenLightActive"
+      class="flex flex-col items-center py-3 text-white/60 font-mulish hover:text-primaryGreenLightActive transition-colors">
       <i class="bi bi-plus-circle text-xl"></i>
       <span class="text-xs mt-1">Account</span>
     </a>

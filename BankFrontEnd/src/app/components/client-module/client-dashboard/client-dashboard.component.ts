@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account/account.service';
 import { TransactionService } from '../services/transaction/transaction.service';
-import { TabItem, Tabs } from 'flowbite';
 import { accountDto, transactionDto } from '../types';
 import { ClientService } from '../services/client/client.service';
+
 @Component({
   selector: 'app-client-dashboard',
   templateUrl: './client-dashboard.component.html',
@@ -11,22 +11,22 @@ import { ClientService } from '../services/client/client.service';
 })
 export class ClientDashboardComponent implements OnInit {
   listOfAccounts: accountDto[];
-  recentTransactions: transactionDto[];
+  recentTransactions: transactionDto[] = [];
   loansBalanceSum: number = 0;
   savingsBalances: number = 0;
   checkingsBalances: number = 0;
-  errorMessage: string = "";
-  tabsElement!: HTMLElement | null;
-  tabElements: TabItem[] = [];
-  tabs: Tabs;
+  errorMessage: string = '';
+  activeTab: string = 'income';
 
-
-  constructor(private accountServe: AccountService, private transactionServe: TransactionService, private clientServe: ClientService) { }
+  constructor(
+    private accountServe: AccountService,
+    private transactionServe: TransactionService,
+    private clientServe: ClientService
+  ) { }
 
   ngOnInit(): void {
     this.getAccountList();
     this.getRecentTransaction();
-    this.initializeTabs();
     this.getTotalLoanSum();
   }
 
@@ -34,12 +34,10 @@ export class ClientDashboardComponent implements OnInit {
     this.accountServe.getAllClientsAccounts().subscribe({
       next: (res: accountDto[]) => {
         this.listOfAccounts = res;
-        this.getAccountBalances(this.listOfAccounts)
+        this.getAccountBalances(this.listOfAccounts);
       },
-      error: (err) => {
-        this.errorMessage = err.message
-      }
-    })
+      error: (err) => { this.errorMessage = err.message; }
+    });
   }
 
   getAccountBalances(accountsArray: accountDto[]) {
@@ -54,52 +52,44 @@ export class ClientDashboardComponent implements OnInit {
 
   getRecentTransaction() {
     this.transactionServe.getAllRecentTransactions().subscribe({
-      next: (res: transactionDto[]) => {
-        this.recentTransactions = res;
-      },
-      error: (err) => {
-        this.errorMessage = err.message
-      }
-    })
+      next: (res: transactionDto[]) => { this.recentTransactions = res; },
+      error: (err) => { this.errorMessage = err.message; }
+    });
   }
 
   getTotalLoanSum() {
     this.clientServe.getTotalLoanSum().subscribe({
-      next: (res: number) => {
-        this.loansBalanceSum = res;
-      },
-      error: (err) => {
-        this.errorMessage = err.message
-      }
-    })
+      next: (res: number) => { this.loansBalanceSum = res; },
+      error: (err) => { this.errorMessage = err.message; }
+    });
   }
 
-  determineTransactionType(transactionType: String): boolean {
+  isExpense(transactionType: string): boolean {
     return transactionType === 'withdrawal' || transactionType === 'transfer';
   }
 
-  options = {
-    defaultTabId: 'income',
-    activeClasses:
-      'text-primaryGreen border-primaryGreen font-bold',
-  };
-
-  initializeTabs(): void {
-    this.tabsElement = document.getElementById('default-tab');
-    this.tabElements = [
-      {
-        id: 'income',
-        triggerEl: document.querySelector('#income-tab') as HTMLElement,
-        targetEl: document.querySelector('#income') as HTMLElement,
-      },
-      {
-        id: 'expenses',
-        triggerEl: document.querySelector('#expenses-tab') as HTMLElement,
-        targetEl: document.querySelector('#expenses') as HTMLElement,
-      },
-    ];
-    this.tabs = new Tabs(this.tabsElement, this.tabElements, this.options);
+  get incomeTransactions(): transactionDto[] {
+    return this.recentTransactions.filter(t => !this.isExpense(t.transType));
   }
 
+  get expenseTransactions(): transactionDto[] {
+    return this.recentTransactions.filter(t => this.isExpense(t.transType));
+  }
 
+  get totalIncome(): number {
+    return this.incomeTransactions.reduce((sum, t) => sum + t.transAmount, 0);
+  }
+
+  get totalExpenses(): number {
+    return this.expenseTransactions.reduce((sum, t) => sum + t.transAmount, 0);
+  }
+
+  get incomePercentage(): number {
+    const total = this.totalIncome + this.totalExpenses;
+    return total > 0 ? Math.round((this.totalIncome / total) * 100) : 0;
+  }
+
+  get expensePercentage(): number {
+    return 100 - this.incomePercentage;
+  }
 }

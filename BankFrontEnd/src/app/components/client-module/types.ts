@@ -60,3 +60,26 @@ export type depositRequestPayload = {
     splitCheckingAmount?: number;
     splitSavingsAmount?: number;
 }
+
+export type loanRequest = {
+    amount: number;
+    installment: number;
+    duration: string;
+    interestRate: number;
+}
+
+export type loanDto = {
+    loanId: number;
+    startDate: string | null;
+    amount: number;
+    paidAmount: number;
+    installment: number;
+    duration: string;
+    status: string;
+}
+
+// Both fields must be strings — the backend parses them internally
+export type loanPaymentRequest = {
+    loanId: string;
+    paymentAmount: string;
+}

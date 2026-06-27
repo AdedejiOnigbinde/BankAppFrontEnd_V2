@@ -1,518 +1,395 @@
-<h1 class="font-mulish text-2xl font-bold mb-10">Checking: {{checkingAccount?.balance| currency:'NGN': true}}</h1>
-<div class="grid lg:grid-cols-12 lg:gap-x-4 gap-y-3 lg:gap-y-0">
+﻿<!-- Checking balance header -->
+<div class="bg-primaryGreenDark rounded-xl px-6 py-5 mb-6 flex items-center justify-between">
+  <div>
+    <p class="text-white/70 font-mulish text-sm mb-1">Checking Balance</p>
+    <p class="text-white text-2xl font-bold font-mulish mb-0">{{checkingAccount?.balance | currency:'NGN':true}}</p>
+  </div>
+  <div class="bg-white/10 rounded-full p-3">
+    <i class="bi bi-credit-card text-white text-xl"></i>
+  </div>
+</div>
 
+<div class="grid lg:grid-cols-12 lg:gap-x-4 gap-y-4 lg:gap-y-0">
+
+  <!-- ── Transfer form card ─────────────────────────────────── -->
   <div class="lg:col-span-8">
-    <div class="bg-white rounded-lg h-full">
+    <div class="bg-white rounded-xl overflow-hidden h-full">
 
-      <div class="bg-white pt-10 border-b border-slate-300 rounded-t-lg flex justify-around">
-
-        <div class="flex flex-col md:flex-row lg:flex-wrap text-base text-center" id="default-tab" role="tablist">
-          <button class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg md:me-2" id="domesticTransfer-tab"
-            type="button" role="tab" aria-controls="domesticTransfer" aria-selected="false">Domestic Transfer</button>
-          <button
-            class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-            id="internationalTransfer-tab" type="button" role="tab" aria-controls="internationalTransfer"
-            aria-selected="false">International Transfer</button>
-          <button
-            class="inline-block px-4 pt-4 pb-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-            id="interbankTransfer-tab" type="button" role="tab" aria-controls="interbankTransfer"
-            aria-selected="false">Interbank Transfer</button>
-        </div>
+      <!-- Tab bar -->
+      <div class="flex border-b border-slate-200" role="tablist">
+        <button type="button" role="tab"
+          class="flex-1 py-3 text-sm font-semibold font-mulish border-b-2 transition-colors text-center"
+          [class.border-primaryGreen]="activeTab === 'domestic'"
+          [class.text-primaryGreen]="activeTab === 'domestic'"
+          [class.border-transparent]="activeTab !== 'domestic'"
+          [class.text-gray-500]="activeTab !== 'domestic'"
+          (click)="activeTab = 'domestic'">
+          <i class="bi bi-arrow-right-circle hidden sm:inline me-1.5"></i>Domestic
+        </button>
+        <button type="button" role="tab"
+          class="flex-1 py-3 text-sm font-semibold font-mulish border-b-2 transition-colors text-center"
+          [class.border-primaryGreen]="activeTab === 'international'"
+          [class.text-primaryGreen]="activeTab === 'international'"
+          [class.border-transparent]="activeTab !== 'international'"
+          [class.text-gray-500]="activeTab !== 'international'"
+          (click)="activeTab = 'international'">
+          <i class="bi bi-globe2 hidden sm:inline me-1.5"></i>International
+        </button>
+        <button type="button" role="tab"
+          class="flex-1 py-3 text-sm font-semibold font-mulish border-b-2 transition-colors text-center"
+          [class.border-primaryGreen]="activeTab === 'interbank'"
+          [class.text-primaryGreen]="activeTab === 'interbank'"
+          [class.border-transparent]="activeTab !== 'interbank'"
+          [class.text-gray-500]="activeTab !== 'interbank'"
+          (click)="activeTab = 'interbank'">
+          <i class="bi bi-arrow-left-right hidden sm:inline me-1.5"></i>Interbank
+        </button>
       </div>
 
-      <div class="p-6 overflow-y-auto" id="default-tab-content">
+      <div class="p-5 sm:p-6">
 
-        <div class="hidden" id="domesticTransfer" role="tabpanel" aria-labelledby="domesticTransfer-tab">
-          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
-            *ngIf="dTerrorMessage">
-            <span class="font-medium text-center">{{dTerrorMessage}}</span>
+        <!-- ── Domestic Transfer ─── -->
+        <div *ngIf="activeTab === 'domestic'">
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="dTerrorMessage">
+            <i class="bi bi-exclamation-circle me-1"></i>{{dTerrorMessage}}
           </div>
-          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert"
-            *ngIf="dTsuccessMessage">
-            <span class="font-medium text-center">{{dTsuccessMessage}}</span>
+          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert" *ngIf="dTsuccessMessage">
+            <i class="bi bi-check-circle me-1"></i>{{dTsuccessMessage}}
           </div>
           <form [formGroup]="domesticTransferForm" (ngSubmit)="submitDomesticTransfer()">
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
 
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Recipient Details</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-5">
               <div>
-                <label for="domAccountInput" class="font-mulish font-medium text-sm block mb-2">Recipient Account
-                  Number</label>
-                <input type="number"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domAccountInput" aria-label="Account number" formControlName="recipientAccount"
-                  [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].errors}">
-                <div
-                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="domAccountInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Account Number</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-hash text-base"></i></span>
+                  <input type="number" id="domAccountInput" formControlName="recipientAccount" placeholder="12-digit account number"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].errors}">
                 </div>
-                <div
-                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div
-                  *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('min')"
-                  class="text-red-600">
-                  Minimum Length Is 12 Numbers
-                </div>
-                <div
-                  *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('max')"
-                  class="text-red-600">
-                  Maximum Length Is 12 Numbers
-                </div>
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientAccount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isDomesticFormSubmitted && (domesticTransferForm.controls['recipientAccount'].hasError('min') || domesticTransferForm.controls['recipientAccount'].hasError('max'))" class="text-red-600 text-xs mt-1 font-mulish">Must be 12 digits.</p>
               </div>
-
-
               <div>
-                <label for="domBankInput" class="font-mulish font-medium text-sm block mb-2">Recipient Bank</label>
-                <input type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domBankInput" aria-label="Bank" formControlName="recipientBank"
-                  [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].errors}">
-                <div
-                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="domBankInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Bank Name</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-bank2 text-base"></i></span>
+                  <input type="text" id="domBankInput" formControlName="recipientBank" placeholder="e.g. Access Bank"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].errors}">
                 </div>
-                <div
-                  *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Letters Are Allowed
-                </div>
-
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['recipientBank'].hasError('pattern')" class="text-red-600 text-xs mt-1 font-mulish">Letters only.</p>
               </div>
-
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
-
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Transfer Details</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-5">
               <div>
-                <label for="domAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
-                <input type="number"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domAmountInput" aria-label="Amount" formControlName="amount"
-                  [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['amount'].errors}">
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['amount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="domAmountInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Amount (NGN)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-cash-coin text-base"></i></span>
+                  <input type="number" id="domAmountInput" formControlName="amount" placeholder="0.00"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isDomesticFormSubmitted && domesticTransferForm.controls['amount'].errors}">
                 </div>
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['amount'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['amount'].hasError('min')"
-                  class="text-red-600">
-                  Value Must Be Greater Than Zero
-                </div>
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['amount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['amount'].hasError('min')" class="text-red-600 text-xs mt-1 font-mulish">Must be greater than zero.</p>
               </div>
-
-
               <div>
-                <label for="domPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
-                <input type="password"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="domPinInput" aria-label="Pin" formControlName="pin"
-                  [ngClass]="{'is-invalid':isDomesticFormSubmitted && domesticTransferForm.controls['pin'].errors}">
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="domPinInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Transaction PIN</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-shield-lock text-base"></i></span>
+                  <input type="password" id="domPinInput" formControlName="pin" placeholder="4-digit PIN"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isDomesticFormSubmitted && domesticTransferForm.controls['pin'].errors}">
                 </div>
-                <div *ngIf=" isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('min')"
-                  class="text-red-600">
-                  Minimum Length Is 4 Numbers
-                </div>
-                <div *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('max')"
-                  class="text-red-600">
-                  Maximum Length Is 4 Numbers
-                </div>
-
+                <p *ngIf="isDomesticFormSubmitted && domesticTransferForm.controls['pin'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isDomesticFormSubmitted && (domesticTransferForm.controls['pin'].hasError('min') || domesticTransferForm.controls['pin'].hasError('max'))" class="text-red-600 text-xs mt-1 font-mulish">PIN must be 4 digits.</p>
               </div>
-
             </div>
 
-            <div class="flex items-center pb-8">
-              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox"
-                formControlName="saveBeneficiary" id="domAddBeneficiary">
-              <label class="text-base font-mulish font-medium" for="domAddBeneficiary">
-                Add to Beneficiary
-              </label>
-            </div>
+            <label for="domAddBeneficiary"
+              class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors mb-5"
+              [ngClass]="domesticTransferForm.controls['saveBeneficiary'].value ? 'border-primaryGreen bg-primaryGreenLight' : 'border-gray-200 bg-gray-50 hover:border-gray-300'">
+              <input type="checkbox" id="domAddBeneficiary" formControlName="saveBeneficiary" class="w-4 h-4 accent-primaryGreen shrink-0">
+              <div>
+                <span class="font-mulish text-sm font-semibold text-gray-700">Save as beneficiary</span>
+                <p class="font-mulish text-xs text-gray-400 mb-0">Quickly reuse this recipient for future transfers.</p>
+              </div>
+            </label>
 
-            <div class="text-center">
-              <button type="submit"
-                class="w-full sm:w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
+            <div class="flex justify-end">
+              <button type="submit" [disabled]="isDomesticLoading"
+                class="w-full sm:w-auto px-8 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+                [ngClass]="isDomesticLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+                <span *ngIf="!isDomesticLoading"><i class="bi bi-send me-2"></i>Send Transfer</span>
+                <span *ngIf="isDomesticLoading" class="flex items-center gap-2 justify-center"><i class="bi bi-arrow-repeat animate-spin"></i>Sending...</span>
+              </button>
             </div>
           </form>
         </div>
 
-
-        <div class="hidden" id="internationalTransfer" role="tabpanel" aria-labelledby="internationalTransfer-tab">
-          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
-            *ngIf="iTerrorMessage">
-            <span class="font-medium text-center">{{iTerrorMessage}}</span>
+        <!-- ── International Transfer ─── -->
+        <div *ngIf="activeTab === 'international'">
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="iTerrorMessage">
+            <i class="bi bi-exclamation-circle me-1"></i>{{iTerrorMessage}}
           </div>
-          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert"
-            *ngIf="iTsuccessMessage">
-            <span class="font-medium text-center">{{iTsuccessMessage}}</span>
+          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert" *ngIf="iTsuccessMessage">
+            <i class="bi bi-check-circle me-1"></i>{{iTsuccessMessage}}
           </div>
-          <form [formGroup]="internationalTranferForm" (ngSubmit)="submitInternationalTransfer()">
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
+          <form [formGroup]="internationalTransferForm" (ngSubmit)="submitInternationalTransfer()">
 
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Recipient Details</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-5">
               <div>
-                <label for="interAccountInput" class="font-mulish font-medium text-sm block mb-2">Recipient Account
-                  Number</label>
-                <input type="number"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="interAccountInput" aria-label="Account number" formControlName="interRecipientAccount"
-                  [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].errors}">
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="interAccountInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Account Number</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-hash text-base"></i></span>
+                  <input type="number" id="interAccountInput" formControlName="interRecipientAccount" placeholder="12-digit account number"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInternationalFormSubmitted && internationalTransferForm.controls['interRecipientAccount'].errors}">
                 </div>
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div
-                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('min')"
-                  class="text-red-600">
-                  Minimum Length Is 12 Numbers
-                </div>
-                <div
-                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientAccount'].hasError('max')"
-                  class="text-red-600">
-                  Maximum Length Is 12 Numbers
-                </div>
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interRecipientAccount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInternationalFormSubmitted && (internationalTransferForm.controls['interRecipientAccount'].hasError('min') || internationalTransferForm.controls['interRecipientAccount'].hasError('max'))" class="text-red-600 text-xs mt-1 font-mulish">Must be 12 digits.</p>
               </div>
-
               <div>
-                <label for="interBankInput" class="font-mulish font-medium text-sm block mb-2">Recipient Bank</label>
-                <input type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="interBankInput" aria-label="Bank" formControlName="interRecipientBank"
-                  [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientBank'].errors}">
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientBank'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="interBankInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Bank Name</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-bank2 text-base"></i></span>
+                  <input type="text" id="interBankInput" formControlName="interRecipientBank" placeholder="e.g. Chase Bank"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInternationalFormSubmitted && internationalTransferForm.controls['interRecipientBank'].errors}">
                 </div>
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interRecipientBank'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Letters Are Allowed
-                </div>
-              </div>
-
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
-
-              <div>
-                <label for="interAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
-                <input type="number"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="interAmountInput" aria-label="Amount" formControlName="interAmount"
-                  [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].errors}">
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
-                </div>
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interAmount'].hasError('min')"
-                  class="text-red-600">
-                  Value Must Be Greater Than Zero
-                </div>
-              </div>
-
-              <div>
-                <label for="interPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
-                <input type="password"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="interPinInput" aria-label="Pin" formControlName="interPin"
-                  [ngClass]="{'is-invalid':isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].errors}">
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
-                </div>
-                <div
-                  *ngIf=" isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div
-                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('min')"
-                  class="text-red-600">
-                  Minimum Length Is 4 Numbers
-                </div>
-                <div
-                  *ngIf="isInternationalFormSubmitted && internationalTranferForm.controls['interPin'].hasError('max')"
-                  class="text-red-600">
-                  Maximum Length Is 4 Numbers
-                </div>
-              </div>
-
-            </div>
-
-            <div class="grid lg:grid-cols-2 mb-6">
-              <div class="col-span-1">
-
-                <div data-popover id="popover-description" role="tooltip"
-                  class="absolute z-10 invisible inline-block transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72">
-                  <p class="font-mulish text-base font-normal p-2.5 mb-0">Selecting the preferred currency, the
-                    converted price will automatically display on the receiver's
-                    get's input.</p>
-                </div>
-
-                <label for="interRate" class="font-mulish font-medium text-sm pb-2.5 flex items-center">Recipient
-                  Gets<button data-popover-target="popover-description" data-popover-placement="top" type="button"><svg
-                      class="w-4 h-4 ms-2 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor"
-                      viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                        clip-rule="evenodd"></path>
-                    </svg><span class="sr-only">Show information</span></button></label>
-                <input type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="rate" aria-label="interRate" formControlName="rate">
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interRecipientBank'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interRecipientBank'].hasError('pattern')" class="text-red-600 text-xs mt-1 font-mulish">Letters only.</p>
               </div>
             </div>
 
-            <div class="flex items-center pb-8">
-              <input class="border-dark border-2 py-2 px-2 me-2 rounded" type="checkbox" id="interAddBeneficiary"
-                formControlName="interSaveBeneficiary">
-              <label class="text-base font-mulish font-medium" for="interAddBeneficiary">
-                Add to Beneficiary
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Transfer Details</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-5">
+              <div>
+                <label for="interAmountInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Amount (NGN)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-cash-coin text-base"></i></span>
+                  <input type="number" id="interAmountInput" formControlName="interAmount" placeholder="0.00"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInternationalFormSubmitted && internationalTransferForm.controls['interAmount'].errors}">
+                </div>
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interAmount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interAmount'].hasError('min')" class="text-red-600 text-xs mt-1 font-mulish">Must be greater than zero.</p>
+              </div>
+              <div>
+                <label for="interPinInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Transaction PIN</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-shield-lock text-base"></i></span>
+                  <input type="password" id="interPinInput" formControlName="interPin" placeholder="4-digit PIN"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInternationalFormSubmitted && internationalTransferForm.controls['interPin'].errors}">
+                </div>
+                <p *ngIf="isInternationalFormSubmitted && internationalTransferForm.controls['interPin'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInternationalFormSubmitted && (internationalTransferForm.controls['interPin'].hasError('min') || internationalTransferForm.controls['interPin'].hasError('max'))" class="text-red-600 text-xs mt-1 font-mulish">PIN must be 4 digits.</p>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <label for="rate" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">
+                Recipient Gets (USD estimate)
+                <i class="bi bi-info-circle ms-1 text-gray-400 text-xs" title="Estimated based on a placeholder exchange rate."></i>
               </label>
+              <div class="relative sm:w-1/2">
+                <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-currency-dollar text-base"></i></span>
+                <input type="text" id="rate" formControlName="rate" readonly
+                  class="pl-9 w-full rounded-lg border border-gray-200 h-12 pr-3 font-mulish bg-gray-50 text-gray-500 outline-none">
+              </div>
             </div>
 
-            <div class="text-center">
-              <button type="submit"
-                class="w-full sm:w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
-            </div>
+            <label for="interAddBeneficiary"
+              class="flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors mb-5"
+              [ngClass]="internationalTransferForm.controls['interSaveBeneficiary'].value ? 'border-primaryGreen bg-primaryGreenLight' : 'border-gray-200 bg-gray-50 hover:border-gray-300'">
+              <input type="checkbox" id="interAddBeneficiary" formControlName="interSaveBeneficiary" class="w-4 h-4 accent-primaryGreen shrink-0">
+              <div>
+                <span class="font-mulish text-sm font-semibold text-gray-700">Save as beneficiary</span>
+                <p class="font-mulish text-xs text-gray-400 mb-0">Quickly reuse this recipient for future transfers.</p>
+              </div>
+            </label>
 
+            <div class="flex justify-end">
+              <button type="submit" [disabled]="isInternationalLoading"
+                class="w-full sm:w-auto px-8 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+                [ngClass]="isInternationalLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+                <span *ngIf="!isInternationalLoading"><i class="bi bi-send me-2"></i>Send Transfer</span>
+                <span *ngIf="isInternationalLoading" class="flex items-center gap-2 justify-center"><i class="bi bi-arrow-repeat animate-spin"></i>Sending...</span>
+              </button>
+            </div>
           </form>
         </div>
 
-
-        <div class="hidden" id="interbankTransfer" role="tabpanel" aria-labelledby="interbankTransfer-tab">
-          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert"
-            *ngIf="iBerrorMessage">
-            <span class="font-medium text-center">{{iBerrorMessage}}</span>
+        <!-- ── Interbank Transfer ─── -->
+        <div *ngIf="activeTab === 'interbank'">
+          <div class="p-3 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert" *ngIf="iBerrorMessage">
+            <i class="bi bi-exclamation-circle me-1"></i>{{iBerrorMessage}}
           </div>
-          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert"
-            *ngIf="iBsuccessMessage">
-            <span class="font-medium text-center">{{iBsuccessMessage}}</span>
+          <div class="p-3 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert" *ngIf="iBsuccessMessage">
+            <i class="bi bi-check-circle me-1"></i>{{iBsuccessMessage}}
           </div>
-          <form [formGroup]="interBankTranferForm" (ngSubmit)="submitInterbankTransfer()">
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-6">
+          <form [formGroup]="interBankTransferForm" (ngSubmit)="submitInterbankTransfer()">
 
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Select Accounts</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-5">
               <div>
-                <label for="intraAccountInput" class="font-mulish font-medium text-sm block mb-2">Transfer From</label>
-                <select type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAccountInput" aria-label="Account number" formControlName="senderAccount"
-                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['senderAccount'].errors}">
-                  <option value="">Select Account</option>
-                  <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
-                    }}</option>
-                </select>
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['senderAccount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="intraFromInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Transfer From</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-box-arrow-right text-base"></i></span>
+                  <select id="intraFromInput" formControlName="senderAccount"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-10 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all appearance-none bg-white"
+                    [ngClass]="{'border-red-400': isInterbankTransferFormSubmitted && interBankTransferForm.controls['senderAccount'].errors}">
+                    <option value="">Select account</option>
+                    <option *ngFor="let account of accountList" [value]="account.accountNumber">{{account.accountNumber}} ({{account.accountType}})</option>
+                  </select>
+                  <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400"><i class="bi bi-chevron-down text-sm"></i></span>
                 </div>
+                <p *ngIf="isInterbankTransferFormSubmitted && interBankTransferForm.controls['senderAccount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
               </div>
-
               <div>
-                <label for="intraBankInput" class="font-mulish font-medium text-sm block mb-2">Transfer To</label>
-                <select type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraBankInput" aria-label="Bank" formControlName="recipientAccount"
-                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['recipientAccount'].errors}">
-                  <option value="">Select Account</option>
-                  <option *ngFor="let account of accountList" [value]="account.accountNumber">{{ account.accountNumber
-                    }}</option>
-                </select>
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['recipientAccount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="intraToInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Transfer To</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-box-arrow-in-left text-base"></i></span>
+                  <select id="intraToInput" formControlName="recipientAccount"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-10 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all appearance-none bg-white"
+                    [ngClass]="{'border-red-400': isInterbankTransferFormSubmitted && interBankTransferForm.controls['recipientAccount'].errors}">
+                    <option value="">Select account</option>
+                    <option *ngFor="let account of accountList" [value]="account.accountNumber">{{account.accountNumber}} ({{account.accountType}})</option>
+                  </select>
+                  <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400"><i class="bi bi-chevron-down text-sm"></i></span>
                 </div>
+                <p *ngIf="isInterbankTransferFormSubmitted && interBankTransferForm.controls['recipientAccount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
               </div>
-
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-y-3 lg:gap-x-4 mb-8">
-
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider font-mulish mb-3">Transfer Details</p>
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
               <div>
-                <label for="intraAmountInput" class="font-mulish font-medium text-sm block mb-2">Amount</label>
-                <input type="text"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraAmountInput" aria-label="Amount" formControlName="amount"
-                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].errors}">
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="intraAmountInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Amount (NGN)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-cash-coin text-base"></i></span>
+                  <input type="number" id="intraAmountInput" formControlName="amount" placeholder="0.00"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInterbankTransferFormSubmitted && interBankTransferForm.controls['amount'].errors}">
                 </div>
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['amount'].hasError('min')"
-                  class="text-red-600">
-                  Value Must Be Greater Than Zero
-                </div>
+                <p *ngIf="isInterbankTransferFormSubmitted && interBankTransferForm.controls['amount'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInterbankTransferFormSubmitted && interBankTransferForm.controls['amount'].hasError('min')" class="text-red-600 text-xs mt-1 font-mulish">Must be greater than zero.</p>
               </div>
-
               <div>
-                <label for="intraPinInput" class="font-mulish font-medium text-sm block mb-2">Pin</label>
-                <input type="password"
-                  class="border border-black block w-full rounded-md h-12 px-3 focus:ring-4 focus:ring-primaryGreenLightActive"
-                  id="intraPinInput" aria-label="Pin" formControlName="pin"
-                  [ngClass]="{'is-invalid':isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].errors}">
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('required')"
-                  class="text-red-600">
-                  This Field Is Required
+                <label for="intraPinInput" class="font-mulish font-semibold text-sm text-gray-700 block mb-2">Transaction PIN</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 pointer-events-none"><i class="bi bi-shield-lock text-base"></i></span>
+                  <input type="password" id="intraPinInput" formControlName="pin" placeholder="4-digit PIN"
+                    class="pl-9 w-full rounded-lg border border-gray-300 h-12 pr-3 font-mulish focus:ring-4 focus:ring-primaryGreenLightActive focus:border-primaryGreen outline-none transition-all"
+                    [ngClass]="{'border-red-400': isInterbankTransferFormSubmitted && interBankTransferForm.controls['pin'].errors}">
                 </div>
-                <div
-                  *ngIf=" isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('pattern')"
-                  class="text-red-600">
-                  Only Numbers Are Allowed
-                </div>
-                <div *ngIf="isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('min')"
-                  class="text-red-600">
-                  Minimum Length Is 4 Numbers
-                </div>
-                <div *ngIf="isinterBankTranferFormSubmitted && interBankTranferForm.controls['pin'].hasError('max')"
-                  class="text-red-600">
-                  Maximum Length Is 4 Numbers
-                </div>
+                <p *ngIf="isInterbankTransferFormSubmitted && interBankTransferForm.controls['pin'].hasError('required')" class="text-red-600 text-xs mt-1 font-mulish">Required.</p>
+                <p *ngIf="isInterbankTransferFormSubmitted && (interBankTransferForm.controls['pin'].hasError('min') || interBankTransferForm.controls['pin'].hasError('max'))" class="text-red-600 text-xs mt-1 font-mulish">PIN must be 4 digits.</p>
               </div>
-
             </div>
 
-            <div class="text-center">
-              <button type="submit"
-                class="w-full sm:w-80 h-14 bg-primaryGreen rounded-md font-mulish text-white font-bold text-xl hover:bg-primaryGreenHover">Submit</button>
+            <div class="flex justify-end">
+              <button type="submit" [disabled]="isInterbankLoading"
+                class="w-full sm:w-auto px-8 h-12 rounded-lg text-white bg-primaryGreen shadow-md transition-all duration-200 font-bold text-base font-mulish"
+                [ngClass]="isInterbankLoading ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primaryGreenDark hover:shadow-lg hover:scale-105 active:scale-95'">
+                <span *ngIf="!isInterbankLoading"><i class="bi bi-send me-2"></i>Send Transfer</span>
+                <span *ngIf="isInterbankLoading" class="flex items-center gap-2 justify-center"><i class="bi bi-arrow-repeat animate-spin"></i>Sending...</span>
+              </button>
             </div>
           </form>
-
         </div>
 
       </div>
     </div>
   </div>
 
-  <div class="lg:col-span-4">
-    <div class="bg-white rounded-lg h-full">
-      <div class="bg-white pt-10 pb-3.5 border-b border-slate-300 rounded-t-lg">
-        <h4 class="text-center font-mulish font-semibold text-2xl">Daily Limit:
-          <b>{{checkingAccount?.dailyTransferLimit| currency:'NGN': true}}</b>
-        </h4>
+  <!-- ── Sidebar: Daily Limit + Beneficiaries ──────────────── -->
+  <div class="lg:col-span-4 flex flex-col gap-4">
+
+    <!-- Daily limit card -->
+    <div class="bg-white rounded-xl p-5 sm:p-6">
+      <h5 class="font-mulish font-bold text-base text-gray-900 mb-4">Daily Transfer Limit</h5>
+      <div class="flex justify-between items-center mb-2">
+        <span class="font-mulish text-xs text-gray-500">Spent</span>
+        <span class="font-mulish text-xs text-gray-500">Remaining</span>
       </div>
-      <div class="p-6">
-        <div class="py-3.5">
-          <div class="flex justify-between">
-            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{checkingAccount?.calcLimit|
-              currency:'NGN': true}}</p>
-            <p class="text-primaryGreenActive font-mulish font-normal text-sm mb-1">{{transferLimitUpperBound|
-              currency:'NGN': true}}</p>
+      <div class="w-full h-3 bg-gray-100 rounded-full mb-2">
+        <div class="h-3 bg-primaryGreenLightActive rounded-full transition-all duration-500"
+          [style.width.%]="transferLimitPercentage"></div>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="font-mulish text-sm font-semibold text-primaryGreenActive">{{checkingAccount?.calcLimit | currency:'NGN':true}}</span>
+        <span class="font-mulish text-sm font-semibold text-primaryGreenActive">{{transferLimitUpperBound | currency:'NGN':true}}</span>
+      </div>
+      <p class="font-mulish text-xs text-gray-400 mt-3 mb-0 text-center">
+        Limit: <strong class="text-gray-700">{{checkingAccount?.dailyTransferLimit | currency:'NGN':true}}</strong>
+      </p>
+    </div>
+
+    <!-- Beneficiaries card -->
+    <div class="bg-white rounded-xl p-5 sm:p-6 flex-1">
+      <h5 class="font-mulish font-bold text-base text-gray-900 mb-4">Beneficiaries</h5>
+      <p class="font-mulish text-xs text-gray-400 mb-3" *ngIf="beneficiaryList?.length > 0">
+        Tap a beneficiary to auto-fill the form.
+      </p>
+      <div class="space-y-2 overflow-y-auto max-h-48 px-1 py-1">
+        <button type="button" *ngFor="let b of beneficiaryList"
+          (click)="selectBeneficiary(b)"
+          class="w-full flex items-center gap-3 p-2.5 rounded-lg bg-primaryGreenLight hover:bg-primaryGreenLightHover active:scale-95 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primaryGreenActive text-left">
+          <div class="bg-primaryGreen rounded-full w-9 h-9 flex items-center justify-center shrink-0">
+            <i class="bi bi-person-fill text-white text-sm"></i>
           </div>
-          <div class="w-full h-8 bg-gray-200 rounded-md">
-            <div class="h-8 bg-primaryGreenLightActive rounded-md" [style.width.%]="transferLimitPercentage"></div>
+          <div class="min-w-0 flex-1">
+            <p class="font-mulish text-sm font-semibold text-gray-800 mb-0 truncate">{{b.bank}}</p>
+            <p class="font-mulish text-xs text-gray-500 mb-0">{{b.bankAccountNumber}}</p>
           </div>
-          <div class="flex justify-between pt-1">
-            <p class="font-mulish font-normal text-sm mb-0">Spent</p>
-            <p class="font-mulish font-normal text-sm mb-0">Remainder</p>
-          </div>
+          <i class="bi bi-arrow-right text-primaryGreenDark text-sm shrink-0"></i>
+        </button>
+        <div *ngIf="!beneficiaryList || beneficiaryList.length === 0"
+          class="flex flex-col items-center py-6 text-gray-400">
+          <i class="bi bi-people text-3xl mb-2"></i>
+          <p class="font-mulish text-xs">No beneficiaries saved yet.</p>
         </div>
-
-
-        <h5 class="font-bold font-mulish text-2xl pt-10 pb-3.5">Beneficiary</h5>
-
-        <div class="overflow-y-auto max-h-40">
-
-          <div *ngFor="let beneficiary of beneficiaryList" class="flex bg-primaryGreenLight rounded-md mb-2 p-1.5">
-            <div class="shrink-0 ms-2">
-              <img src="../../../assets/me.png" class="rounded-full w-10 h-10 me-2" alt="Beneficiary avatar">
-            </div>
-            <div class="grow ms-1 self-center">
-              <p class="mb-0 fw-bold">{{beneficiary.bank}}</p>
-              <p class="mb-1">{{beneficiary.bankAccountNumber}}</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+
   </div>
 
 </div>
 
-<div class="grid gap-y-4 py-12">
-  <h3 class="font-mulish text-2xl font-semibold">Transaction History</h3>
+<!-- ── Transaction History ─────────────────────────────────── -->
+<div class="mt-6 bg-white rounded-xl overflow-hidden">
+  <div class="px-5 sm:px-6 py-5 border-b border-slate-200">
+    <h3 class="font-mulish font-bold text-base sm:text-lg text-gray-900 mb-0">Transaction History</h3>
+  </div>
   <div class="overflow-x-auto">
-    <table class="w-full text-base font-mulish">
-      <thead class="text-base font-semibold text-gray-700 capitalize bg-primaryGreenLightHover">
+    <table class="w-full text-sm font-mulish">
+      <thead class="bg-primaryGreenLightHover text-gray-700">
         <tr>
-          <th scope="col" class="px-6 py-3">
-            Date
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Transfer From
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Transfer To
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Amount
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Status
-          </th>
+          <th scope="col" class="px-4 sm:px-5 py-3 text-left font-semibold">Date</th>
+          <th scope="col" class="hidden sm:table-cell px-4 sm:px-5 py-3 text-left font-semibold">From</th>
+          <th scope="col" class="px-4 sm:px-5 py-3 text-left font-semibold">To</th>
+          <th scope="col" class="px-4 sm:px-5 py-3 text-right font-semibold">Amount</th>
+          <th scope="col" class="px-4 sm:px-5 py-3 text-center font-semibold">Status</th>
         </tr>
       </thead>
-      <tbody *ngFor="let transaction of transferTransactions">
-        <tr class="bg-white border-b border-slate-300">
-          <th scope="row" class="px-6 py-4">
-            {{transaction.transactionDate}}
-          </th>
-          <td class="px-6 py-4">
-            {{transaction.fromAcct}}
-          </td>
-          <td class="px-6 py-4">
-            {{transaction.toAcct}}
-          </td>
-          <td class="px-6 py-4 text-errorDarkHover">
-            {{ transaction.transAmount| currency:'NGN': true }}
-          </td>
-          <td class="px-6 py-4" [ngClass]="{
-            'bg-green-500': transaction.transStatus === 'success',
-            'bg-red-500': transaction.transStatus === 'failure',
-            'bg-yellow-500': transaction.transStatus === 'pending'
-          }">
-            {{ transaction.transStatus }}
+      <tbody>
+        <tr class="text-center">
+          <td colspan="5" class="px-5 py-16">
+            <div class="flex flex-col items-center text-gray-400">
+              <i class="bi bi-clock-history text-4xl mb-3"></i>
+              <p class="font-mulish text-sm font-medium">No transactions yet.</p>
+              <p class="font-mulish text-xs mt-1">Your transfer history will appear here.</p>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-

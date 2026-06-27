@@ -17,7 +17,8 @@ export class ClientModuleComponent implements OnInit {
     '/client/newaccount': 'Open Account',
     '/client/transfer': 'Transfer',
     '/client/deposit': 'Deposit',
-    '/client/getloan': 'Get Loan'
+    '/client/getloan': 'Get Loan',
+    '/client/payloan': 'My Loans'
   };
   listOfAccounts: accountDto[];
   checkingAccountNum: number;
@@ -59,11 +60,11 @@ export class ClientModuleComponent implements OnInit {
   getAccountNumbers(accountsArray: accountDto[]) {
     accountsArray.forEach(account => {
       if (account.accountType === "savings") {
-        this.savingsAccountNum = account.accountNumber
-      } else {
-        this.checkingAccountNum = account.accountNumber
+        this.savingsAccountNum = account.accountNumber;
+      } else if (account.accountType === "checkings") {
+        this.checkingAccountNum = account.accountNumber;
       }
-    })
+    });
   }
 
   getClientName() {

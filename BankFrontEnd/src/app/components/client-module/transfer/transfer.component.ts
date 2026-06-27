@@ -1,229 +1,266 @@
-import { Component, OnInit } from '@angular/core';
-import { TabItem, Tabs } from 'flowbite';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AccountService } from '../services/account/account.service';
-import { accountDto, beneficiaryDto, transactionDto, transferRequestDto } from '../types';
+import { accountDto, beneficiaryDto, transferRequestDto } from '../types';
 import { ClientService } from '../services/client/client.service';
 import { TransactionService } from '../services/transaction/transaction.service';
+
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
   styleUrls: ['./transfer.component.css']
 })
-export class TransferComponent implements OnInit {
-  transferTransactions: any[] = [];
-  tabsElement!: HTMLElement | null;
-  tabElements: TabItem[] = [];
-  tabs!: Tabs;
-  isDomesticFormSubmitted: boolean = false;
-  isInternationalFormSubmitted: boolean = false;
-  isinterBankTranferFormSubmitted: boolean = false;
-  checkingAccount: accountDto;
-  transferLimitUpperBound: number = 0;
-  transferLimitPercentage: number = 0;
-  beneficiaryList: beneficiaryDto[];
-  accountList: accountDto[];
-  errorMessage: string = "";
-  dTerrorMessage: string = "";
-  iTerrorMessage: string = "";
-  iBerrorMessage: string = "";
-  dTsuccessMessage: string = "";
-  iTsuccessMessage: string = "";
-  iBsuccessMessage: string = "";
+export class TransferComponent implements OnInit, OnDestroy {
+  activeTab = 'domestic';
+
+  // Submission flags
+  isDomesticFormSubmitted = false;
+  isInternationalFormSubmitted = false;
+  isInterbankTransferFormSubmitted = false;
+
+  // Loading flags — prevent double-submission
+  isDomesticLoading = false;
+  isInternationalLoading = false;
+  isInterbankLoading = false;
+
+  // Account data
+  checkingAccount: accountDto | null = null;
+  transferLimitUpperBound = 0;
+  transferLimitPercentage = 0;
+  beneficiaryList: beneficiaryDto[] = [];
+  accountList: accountDto[] = [];
+
+  // Messages
+  errorMessage = '';
+  dTerrorMessage = '';
+  iTerrorMessage = '';
+  iBerrorMessage = '';
+  dTsuccessMessage = '';
+  iTsuccessMessage = '';
+  iBsuccessMessage = '';
+
+  // Forms
   domesticTransferForm: FormGroup;
-  internationalTranferForm: FormGroup;
-  interBankTranferForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private accountServe: AccountService, private clientServe: ClientService, private transactionServe: TransactionService) { }
+  internationalTransferForm: FormGroup;
+  interBankTransferForm: FormGroup;
+
+  private rateSubscription: Subscription;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private accountServe: AccountService,
+    private clientServe: ClientService,
+    private transactionServe: TransactionService
+  ) { }
 
   ngOnInit(): void {
-    this.initializeTabs();
     this.getAccountList();
     this.getBeneficiaries();
-    this.domesticTransferForm = this.formBuilder.group({
-      recipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
-      recipientBank: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
-      amount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
-      pin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
-      saveBeneficiary: [false]
-    })
-    this.internationalTranferForm = this.formBuilder.group({
-      interRecipientAccount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(999999999999), Validators.min(100000000000)]],
-      interRecipientBank: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
-      interAmount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
-      interPin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
-      interSaveBeneficiary: [false],
-      rate: []
-    })
-    this.interBankTranferForm = this.formBuilder.group({
-      recipientAccount: ['', Validators.required],
-      senderAccount: ['', Validators.required],
-      amount: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
-      pin: [, [Validators.required, Validators.pattern(/^\d+$/), Validators.max(9999), Validators.min(1000)]],
-    })
-    this.internationalTranferForm.controls['interAmount'].valueChanges.subscribe((amount: number) => {
-      let exchangeRate = amount / 1000;
-      let formattedExchangeRate = this.formatCurrency(exchangeRate);
-      this.internationalTranferForm.patchValue({
-        rate: formattedExchangeRate
-      });
-    });
+    this.buildForms();
   }
 
-  getAccountList() {
+  ngOnDestroy(): void {
+    this.rateSubscription?.unsubscribe();
+  }
+
+  private buildForms(): void {
+    this.domesticTransferForm = this.formBuilder.group({
+      recipientAccount: [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(100000000000), Validators.max(999999999999)]],
+      recipientBank:    ['',   [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
+      amount:           [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      pin:              [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1000), Validators.max(9999)]],
+      saveBeneficiary:  [false]
+    });
+
+    this.internationalTransferForm = this.formBuilder.group({
+      interRecipientAccount: [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(100000000000), Validators.max(999999999999)]],
+      interRecipientBank:    ['',   [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
+      interAmount:           [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      interPin:              [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1000), Validators.max(9999)]],
+      interSaveBeneficiary:  [false],
+      rate:                  ['']
+    });
+
+    this.interBankTransferForm = this.formBuilder.group({
+      recipientAccount: ['', Validators.required],
+      senderAccount:    ['', Validators.required],
+      amount:           [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]],
+      pin:              [null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1000), Validators.max(9999)]]
+    });
+
+    this.rateSubscription = this.internationalTransferForm.controls['interAmount'].valueChanges
+      .subscribe((amount: number) => {
+        this.internationalTransferForm.patchValue(
+          { rate: this.formatCurrency(amount / 1000) },
+          { emitEvent: false }
+        );
+      });
+  }
+
+  // ── Data fetching ──────────────────────────────────────────
+
+  getAccountList(): void {
     this.accountServe.getAllClientsAccounts().subscribe({
       next: (res: accountDto[]) => {
         this.accountList = res;
-        this.getCheckingAccount(res)
+        this.getCheckingAccount(res);
       },
-      error: (err) => {
-        this.errorMessage = err.message
-      }
-    })
+      error: (err) => { this.errorMessage = err.message; }
+    });
   }
 
-  getBeneficiaries() {
+  getBeneficiaries(): void {
     this.clientServe.getAllClientBeneficiares().subscribe({
-      next: (res: beneficiaryDto[]) => {
-        this.beneficiaryList = res;
-      },
-      error: (err) => {
-        this.errorMessage = err.message
-      }
-    })
+      next: (res: beneficiaryDto[]) => { this.beneficiaryList = res; },
+      error: (err) => { this.errorMessage = err.message; }
+    });
   }
 
-  getCheckingAccount(accountsArray: accountDto[]) {
-    const checking = accountsArray.find(a => a.accountType === 'checkings');
-    this.checkingAccount = checking ?? null;
+  private getCheckingAccount(accounts: accountDto[]): void {
+    const checking = accounts.find(a => a.accountType === 'checkings') ?? null;
+    this.checkingAccount = checking;
     if (checking) {
       this.transferLimitUpperBound = checking.dailyTransferLimit - checking.calcLimit;
       this.transferLimitPercentage = (checking.calcLimit / checking.dailyTransferLimit) * 100;
     }
   }
 
-  submitDomesticTransfer() {
+  // ── Submit handlers ────────────────────────────────────────
+
+  submitDomesticTransfer(): void {
     this.dTerrorMessage = '';
     this.dTsuccessMessage = '';
     this.isDomesticFormSubmitted = true;
-    if (this.domesticTransferForm.valid) {
-      const transactionRequest: transferRequestDto = {
-        toAcct: this.domesticTransferForm.controls['recipientAccount'].value,
-        fromacct: this.checkingAccount.accountNumber,
-        bank: this.domesticTransferForm.controls['recipientBank'].value,
-        amount: this.domesticTransferForm.controls['amount'].value,
-        pin: this.domesticTransferForm.controls['pin'].value,
-        addBeneficary: this.domesticTransferForm.controls['saveBeneficiary'].value
-      }
-      this.transactionServe.submitTransferRequest(transactionRequest).subscribe({
-        next: (res: string) => {
-          this.dTsuccessMessage = res || 'Transfer submitted successfully.';
-          this.getAccountList();
-          this.getBeneficiaries();
-          this.domesticTransferForm.reset();
-          this.isDomesticFormSubmitted = false;
-        },
-        error: (err) => {
-          this.dTerrorMessage = err.message;
-          this.isDomesticFormSubmitted = false;
-        }
-      })
+
+    if (!this.checkingAccount) {
+      this.dTerrorMessage = 'No checking account found. Please open one first.';
+      return;
     }
+
+    if (!this.domesticTransferForm.valid) return;
+
+    this.isDomesticLoading = true;
+    const req: transferRequestDto = {
+      toAcct:        this.domesticTransferForm.value.recipientAccount,
+      fromacct:      this.checkingAccount.accountNumber,
+      bank:          this.domesticTransferForm.value.recipientBank,
+      amount:        this.domesticTransferForm.value.amount,
+      pin:           this.domesticTransferForm.value.pin,
+      addBeneficary: this.domesticTransferForm.value.saveBeneficiary
+    };
+
+    this.transactionServe.submitTransferRequest(req).subscribe({
+      next: (res: string) => {
+        this.isDomesticLoading = false;
+        this.isDomesticFormSubmitted = false;
+        this.dTsuccessMessage = res || 'Transfer submitted successfully.';
+        this.domesticTransferForm.reset({ saveBeneficiary: false });
+        this.getAccountList();
+        this.getBeneficiaries();
+      },
+      error: (err) => {
+        this.isDomesticLoading = false;
+        this.isDomesticFormSubmitted = false;
+        this.dTerrorMessage = err.message || 'Transfer failed. Please try again.';
+      }
+    });
   }
 
-  submitInternationalTransfer() {
+  submitInternationalTransfer(): void {
     this.iTerrorMessage = '';
     this.iTsuccessMessage = '';
     this.isInternationalFormSubmitted = true;
-    if (this.internationalTranferForm.valid) {
-      const transactionRequest: transferRequestDto = {
-        toAcct: this.internationalTranferForm.controls['interRecipientAccount'].value,
-        fromacct: this.checkingAccount.accountNumber,
-        bank: this.internationalTranferForm.controls['interRecipientBank'].value,
-        amount: this.internationalTranferForm.controls['interAmount'].value,
-        pin: this.internationalTranferForm.controls['interPin'].value,
-        addBeneficary: this.internationalTranferForm.controls['interSaveBeneficiary'].value
-      }
-      this.transactionServe.submitTransferRequest(transactionRequest).subscribe({
-        next: (res: string) => {
-          this.iTsuccessMessage = res || 'Transfer submitted successfully.';
-          this.getAccountList();
-          this.getBeneficiaries();
-          this.internationalTranferForm.reset();
-          this.isInternationalFormSubmitted = false;
-        },
-        error: (err) => {
-          this.iTerrorMessage = err.message;
-          this.isInternationalFormSubmitted = false;
-        }
-      })
+
+    if (!this.checkingAccount) {
+      this.iTerrorMessage = 'No checking account found. Please open one first.';
+      return;
     }
+
+    if (!this.internationalTransferForm.valid) return;
+
+    this.isInternationalLoading = true;
+    const req: transferRequestDto = {
+      toAcct:        this.internationalTransferForm.value.interRecipientAccount,
+      fromacct:      this.checkingAccount.accountNumber,
+      bank:          this.internationalTransferForm.value.interRecipientBank,
+      amount:        this.internationalTransferForm.value.interAmount,
+      pin:           this.internationalTransferForm.value.interPin,
+      addBeneficary: this.internationalTransferForm.value.interSaveBeneficiary
+    };
+
+    this.transactionServe.submitTransferRequest(req).subscribe({
+      next: (res: string) => {
+        this.isInternationalLoading = false;
+        this.isInternationalFormSubmitted = false;
+        this.iTsuccessMessage = res || 'Transfer submitted successfully.';
+        this.internationalTransferForm.reset({ interSaveBeneficiary: false, rate: '' });
+        this.getAccountList();
+        this.getBeneficiaries();
+      },
+      error: (err) => {
+        this.isInternationalLoading = false;
+        this.isInternationalFormSubmitted = false;
+        this.iTerrorMessage = err.message || 'Transfer failed. Please try again.';
+      }
+    });
   }
 
-  submitInterbankTransfer() {
+  submitInterbankTransfer(): void {
     this.iBerrorMessage = '';
     this.iBsuccessMessage = '';
-    this.isinterBankTranferFormSubmitted = true;
-    if (this.interBankTranferForm.controls['recipientAccount'].value === this.interBankTranferForm.controls['senderAccount'].value) {
-      this.iBerrorMessage = "Cannot Make A Transfer To The Same Account";
+    this.isInterbankTransferFormSubmitted = true;
+
+    const { recipientAccount, senderAccount } = this.interBankTransferForm.value;
+
+    if (senderAccount && recipientAccount && senderAccount === recipientAccount) {
+      this.iBerrorMessage = 'Cannot transfer to the same account.';
+      this.isInterbankTransferFormSubmitted = false;
+      return;
     }
-    else if (this.interBankTranferForm.valid) {
-      const transactionRequest: transferRequestDto = {
-        toAcct: this.interBankTranferForm.controls['recipientAccount'].value,
-        fromacct: this.interBankTranferForm.controls['senderAccount'].value,
-        bank: '',
-        amount: this.interBankTranferForm.controls['amount'].value,
-        pin: this.interBankTranferForm.controls['pin'].value,
-        addBeneficary: false
+
+    if (!this.interBankTransferForm.valid) return;
+
+    this.isInterbankLoading = true;
+    const req: transferRequestDto = {
+      toAcct:        recipientAccount,
+      fromacct:      senderAccount,
+      bank:          '',
+      amount:        this.interBankTransferForm.value.amount,
+      pin:           this.interBankTransferForm.value.pin,
+      addBeneficary: false
+    };
+
+    this.transactionServe.submitInnerBankTransferRequest(req).subscribe({
+      next: (res: string) => {
+        this.isInterbankLoading = false;
+        this.isInterbankTransferFormSubmitted = false;
+        this.iBsuccessMessage = res || 'Transfer submitted successfully.';
+        this.interBankTransferForm.reset();
+        this.getAccountList();
+        this.getBeneficiaries();
+      },
+      error: (err) => {
+        this.isInterbankLoading = false;
+        this.isInterbankTransferFormSubmitted = false;
+        this.iBerrorMessage = err.message || 'Transfer failed. Please try again.';
       }
-      this.transactionServe.submitInnerBankTransferRequest(transactionRequest).subscribe({
-        next: (res: string) => {
-          this.iBsuccessMessage = res || 'Transfer submitted successfully.';
-          this.getAccountList();
-          this.getBeneficiaries();
-          this.interBankTranferForm.reset();
-          this.isinterBankTranferFormSubmitted = false;
-        },
-        error: (err) => {
-          this.iBerrorMessage = err.message;
-          this.isinterBankTranferFormSubmitted = false;
-        }
-      })
-    }
+    });
   }
 
+  // ── Beneficiary ────────────────────────────────────────────
 
-
-
-  options = {
-    defaultTabId: 'domestic',
-    activeClasses:
-      'text-primaryGreen border-primaryGreen font-bold',
-  };
-
-  initializeTabs(): void {
-    this.tabsElement = document.getElementById('default-tab');
-    this.tabElements = [
-      {
-        id: 'domestic',
-        triggerEl: document.querySelector('#domesticTransfer-tab') as HTMLElement,
-        targetEl: document.querySelector('#domesticTransfer') as HTMLElement,
-      },
-      {
-        id: 'international',
-        triggerEl: document.querySelector('#internationalTransfer-tab') as HTMLElement,
-        targetEl: document.querySelector('#internationalTransfer') as HTMLElement,
-      },
-      {
-        id: 'interbank',
-        triggerEl: document.querySelector('#interbankTransfer-tab') as HTMLElement,
-        targetEl: document.querySelector('#interbankTransfer') as HTMLElement,
-      },
-    ];
-    this.tabs = new Tabs(this.tabsElement, this.tabElements, this.options);
+  selectBeneficiary(beneficiary: beneficiaryDto): void {
+    this.activeTab = 'domestic';
+    this.domesticTransferForm.patchValue({
+      recipientAccount: beneficiary.bankAccountNumber,
+      recipientBank:    beneficiary.bank
+    });
   }
 
-  formatCurrency(value: number): string {
+  // ── Helpers ────────────────────────────────────────────────
+
+  private formatCurrency(value: number): string {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
   }
-
 }
